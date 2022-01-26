@@ -6,7 +6,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "test": "jest  jest.config.js --coverage --watchAll=false || true"
+    "test": "jest jest.config.js --coverage --watch"
   },
   "dependencies": {
     "@emotion/react": "^11.7.1",

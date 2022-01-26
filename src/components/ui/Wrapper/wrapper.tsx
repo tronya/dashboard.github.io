@@ -16,14 +16,14 @@ const mdTheme = createTheme({
       main: "#ffd6ba",
     },
     background: {
-      default: "#555b6e",
+      //   default: "#555b6e",
       paper: "#89b0ae",
     },
   },
 });
 
 const Wrapper: FC = ({ children }) => {
-  const [open, setOpen] = useState(true);
+  const [open, setOpen] = useState(false);
 
   const toggleDrawer = () => {
     setOpen(!open);
@@ -38,17 +38,13 @@ const Wrapper: FC = ({ children }) => {
         <Box
           component="main"
           sx={{
-            backgroundColor: (theme) =>
-              theme.palette.mode === "light"
-                ? theme.palette.grey[100]
-                : theme.palette.grey[900],
             flexGrow: 1,
             height: "100vh",
             overflow: "auto",
           }}
         >
           <Toolbar />
-          <Container maxWidth="lg" sx={{ mt: 4, mb: 4 }}>
+          <Container maxWidth="xl" sx={{ mt: 2, mb: 2 }}>
             {children}
           </Container>
         </Box>

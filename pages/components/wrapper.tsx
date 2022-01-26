@@ -1,16 +1,23 @@
-import { Container, ThemeProvider, Toolbar } from "@mui/material";
+import {
+  Badge,
+  Container,
+  Divider,
+  IconButton,
+  List,
+  ListItem,
+  ListItemIcon,
+  ListItemText,
+  ListSubheader,
+  ThemeProvider,
+  Toolbar,
+  Typography,
+} from "@mui/material";
 import Box from "@mui/material/Box";
 import CssBaseline from "@mui/material/CssBaseline";
-import { FC, useState } from "react";
-import Sidebar from "../Sidebar/sidebar";
-import { Header } from "../Header/header";
+import React, { FC, useState } from "react";
 import { createTheme } from "@mui/material/styles";
-
-// Fonts
-import '@fontsource/roboto/300.css';
-import '@fontsource/roboto/400.css';
-import '@fontsource/roboto/500.css';
-import '@fontsource/roboto/700.css';
+import { Header } from "../../src/components/ui/Header/header";
+import Sidebar from "../../src/components/ui/Sidebar/sidebar";
 
 const mdTheme = createTheme({
   palette: {
@@ -22,15 +29,14 @@ const mdTheme = createTheme({
       main: "#ffd6ba",
     },
     background: {
-      //   default: "#555b6e",
+    //   default: "#555b6e",
       paper: "#89b0ae",
     },
   },
 });
 
-const Wrapper: FC = ({ children }) => {
+const Wrapper: FC<any> = ({ children }) => {
   const [open, setOpen] = useState(false);
-
   const toggleDrawer = () => {
     setOpen(!open);
   };

@@ -1,4 +1,5 @@
 import {
+  Box,
   Divider,
   IconButton,
   List,
@@ -19,7 +20,7 @@ interface SidebarProps {
 }
 
 const menuItems = (
-  <div>
+  <Box>
     <ListSubheader inset>Saved reports</ListSubheader>
     <ListItem button>
       <ListItemIcon>
@@ -27,7 +28,7 @@ const menuItems = (
       </ListItemIcon>
       <ListItemText primary="Current month" />
     </ListItem>
-  </div>
+  </Box>
 );
 
 const Sidebar: FC<SidebarProps> = ({ toggleDrawer, open }) => {

@@ -16,7 +16,7 @@ interface HeaderProps {
   open: boolean;
 }
 
-export const Header: FC<HeaderProps> = ({ toggleDrawer, open }) => {
+const Header: FC<HeaderProps> = ({ toggleDrawer, open }) => {
   return (
     <AppBar position="absolute" open={open}>
       <Toolbar
@@ -62,3 +62,5 @@ export const Header: FC<HeaderProps> = ({ toggleDrawer, open }) => {
     </AppBar>
   );
 };
+
+export default Header;

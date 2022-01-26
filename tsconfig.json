@@ -18,6 +18,12 @@
     "sourceMap": true,
     "noFallthroughCasesInSwitch": true
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx"],
+  "include": [
+    "next-env.d.ts",
+    "**/*.ts",
+    "**/*.tsx",
+    "**/*.test.tsx",
+    "jest.config.js"
+  ],
   "exclude": ["node_modules"]
 }

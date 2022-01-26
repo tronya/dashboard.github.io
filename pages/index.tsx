@@ -4,6 +4,7 @@ import React from "react";
 import styles from "../styles/Home.module.css";
 import Paper from "@mui/material/Paper";
 import Box from "@mui/material/Box";
+import { ListWrapper } from "./components/list";
 
 const Home: NextPage = () => {
   return (
@@ -16,6 +17,7 @@ const Home: NextPage = () => {
 
       <main className={styles.main}>
         Hello!
+        <ListWrapper/>
       </main>
     </div>
   );

@@ -1,22 +1,9 @@
-import {
-  Badge,
-  Container,
-  Divider,
-  IconButton,
-  List,
-  ListItem,
-  ListItemIcon,
-  ListItemText,
-  ListSubheader,
-  ThemeProvider,
-  Toolbar,
-  Typography,
-} from "@mui/material";
+import { Container, ThemeProvider, Toolbar } from "@mui/material";
 import Box from "@mui/material/Box";
 import CssBaseline from "@mui/material/CssBaseline";
-import React, { FC, useState } from "react";
-import { Header } from "./header";
-import { Sidebar } from "./sidebar";
+import { FC, useState } from "react";
+import Sidebar from "../Sidebar/sidebar";
+import { Header } from "../Header/header";
 import { createTheme } from "@mui/material/styles";
 
 const mdTheme = createTheme({
@@ -29,14 +16,15 @@ const mdTheme = createTheme({
       main: "#ffd6ba",
     },
     background: {
-    //   default: "#555b6e",
+      //   default: "#555b6e",
       paper: "#89b0ae",
     },
   },
 });
 
-const Wrapper: FC<any> = ({ children }) => {
+const Wrapper: FC = ({ children }) => {
   const [open, setOpen] = useState(false);
+
   const toggleDrawer = () => {
     setOpen(!open);
   };

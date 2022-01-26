@@ -1,9 +1,15 @@
-import { Avatar, Badge, IconButton, Toolbar, Tooltip, Typography } from "@mui/material";
-import React, { FC } from "react";
-import { AppBar } from "./appBar";
+import {
+  Avatar,
+  Badge,
+  IconButton,
+  Toolbar,
+  Tooltip,
+  Typography,
+} from "@mui/material";
+import { FC } from "react";
 import NotificationsIcon from "@mui/icons-material/Notifications";
 import MenuIcon from "@mui/icons-material/Menu";
-import { any } from "prop-types";
+import { AppBar } from "../AppBar/appBar";
 
 interface HeaderProps {
   toggleDrawer: () => void;
@@ -40,10 +46,13 @@ export const Header: FC<HeaderProps> = ({ toggleDrawer, open }) => {
           Dashboard
         </Typography>
         <Tooltip title="Open settings">
-              <IconButton sx={{ p: 0 }}>
-                <Avatar alt="Remy Sharp" src="https://cdn-icons-png.flaticon.com/512/146/146005.png" />
-              </IconButton>
-            </Tooltip>
+          <IconButton sx={{ p: 0 }}>
+            <Avatar
+              alt="Remy Sharp"
+              src="https://cdn-icons-png.flaticon.com/512/146/146005.png"
+            />
+          </IconButton>
+        </Tooltip>
         <IconButton color="inherit">
           <Badge badgeContent={4} color="secondary">
             <NotificationsIcon />

@@ -1,7 +1,7 @@
 import "../styles/globals.css";
 import type { AppProps } from "next/app";
 import React from "react";
-import Wrapper from "./components/ui/Wrapper/wrapper";
+import Wrapper from "../src/components/ui/Wrapper/wrapper";
 
 const MyApp = ({ Component, pageProps }: AppProps) => {
   return (

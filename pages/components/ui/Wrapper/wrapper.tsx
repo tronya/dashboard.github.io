@@ -18,27 +18,28 @@ import React, { FC, useState } from "react";
 import MenuIcon from "@mui/icons-material/Menu";
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 
-import {AppBar} from "./appBar";
+import { AppBar } from "../AppBar/appBar";
 import AssignmentIcon from "@mui/icons-material/Assignment";
 import NotificationsIcon from "@mui/icons-material/Notifications";
-import { Drawer } from "./drawer";
+import { Drawer } from "../Drawer/drawer";
 
 const mdTheme = createTheme();
 
-export const menuItems = (
-    <div>
-      <ListSubheader inset>Saved reports</ListSubheader>
-      <ListItem button>
-        <ListItemIcon>
-          <AssignmentIcon />
-        </ListItemIcon>
-        <ListItemText primary="Current month" />
-      </ListItem>
-      </div>
-)
+const menuItems = (
+  <>
+    <ListSubheader inset>Saved reports</ListSubheader>
+    <ListItem button>
+      <ListItemIcon>
+        <AssignmentIcon />
+      </ListItemIcon>
+      <ListItemText primary="Current month" />
+    </ListItem>
+  </>
+);
 
-const Wrapper: FC<any> = ({ children }) => {
+const Wrapper: FC = ({ children }) => {
   const [open, setOpen] = useState(true);
+
   const toggleDrawer = () => {
     setOpen(!open);
   };
@@ -84,9 +85,9 @@ const Wrapper: FC<any> = ({ children }) => {
         <Drawer variant="permanent" open={open}>
           <Toolbar
             sx={{
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'flex-end',
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "flex-end",
               px: [1],
             }}
           >

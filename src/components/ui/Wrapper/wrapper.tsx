@@ -3,40 +3,16 @@ import Box from "@mui/material/Box";
 import CssBaseline from "@mui/material/CssBaseline";
 import { FC, useState } from "react";
 import Sidebar from "../Sidebar/sidebar";
-import { Header } from "../Header/header";
-import { createTheme } from "@mui/material/styles";
-
-// Fonts
-import '@fontsource/roboto/300.css';
-import '@fontsource/roboto/400.css';
-import '@fontsource/roboto/500.css';
-import '@fontsource/roboto/700.css';
-
-const mdTheme = createTheme({
-  palette: {
-    type: "light",
-    primary: {
-      main: "#bee3db",
-    },
-    secondary: {
-      main: "#ffd6ba",
-    },
-    background: {
-      //   default: "#555b6e",
-      paper: "#89b0ae",
-    },
-  },
-});
+import Header from "../Header/header";
+import theme from "../../theme";
 
 const Wrapper: FC = ({ children }) => {
   const [open, setOpen] = useState(false);
 
-  const toggleDrawer = () => {
-    setOpen(!open);
-  };
+  const toggleDrawer = () => setOpen(!open);
 
   return (
-    <ThemeProvider theme={mdTheme}>
+    <ThemeProvider theme={theme}>
       <Box sx={{ display: "flex" }}>
         <CssBaseline />
         <Header open={open} toggleDrawer={toggleDrawer} />

@@ -14,7 +14,7 @@ import {
 } from "@mui/material";
 import Box from "@mui/material/Box";
 import CssBaseline from "@mui/material/CssBaseline";
-import React, { FC, useState } from "react";
+import { FC, useState } from "react";
 import MenuIcon from "@mui/icons-material/Menu";
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 
@@ -40,9 +40,7 @@ const menuItems = (
 const Wrapper: FC = ({ children }) => {
   const [open, setOpen] = useState(true);
 
-  const toggleDrawer = () => {
-    setOpen(!open);
-  };
+  const toggleDrawer = () => setOpen(!open);
 
   return (
     <ThemeProvider theme={mdTheme}>
@@ -58,6 +56,7 @@ const Wrapper: FC = ({ children }) => {
               edge="start"
               color="inherit"
               aria-label="open drawer"
+              data-testid="iconButton"
               onClick={toggleDrawer}
               sx={{
                 marginRight: "36px",

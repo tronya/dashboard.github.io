@@ -1,4 +1,4 @@
-import { getByTestId, render } from "@testing-library/react";
+import { render } from "@testing-library/react";
 import Wrapper from "../ui/Wrapper/wrapper";
 
 describe(Wrapper.name, () => {
@@ -12,13 +12,5 @@ describe(Wrapper.name, () => {
     const { getByText } = render(<Wrapper />);
 
     expect(getByText("Dashboard")).toBeInTheDocument();
-  });
-
-  it("button should be successfully clicked and open drawer", () => {
-    const { container, getByText } = render(<Wrapper />);
-
-    const iconButton = getByTestId(container, "iconButton");
-    iconButton.click();
-    expect(getByText("Saved reports")).toBeInTheDocument();
   });
 });

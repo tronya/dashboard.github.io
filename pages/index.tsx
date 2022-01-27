@@ -1,6 +1,9 @@
 import type { NextPage } from "next";
 import Head from "next/head";
-import { Grid, Paper } from "@mui/material";
+import {
+  Grid,
+  Paper,
+} from "@mui/material";
 import { ListWrapper } from "../src/components/ui/ListWrapper/list";
 import MapBox from "../src/components/ui/Map/MapBox";
 

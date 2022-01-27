@@ -1,22 +1,8 @@
 import type { NextPage } from "next";
-import ImageIcon from "@mui/icons-material/Image";
-import WorkIcon from "@mui/icons-material/Work";
-import BeachAccessIcon from "@mui/icons-material/BeachAccess";
 import Head from "next/head";
-import Box from "@mui/material/Box";
-import {
-  Avatar,
-  Grid,
-  List,
-  ListItem,
-  ListItemAvatar,
-  ListItemText,
-  Paper,
-  Typography,
-} from "@mui/material";
+import { Grid, Paper } from "@mui/material";
 import { ListWrapper } from "../src/components/ui/ListWrapper/list";
-import React from "react";
-import MapboxMap from "../src/components/ui/Map/MapBox";
+import MapBox from "../src/components/ui/Map/MapBox";
 
 const Home: NextPage = () => {
   return (
@@ -35,7 +21,7 @@ const Home: NextPage = () => {
 
           <Grid item xs={12} sm={6} lg={9}>
             <Paper sx={{ height: 600 }}>
-              <MapboxMap />
+              <MapBox />
             </Paper>
           </Grid>
         </Grid>

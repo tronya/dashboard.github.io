@@ -2,18 +2,9 @@ import type { NextPage } from "next";
 import Head from "next/head";
 import { Grid, Paper } from "@mui/material";
 import { ListWrapper } from "../src/components/ui/ListWrapper/list";
-import Localization from "../src/components/ui/Localization/localization";
-import MapboxMap from "../src/components/ui/Map/MapBox";
-// import "../src/i18n/config";
-import { useTranslation } from "react-i18next";
+import MapBox from "../src/components/ui/Map/MapBox";
 
 const Home: NextPage = () => {
-  const { t, i18n } = useTranslation();
-
-  const changeLanguage = (event: any) => {
-    i18n.changeLanguage(event.target.value);
-  };
-
   return (
     <>
       <Head>
@@ -22,18 +13,6 @@ const Home: NextPage = () => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      {t("dashboard")}
-
-      <div className="footer">
-        <button onClick={changeLanguage} value="en">
-          En
-        </button>
-        <br />
-        <button onClick={changeLanguage} value="uk">
-          Uk
-        </button>
-      </div>
-      {/* <Localization /> */}
       <main>
         <Grid container spacing={2}>
           <Grid item>
@@ -42,7 +21,7 @@ const Home: NextPage = () => {
 
           <Grid item xs={12} sm={6} lg={9}>
             <Paper sx={{ height: 600 }}>
-              <MapboxMap />
+              <MapBox />
             </Paper>
           </Grid>
         </Grid>

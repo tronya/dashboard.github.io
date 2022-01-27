@@ -1,6 +1,7 @@
 import {
   Avatar,
   Badge,
+  Box,
   IconButton,
   Toolbar,
   Tooltip,
@@ -11,9 +12,7 @@ import NotificationsIcon from "@mui/icons-material/Notifications";
 import MenuIcon from "@mui/icons-material/Menu";
 import { AppBar } from "../AppBar/appBar";
 import Localization from "../Localization/localization";
-import "../../../i18n/config";
 import { useTranslation } from "react-i18next";
-import { withTranslation } from "react-i18next";
 
 interface HeaderProps {
   toggleDrawer: () => void;
@@ -21,11 +20,7 @@ interface HeaderProps {
 }
 
 const Header: FC<HeaderProps> = ({ toggleDrawer, open }) => {
-  const { i18n, t } = useTranslation();
-  const changeLanguage = (event: any) => {
-    console.log(event.target.value);
-    i18n.changeLanguage(event.target.value);
-  };
+  const { t } = useTranslation();
 
   return (
     <AppBar position="absolute" open={open}>
@@ -55,14 +50,11 @@ const Header: FC<HeaderProps> = ({ toggleDrawer, open }) => {
         >
           {t("dashboard")}
         </Typography>
-        <Localization />
-        <button onClick={changeLanguage} value="en">
-          En
-        </button>
-        <br />
-        <button onClick={changeLanguage} value="ua">
-          Ua
-        </button>
+
+        <Box pr={1}>
+          <Localization />
+        </Box>
+
         <Tooltip title="Open settings">
           <IconButton sx={{ p: 0 }}>
             <Avatar

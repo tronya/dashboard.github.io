@@ -1,29 +1,23 @@
-import { Button } from "@mui/material";
-import { FC } from "react";
-import "../../../i18n/config";
+import { FC, MouseEvent } from "react";
 import { useTranslation } from "react-i18next";
-import { withTranslation } from "react-i18next";
+import { Button, ButtonGroup } from "@mui/material";
 
 const Localization: FC = () => {
-  const { i18n, t } = useTranslation();
+  const { i18n } = useTranslation();
 
-  const changeLanguage = (event: any) => {
-    console.log(event.target.value);
-    i18n.changeLanguage(event.target.value);
-  };
+  const changeLanguage = (event: MouseEvent<HTMLButtonElement>) =>
+    i18n.changeLanguage(event.currentTarget.value);
 
-  console.log(t("dashboard"));
   return (
-    <>
-      <button onClick={changeLanguage} value="en">
-        En
-      </button>
-      <br />
-      <button onClick={changeLanguage} value="ua">
-        Ua
-      </button>
-    </>
+    <ButtonGroup variant="contained">
+      <Button onClick={changeLanguage} value="en">
+        EN
+      </Button>
+      <Button onClick={changeLanguage} value="ua">
+        UA
+      </Button>
+    </ButtonGroup>
   );
 };
 
-export default withTranslation()(Localization);
+export default Localization;

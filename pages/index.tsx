@@ -4,14 +4,17 @@ import { Grid, Paper } from "@mui/material";
 import { ListWrapper } from "../src/components/ui/ListWrapper/list";
 import MapBox from "../src/components/ui/Map/MapBox";
 import Wrapper from "../src/components/ui/Wrapper/wrapper";
-import { ToastContainer } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
 import useUser from "../src/hooks/useUser";
+import Loader from "../src/components/ui/Loader/loader";
+import { useEffect } from "react";
+import { User } from "firebase/auth";
 
 const Home: NextPage = () => {
-  // const currentUser = useUser();
+  const currentUser = useUser();
 
-  // console.log(currentUser, "home");
+  if (!currentUser) {
+    return <Loader />;
+  }
 
   return (
     <Wrapper>
@@ -34,10 +37,16 @@ const Home: NextPage = () => {
           </Grid>
         </Grid>
       </main>
-
-      <ToastContainer />
     </Wrapper>
   );
+};
+
+export const getStaticProps = () => {
+  return {
+    props: {
+      protected: true,
+    },
+  };
 };
 
 export default Home;

@@ -2,7 +2,6 @@ import { Box, Button } from "@mui/material";
 import { toast } from "react-toastify";
 import { getAuth, GoogleAuthProvider, signInWithPopup } from "firebase/auth";
 import { useRouter } from "next/router";
-import useUser from "../src/hooks/useUser";
 import GoogleLogo from "../src/components/ui/Icons/GoogleLogo";
 import app from "../firebase";
 
@@ -10,9 +9,6 @@ const Login = () => {
   const auth = getAuth(app);
   const provider = new GoogleAuthProvider(); //.credential(process.env.NEXT_PUBLIC_FIREBASE_GOOGLE_CLIENT_ID);
   const router = useRouter();
-  // const currentUser = useUser();
-
-  // console.log(currentUser, "login");
 
   const handleSignIn = () => {
     signInWithPopup(auth, provider)

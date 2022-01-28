@@ -4,8 +4,9 @@ import {
   Grid,
   Paper,
 } from "@mui/material";
-import { ListWrapper } from "../src/components/ui/ListWrapper/list";
 import MapBox from "../src/components/ui/Map/MapBox";
+import React from "react";
+import UsersListContainer from "../src/components/containers/UsersList/usersList.container";
 
 const Home: NextPage = () => {
   return (
@@ -19,7 +20,7 @@ const Home: NextPage = () => {
       <main>
         <Grid container spacing={2}>
           <Grid item>
-            <ListWrapper />
+            <UsersListContainer/>
           </Grid>
 
           <Grid item xs={12} sm={6} lg={9}>

@@ -1,11 +1,14 @@
-import { getAuth, User } from "firebase/auth";
-import app from "../../firebase";
+import { createContext, useContext, Context } from 'react'
+import useFirebaseAuth from './useFirebaseAuth';
 
-const useUser = (): User | null => {
-  const auth = getAuth(app);
-  const { currentUser } = auth;
+const AuthUserContext = createContext({
+  user: null,
+  loading: true
+});
 
-  return currentUser;
-};
+export function AuthUserProvider({ children }) {
+  const auth = useFirebaseAuth();
+  return <AuthUserContext.Provider value={auth}>{children}</AuthUserContext.Provider>;
+}
 
-export default useUser;
+export const useAuth = () => useContext(AuthUserContext);

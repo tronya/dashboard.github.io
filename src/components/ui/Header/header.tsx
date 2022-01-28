@@ -14,7 +14,7 @@ import { AppBar } from "../AppBar/appBar";
 import Localization from "../Localization/localization";
 import { useTranslation } from "react-i18next";
 import Drawer from "../Drawer/drawer";
-import useUser from "../../../hooks/useUser";
+import { useAuth } from "../../../hooks/useUser";
 
 interface HeaderProps {
   toggleDrawer: () => void;
@@ -23,7 +23,7 @@ interface HeaderProps {
 
 const Header: FC<HeaderProps> = ({ toggleDrawer, open }) => {
   const { t } = useTranslation();
-  const currentUser = useUser(); // need to save user in the store
+  const {user} = useAuth(); // need to save user in the store
 
   const [openUserDrawer, setOpenUserDrawer] = useState(false);
 
@@ -80,8 +80,8 @@ const Header: FC<HeaderProps> = ({ toggleDrawer, open }) => {
               onClick={() => setOpenUserDrawer((open) => !open)}
             >
               <Avatar
-                alt={currentUser?.displayName}
-                src={currentUser?.photoURL}
+                alt={user?.displayName}
+                src={user?.photoURL}
               />
             </IconButton>
           </Tooltip>

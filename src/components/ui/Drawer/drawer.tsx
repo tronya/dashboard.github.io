@@ -9,7 +9,6 @@ import {
   Drawer as DrawerComponent,
 } from "@mui/material";
 import { toast } from "react-toastify";
-import app from "../../../../firebase";
 import { useRouter } from "next/router";
 import { getAuth, signOut } from "firebase/auth";
 import { FC, KeyboardEvent, MouseEvent } from "react";
@@ -22,7 +21,7 @@ interface DrawerProps {
 }
 
 const Drawer: FC<DrawerProps> = ({ open, toggleUserDrawer }) => {
-  const auth = getAuth(app);
+  const auth = getAuth();
   const router = useRouter();
 
   const handleSignOut = () =>

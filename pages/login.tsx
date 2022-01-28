@@ -6,7 +6,7 @@ import GoogleLogo from "../src/components/ui/Icons/GoogleLogo";
 import app from "../firebase";
 
 const Login = () => {
-  const auth = getAuth(app);
+  const auth = getAuth();
   const provider = new GoogleAuthProvider(); //.credential(process.env.NEXT_PUBLIC_FIREBASE_GOOGLE_CLIENT_ID);
   const router = useRouter();
 

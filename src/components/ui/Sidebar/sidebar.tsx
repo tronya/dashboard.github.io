@@ -12,7 +12,7 @@ import {
 import React, { FC } from "react";
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import AssignmentIcon from "@mui/icons-material/Assignment";
-import { Drawer } from "../Drawer/drawer";
+import { HeaderDrawer } from "../HeaderDrawer/headerDrawer";
 
 interface SidebarProps {
   toggleDrawer: () => void;
@@ -33,7 +33,7 @@ const menuItems = (
 
 const Sidebar: FC<SidebarProps> = ({ toggleDrawer, open }) => {
   return (
-    <Drawer variant="permanent" open={open}>
+    <HeaderDrawer variant="permanent" open={open}>
       <Toolbar
         sx={{
           display: "flex",
@@ -48,7 +48,7 @@ const Sidebar: FC<SidebarProps> = ({ toggleDrawer, open }) => {
       </Toolbar>
       <Divider />
       <List>{menuItems}</List>
-    </Drawer>
+    </HeaderDrawer>
   );
 };
 

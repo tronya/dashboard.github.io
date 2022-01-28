@@ -1,31 +1,38 @@
 import { Box, Button } from "@mui/material";
+import { toast } from "react-toastify";
 import { getAuth, GoogleAuthProvider, signInWithPopup } from "firebase/auth";
 import { useRouter } from "next/router";
-import app from "../../firebase";
-import GoogleLogo from "../../src/components/ui/Icons/GoogleLogo";
+import useUser from "../src/hooks/useUser";
+import GoogleLogo from "../src/components/ui/Icons/GoogleLogo";
+import app from "../firebase";
 
 const Login = () => {
   const auth = getAuth(app);
   const provider = new GoogleAuthProvider(); //.credential(process.env.NEXT_PUBLIC_FIREBASE_GOOGLE_CLIENT_ID);
   const router = useRouter();
+  // const currentUser = useUser();
+
+  // console.log(currentUser, "login");
 
   const handleSignIn = () => {
     signInWithPopup(auth, provider)
       .then((result) => {
-        // This gives you a Google Access Token. You can use it to access the Google API.
         const credential = GoogleAuthProvider.credentialFromResult(result);
-        console.log(credential);
+        if (credential?.accessToken) {
+          window.localStorage.setItem("accessToken", credential.accessToken);
+        }
+        toast.success("You successfully log in!");
         router.push("/");
       })
       .catch((error) => {
-        // Handle Errors here.
         const errorCode = error.code;
         const errorMessage = error.message;
-        // The email of the user's account used.
         const email = error.email;
-        // The AuthCredential type that was used.
         const credential = GoogleAuthProvider.credentialFromError(error);
-        // ...
+        // TODO: more useful error message need to be declared here
+        toast.error(
+          `Error: ${errorCode}, ${errorMessage}, ${email}, ${credential}`
+        );
       });
   };
 

@@ -4,8 +4,15 @@ import { Grid, Paper } from "@mui/material";
 import { ListWrapper } from "../src/components/ui/ListWrapper/list";
 import MapBox from "../src/components/ui/Map/MapBox";
 import Wrapper from "../src/components/ui/Wrapper/wrapper";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import useUser from "../src/hooks/useUser";
 
 const Home: NextPage = () => {
+  // const currentUser = useUser();
+
+  // console.log(currentUser, "home");
+
   return (
     <Wrapper>
       <Head>
@@ -27,6 +34,8 @@ const Home: NextPage = () => {
           </Grid>
         </Grid>
       </main>
+
+      <ToastContainer />
     </Wrapper>
   );
 };

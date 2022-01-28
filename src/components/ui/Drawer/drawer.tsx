@@ -8,6 +8,7 @@ import {
   ListItemText,
   Drawer as DrawerComponent,
 } from "@mui/material";
+import { toast } from "react-toastify";
 import app from "../../../../firebase";
 import { useRouter } from "next/router";
 import { getAuth, signOut } from "firebase/auth";
@@ -27,12 +28,10 @@ const Drawer: FC<DrawerProps> = ({ open, toggleUserDrawer }) => {
   const handleSignOut = () =>
     signOut(auth)
       .then(() => {
+        toast.success("You successfully log out!");
         router.push("/login");
-        // Sign-out successful.
       })
-      .catch((error) => {
-        // An error happened.
-      });
+      .catch((error) => toast.error(`Error: ${error}`));
 
   const renderList = () => (
     <Box

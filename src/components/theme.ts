@@ -2,7 +2,7 @@ import { createTheme } from "@mui/material";
 
 const theme = createTheme({
   palette: {
-    type: "light",
+    mode: "light",
     primary: {
       main: "#bee3db",
     },

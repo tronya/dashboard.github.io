@@ -18,8 +18,7 @@ function MapBox() {
     
     const mapboxMap = new mapboxgl.Map({
       container: node,
-      accessToken:
-        "pk.eyJ1IjoidHJvbnlhIiwiYSI6ImNpdXNteHUwdzAwMWkyenBmamRlbTk2Zm8ifQ.aFKT4IOHyPCPRt_GNfUYnw", //process.env.NEXT_PUBLIC_MAPBOX_TOKEN
+      accessToken: process.env.NEXT_PUBLIC_MAPBOX_TOKEN,
       style: "mapbox://styles/mapbox/streets-v11",
       center,
       zoom: 9,

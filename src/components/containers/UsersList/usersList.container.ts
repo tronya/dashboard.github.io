@@ -1,7 +1,8 @@
 import { createElement, FC, useEffect, useState } from "react";
 import { collection, getDocs } from "firebase/firestore";
-import { DB } from "../../../firebase-config";
+import { toast } from "react-toastify";
 import { UsersList } from "./usersList.component";
+import { DB } from "../../../../firebase";
 
 export interface UserProps {
   id: string;
@@ -27,6 +28,7 @@ const getUsers = async () => {
 
 const UsersListContainer: FC = () => {
   const [users, setUsers] = useState<UserProps[]>([]);
+
   useEffect(() => {
     getUsers()
       .then((users) => {
@@ -40,7 +42,7 @@ const UsersListContainer: FC = () => {
         });
         setUsers(result);
       })
-      .catch((e) => console.log(e, "Something wrong happend"));
+      .catch((error) => toast.error(error));
   }, []);
 
   return createElement(UsersList, {

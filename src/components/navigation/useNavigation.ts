@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { toast } from "react-toastify";
 
 export const useNavigation = () => {
   const [geolocation, setGeolocation] = useState<GeolocationPosition>();
@@ -9,8 +10,7 @@ export const useNavigation = () => {
             setGeolocation(success);
         },
         (error: GeolocationPositionError) => {
-            console.log(error)
-            //toast.warning(error.message);
+            toast.warning(error.message);
         }
     );
   },[]);

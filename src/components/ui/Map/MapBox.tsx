@@ -7,13 +7,13 @@ function MapBox() {
   const [map, setMap] = useState<mapboxgl.Map>();
   const navigation = useNavigation();
   const mapNode = useRef(null);
-  const center: [number, number] = [
-    navigation?.coords.longitude || 24.065285,
-    navigation?.coords.latitude || 49.8138699,
-  ];
 
   useEffect(() => {
     const node = mapNode.current;
+    const center: [number, number] = [
+      navigation?.coords.longitude || 24.065285,
+      navigation?.coords.latitude || 49.8138699,
+    ];
     if (typeof window === "undefined" || node === null) return;
 
     const mapboxMap = new mapboxgl.Map({
@@ -30,9 +30,7 @@ function MapBox() {
         positionOptions: {
           enableHighAccuracy: true,
         },
-        // When active the map will receive updates to the device's location as it changes.
         trackUserLocation: true,
-        // Draw an arrow next to the location dot to indicate which direction the device is heading.
         showUserHeading: true,
       })
     );

@@ -1,8 +1,8 @@
 import { getAuth, User as FirebaseUser } from "firebase/auth";
 import { useState, useEffect } from "react";
-import { User } from "../models/user.model";
+import { AuthUser } from "../models/user.model";
 
-const formatUserModel = (user: User) => ({
+const formatUserModel = (user: AuthUser) => ({
   uid: user.uid,
   email: user.email,
   displayName: user.displayName,
@@ -10,7 +10,7 @@ const formatUserModel = (user: User) => ({
 });
 
 const useFirebaseAuth = () => {
-  const [user, setUser] = useState<User | null>(null);
+  const [user, setUser] = useState<AuthUser | null>(null);
   const [loading, setLoading] = useState(true);
 
   const authStateChanged = async (authState: FirebaseUser | null) => {

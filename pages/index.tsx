@@ -1,16 +1,18 @@
 import type { NextPage } from "next";
 import Head from "next/head";
-import { Grid, Paper } from "@mui/material";
-import MapBox from "../src/components/ui/Map/MapBox";
+import { Grid } from "@mui/material";
 import UsersListContainer from "../src/components/containers/UsersList/usersList.container";
 import { useRouter } from "next/router";
 import { useEffect } from "react";
 import Loader from "../src/components/ui/Loader/loader";
 import Wrapper from "../src/components/ui/Wrapper/wrapper";
 import { useAuth } from "../src/hooks/useUser";
+import useGetUsers from "./api/users";
+import MapBoxContainer from "../src/components/containers/Map/mapBox.container";
 
 const Home: NextPage = () => {
   const { user, loading } = useAuth();
+  const users = useGetUsers();
   const router = useRouter();
 
   useEffect(() => {
@@ -19,7 +21,7 @@ const Home: NextPage = () => {
     }
   }, [user, loading, router]);
 
-  if (!user) {
+  if (!user || !users.length) {
     return <Loader />;
   }
 
@@ -32,15 +34,13 @@ const Home: NextPage = () => {
       </Head>
 
       <main>
-        <Grid container >
+        <Grid container>
           <Grid item xs={12} sm={3} lg={3}>
-            <UsersListContainer />
+            <UsersListContainer users={users} />
           </Grid>
 
           <Grid item xs={12} sm={9} lg={9}>
-            <Paper sx={{ height: 600 }}>
-              <MapBox />
-            </Paper>
+            <MapBoxContainer users={users} />
           </Grid>
         </Grid>
       </main>

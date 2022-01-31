@@ -5,20 +5,22 @@ import {
   Avatar,
   ListItemText,
   Typography,
-  Divider
+  Divider,
 } from "@mui/material";
 import { FC, Fragment } from "react";
-import { UserProps } from "./usersList.container";
 import { UserListEmpty } from "./userList.empty";
-import { lime, purple } from "@mui/material/colors";
+import { green, grey } from "@mui/material/colors";
+import { User } from "../../../models/user.model";
 
 interface ListWrapperProps {
-  users: UserProps[];
+  users: User[];
 }
+
 export const UsersList: FC<ListWrapperProps> = ({ users }) => {
   if (!users.length) {
-    return <UserListEmpty count={6}/>;
+    return <UserListEmpty count={6} />;
   }
+
   return (
     <List sx={{ width: 240, bgcolor: "background.paper" }}>
       {users.map((user) => (
@@ -33,7 +35,7 @@ export const UsersList: FC<ListWrapperProps> = ({ users }) => {
                 <Typography
                   component="span"
                   variant="body2"
-                  color={user.isActive ? lime[500] : purple[500]}
+                  color={user.isActive ? green[700] : grey[700]}
                 >
                   {user.isActive ? "Online" : "Offline"}
                 </Typography>

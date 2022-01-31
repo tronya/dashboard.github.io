@@ -1,19 +1,28 @@
 import type { NextPage } from "next";
 import Head from "next/head";
+import { toast } from "react-toastify";
 import { Grid } from "@mui/material";
 import UsersListContainer from "../src/components/containers/UsersList/usersList.container";
 import { useRouter } from "next/router";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import Loader from "../src/components/ui/Loader/loader";
 import Wrapper from "../src/components/ui/Wrapper/wrapper";
 import { useAuth } from "../src/hooks/useUser";
-import { useGetUsers } from "./api/users";
+import { getUsers } from "./api/users";
 import MapBoxContainer from "../src/components/containers/Map/mapBox.container";
+import { User } from "../src/models/user.model";
 
 const Home: NextPage = () => {
   const { user, loading } = useAuth();
-  const users = useGetUsers();
   const router = useRouter();
+
+  const [users, setUsers] = useState<User[]>([]);
+
+  useEffect(() => {
+    getUsers()
+      .then((result) => setUsers(result))
+      .catch((error) => toast.error(error));
+  }, []);
 
   useEffect(() => {
     if (!loading && !user) {

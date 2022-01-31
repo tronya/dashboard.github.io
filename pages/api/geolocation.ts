@@ -1,7 +1,7 @@
 import { collection, doc, getDocs, setDoc } from "firebase/firestore";
+import { toast } from "react-toastify";
 import { DB } from "../../src/firebase";
 import { AuthUserContextProps } from "../../src/models/auth.model";
-import { User } from "../../src/models/user.model";
 
 export const getGolocations = async () => {
   return await getDocs(collection(DB, "geolocations"));
@@ -12,10 +12,10 @@ export const setUserGeolocation = async (
   auth: AuthUserContextProps
 ) => {
   if (!auth.user?.uid) {
-    console.log("User is not defined to update");
+    toast.warning('User is not defined to update')
     return;
   }
-  const navigatorMerged: GeolocationCoordinates = {
+  const geolocationCoords: GeolocationCoordinates = {
     accuracy: navigator.coords.accuracy,
     altitude: navigator.coords.altitude,
     altitudeAccuracy: navigator.coords.altitudeAccuracy,
@@ -25,7 +25,7 @@ export const setUserGeolocation = async (
     speed: navigator.coords.speed,
   };
   return await setDoc(doc(DB, "geolocation", auth.user.uid), {
-    coords: navigatorMerged,
+    coords: geolocationCoords,
     user: auth.user,
   });
 };

@@ -1,4 +1,4 @@
-import mapboxgl from "mapbox-gl";
+import mapboxgl, { LngLatLike } from "mapbox-gl";
 import "mapbox-gl/dist/mapbox-gl.css";
 import { useEffect, useRef, useState } from "react";
 import { useNavigation } from "../../../hooks/useNavigation";
@@ -6,9 +6,9 @@ import { useNavigation } from "../../../hooks/useNavigation";
 function MapBox() {
   const [map, setMap] = useState<mapboxgl.Map>();
   const navigation = useNavigation();
-  const center: [number, number] = [
-    navigation?.coords.longitude || 24.065285,
-    navigation?.coords.latitude || 49.8138699,
+  const center: LngLatLike = [
+    navigation?.coords.longitude ?? 24.065285,
+    navigation?.coords.latitude ?? 49.8138699,
   ];
   const mapNode = useRef(null);
 

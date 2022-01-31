@@ -9,33 +9,17 @@ import {
   Box,
   Skeleton,
 } from "@mui/material";
-import React, { FC, Fragment } from "react";
+import { FC, Fragment } from "react";
 import { UserProps } from "./usersList.container";
+import { UserListEmpty } from "./userList.empty";
+import { lime, purple } from "@mui/material/colors";
 
 interface ListWrapperProps {
   users: UserProps[];
 }
 export const UsersList: FC<ListWrapperProps> = ({ users }) => {
   if (!users.length) {
-    return (
-      <List sx={{ width: 240 }}>
-        {Array(5).fill(5).map((_,i) => (
-          <ListItem alignItems="flex-start" key={i}>
-            <ListItemAvatar>
-              <Skeleton variant="circular" width={40} height={40} />
-            </ListItemAvatar>
-            <ListItemText
-              primary={<Skeleton variant="text" />}
-              secondary={
-                <Typography component="span" variant="body2">
-                  <Skeleton variant="text" />
-                </Typography>
-              }
-            />
-          </ListItem>
-        ))}
-      </List>
-    );
+    return <UserListEmpty count={6}/>;
   }
   return (
     <List sx={{ width: 240, bgcolor: "background.paper" }}>
@@ -51,7 +35,7 @@ export const UsersList: FC<ListWrapperProps> = ({ users }) => {
                 <Typography
                   component="span"
                   variant="body2"
-                  color={user.isActive ? "#007f5f" : "#f08080"}
+                  color={user.isActive ? lime[500] : purple[500]}
                 >
                   {user.isActive ? "Online" : "Offline"}
                 </Typography>

@@ -5,7 +5,6 @@ import {
   Paper,
 } from "@mui/material";
 import MapBox from "../src/components/ui/Map/MapBox";
-import React from "react";
 import UsersListContainer from "../src/components/containers/UsersList/usersList.container";
 
 const Home: NextPage = () => {

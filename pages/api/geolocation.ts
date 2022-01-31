@@ -15,7 +15,7 @@ export const setUserGeolocation = async (
     console.log("User is not defined to update");
     return;
   }
-  const navigatorMeergeed: GeolocationCoordinates = {
+  const navigatorMerged: GeolocationCoordinates = {
     accuracy: navigator.coords.accuracy,
     altitude: navigator.coords.altitude,
     altitudeAccuracy: navigator.coords.altitudeAccuracy,
@@ -25,7 +25,7 @@ export const setUserGeolocation = async (
     speed: navigator.coords.speed,
   };
   return await setDoc(doc(DB, "geolocation", auth.user.uid), {
-    coords: navigatorMeergeed,
+    coords: navigatorMerged,
     user: auth.user,
   });
 };

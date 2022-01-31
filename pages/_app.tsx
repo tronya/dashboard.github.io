@@ -4,22 +4,19 @@ import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import "../src/i18n/config";
 import { initializeApp } from "firebase/app";
-import { getAuth } from "firebase/auth";
-import { useEffect } from "react";
 import { AuthUserProvider } from "../src/hooks/useUser";
-import { fireBaseConfig } from "../firebase";
+import { fireBaseConfig } from "../src/firebase";
+import { NavigationProvider } from "../src/hooks/useNavigation";
 
 initializeApp(fireBaseConfig);
 
 const MyApp = ({ Component, pageProps }: AppProps) => {
-  useEffect(() => {
-    console.log(getAuth().currentUser);
-  });
-
   return (
     <AuthUserProvider>
-      <Component {...pageProps} />
-      <ToastContainer />
+      <NavigationProvider>
+        <Component {...pageProps} />
+        <ToastContainer />
+      </NavigationProvider>
     </AuthUserProvider>
   );
 };

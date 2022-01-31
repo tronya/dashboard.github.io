@@ -1,12 +1,13 @@
 import { collection, getDocs } from "firebase/firestore";
 import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
-import { DB } from "../../firebase";
+import { DB } from "../../src/firebase";
 import { User } from "../../src/models/user.model";
 
-const getUsersCollection = async () => await getDocs(collection(DB, "users"));
+export const getUsersCollection = async () =>
+  await getDocs(collection(DB, "users"));
 
-const useGetUsers = (): User[] => {
+export const useGetUsers = (): User[] => {
   const [users, setUsers] = useState<User[]>([]);
 
   useEffect(() => {
@@ -27,5 +28,3 @@ const useGetUsers = (): User[] => {
 
   return users;
 };
-
-export default useGetUsers;

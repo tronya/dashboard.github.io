@@ -2,9 +2,9 @@ import { pink, blue } from "@mui/material/colors";
 import mapboxgl, { LngLatLike } from "mapbox-gl";
 import "mapbox-gl/dist/mapbox-gl.css";
 import { createElement, FC, useEffect, useRef } from "react";
+import { useNavigation } from "../../../hooks/useNavigation";
 import { User } from "../../../models/user.model";
 import { returnArrayOfGeoJSON } from "../../../utils/mapUtils";
-import { useNavigation } from "../../navigation/useNavigation";
 import MapBox from "./mapBox.component";
 
 interface MapBoxContainerProps {
@@ -14,13 +14,13 @@ interface MapBoxContainerProps {
 const MapBoxContainer: FC<MapBoxContainerProps> = ({ users }) => {
   const navigation = useNavigation();
   const mapNode = useRef<HTMLDivElement>(null);
+  const center: LngLatLike = [
+    navigation?.coords.longitude ?? 24.065285,
+    navigation?.coords.latitude ?? 49.8138699,
+  ];
 
   useEffect(() => {
     const node = mapNode.current;
-    const center: LngLatLike = [
-      navigation?.coords.longitude || 24.065285,
-      navigation?.coords.latitude || 49.8138699,
-    ];
 
     if (typeof window === "undefined" || node === null) {
       return;

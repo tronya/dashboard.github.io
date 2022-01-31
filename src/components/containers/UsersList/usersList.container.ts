@@ -2,7 +2,8 @@ import { createElement, FC, useEffect, useState } from "react";
 import { collection, getDocs } from "firebase/firestore";
 import { toast } from "react-toastify";
 import { UsersList } from "./usersList.component";
-import { DB } from "../../../../firebase";
+import { DB } from "../../../firebase";
+import { getUsers } from "../../../../pages/api/users";
 
 export interface UserProps {
   id: string;
@@ -21,10 +22,6 @@ export interface UserProps {
   latitude: number;
   longitude: number;
 }
-
-const getUsers = async () => {
-  return await getDocs(collection(DB, "users"));
-};
 
 const UsersListContainer: FC = () => {
   const [users, setUsers] = useState<UserProps[]>([]);

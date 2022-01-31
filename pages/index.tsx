@@ -33,11 +33,11 @@ const Home: NextPage = () => {
 
       <main>
         <Grid container >
-          <Grid item xs={12} sm={5} lg={3}>
+          <Grid item xs={12} sm={3} lg={3}>
             <UsersListContainer />
           </Grid>
 
-          <Grid item xs={12} sm={7} lg={9}>
+          <Grid item xs={12} sm={9} lg={9}>
             <Paper sx={{ height: 600 }}>
               <MapBox />
             </Paper>

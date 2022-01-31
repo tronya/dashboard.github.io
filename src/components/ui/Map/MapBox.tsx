@@ -15,7 +15,7 @@ function MapBox() {
   useEffect(() => {
     const node = mapNode.current;
     if (typeof window === "undefined" || node === null) return;
-    
+
     const mapboxMap = new mapboxgl.Map({
       container: node,
       accessToken: process.env.NEXT_PUBLIC_MAPBOX_TOKEN,
@@ -23,6 +23,20 @@ function MapBox() {
       center,
       zoom: 9,
     });
+
+    // Add geolocate control to the map.
+    mapboxMap.addControl(
+      new mapboxgl.GeolocateControl({
+        positionOptions: {
+          enableHighAccuracy: true,
+        },
+        // When active the map will receive updates to the device's location as it changes.
+        trackUserLocation: true,
+        // Draw an arrow next to the location dot to indicate which direction the device is heading.
+        showUserHeading: true,
+      })
+    );
+
     setMap(mapboxMap);
 
     return () => {

@@ -7,7 +7,7 @@ import { useEffect } from "react";
 import Loader from "../src/components/ui/Loader/loader";
 import Wrapper from "../src/components/ui/Wrapper/wrapper";
 import { useAuth } from "../src/hooks/useUser";
-import useGetUsers from "./api/users";
+import { useGetUsers } from "./api/users";
 import MapBoxContainer from "../src/components/containers/Map/mapBox.container";
 
 const Home: NextPage = () => {

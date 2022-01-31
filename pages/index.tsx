@@ -1,13 +1,13 @@
 import type { NextPage } from "next";
 import Head from "next/head";
 import { Grid, Paper } from "@mui/material";
-import { ListWrapper } from "../src/components/ui/ListWrapper/list";
 import MapBox from "../src/components/ui/Map/MapBox";
-import Wrapper from "../src/components/ui/Wrapper/wrapper";
-import { useAuth } from "../src/hooks/useUser";
+import UsersListContainer from "../src/components/containers/UsersList/usersList.container";
 import { useRouter } from "next/router";
 import { useEffect } from "react";
 import Loader from "../src/components/ui/Loader/loader";
+import Wrapper from "../src/components/ui/Wrapper/wrapper";
+import { useAuth } from "../src/hooks/useUser";
 
 const Home: NextPage = () => {
   const { user, loading } = useAuth();
@@ -34,7 +34,7 @@ const Home: NextPage = () => {
       <main>
         <Grid container spacing={2}>
           <Grid item>
-            <ListWrapper />
+            <UsersListContainer />
           </Grid>
 
           <Grid item xs={12} sm={6} lg={9}>

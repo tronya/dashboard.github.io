@@ -6,14 +6,14 @@ import {
   Skeleton,
   Typography,
 } from "@mui/material";
-import React, { FC } from "react";
+import { FC } from "react";
 
 interface UserListEmptyProps {
   count: number;
 }
 
 export const UserListEmpty: FC<UserListEmptyProps> = ({ count }) => {
-  const template = [];
+  const template:number[] = [];
 
   for (let i = 0; i < count; i++) {
     template.push(i);

@@ -31,7 +31,7 @@ const UsersListContainer: FC = () => {
     getUsers()
       .then((users) => {
         const result: UserProps[] = [];
-        const usersModified = users.forEach((user) => {
+        users.forEach((user) => {
           const userItem: UserProps = {
             id: user.id,
             ...user.data(),

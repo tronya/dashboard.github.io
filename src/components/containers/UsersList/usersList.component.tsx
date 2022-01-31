@@ -5,9 +5,7 @@ import {
   Avatar,
   ListItemText,
   Typography,
-  Divider,
-  Box,
-  Skeleton,
+  Divider
 } from "@mui/material";
 import { FC, Fragment } from "react";
 import { UserProps } from "./usersList.container";

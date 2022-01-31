@@ -48,12 +48,4 @@ const Home: NextPage = () => {
   );
 };
 
-export const getStaticProps = () => {
-  return {
-    props: {
-      protected: true,
-    },
-  };
-};
-
 export default Home;

@@ -1,26 +1,27 @@
-import { getAuth } from "firebase/auth";
+import { getAuth, User as FirebaseUser } from "firebase/auth";
 import { useState, useEffect } from "react";
+import { User } from "../models/user.model";
 
-const formatUserModel = (user: any) => ({
+const formatUserModel = (user: User) => ({
   uid: user.uid,
   email: user.email,
   displayName: user.displayName,
   photoURL: user.photoURL,
 });
 
-export default function useFirebaseAuth() {
-  const [user, setUser] = useState<any>(null);
+const useFirebaseAuth = () => {
+  const [user, setUser] = useState<User | null>(null);
   const [loading, setLoading] = useState(true);
 
-  const authStateChanged = async (authState: any) => {
+  const authStateChanged = async (authState: FirebaseUser | null) => {
     if (!authState) {
       setUser(null);
       setLoading(false);
-      return;
+      return null;
     }
 
     setLoading(true);
-    var formattedUser = formatUserModel(authState);
+    const formattedUser = formatUserModel(authState);
     setUser(formattedUser);
     setLoading(false);
   };
@@ -34,4 +35,6 @@ export default function useFirebaseAuth() {
     user,
     loading,
   };
-}
+};
+
+export default useFirebaseAuth;

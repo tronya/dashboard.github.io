@@ -23,7 +23,7 @@ interface HeaderProps {
 
 const Header: FC<HeaderProps> = ({ toggleDrawer, open }) => {
   const { t } = useTranslation();
-  const {user} = useAuth(); // need to save user in the store
+  const { user } = useAuth(); // need to save user in the store
 
   const [openUserDrawer, setOpenUserDrawer] = useState(false);
 
@@ -74,17 +74,17 @@ const Header: FC<HeaderProps> = ({ toggleDrawer, open }) => {
             <Localization />
           </Box>
 
-          <Tooltip title="Open settings">
-            <IconButton
-              sx={{ p: 0 }}
-              onClick={() => setOpenUserDrawer((open) => !open)}
-            >
-              <Avatar
-                alt={user?.displayName}
-                src={user?.photoURL}
-              />
-            </IconButton>
-          </Tooltip>
+          {user && user.displayName && user.photoURL && (
+            <Tooltip title="Open settings">
+              <IconButton
+                sx={{ p: 0 }}
+                onClick={() => setOpenUserDrawer((open) => !open)}
+              >
+                <Avatar alt={user.displayName} src={user.photoURL} />
+              </IconButton>
+            </Tooltip>
+          )}
+
           <IconButton color="inherit">
             <Badge badgeContent={4} color="secondary">
               <NotificationsIcon />

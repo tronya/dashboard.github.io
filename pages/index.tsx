@@ -7,15 +7,21 @@ import Wrapper from "../src/components/ui/Wrapper/wrapper";
 import { useAuth } from "../src/hooks/useUser";
 import { useRouter } from "next/router";
 import { useEffect } from "react";
+import Loader from "../src/components/ui/Loader/loader";
 
 const Home: NextPage = () => {
   const { user, loading } = useAuth();
   const router = useRouter();
 
   useEffect(() => {
-    if (!loading && !user)
-      router.push('/login')
-  }, [user, loading]);
+    if (!loading && !user) {
+      router.push("/login");
+    }
+  }, [user, loading, router]);
+
+  if (!user) {
+    return <Loader />;
+  }
 
   return (
     <Wrapper>

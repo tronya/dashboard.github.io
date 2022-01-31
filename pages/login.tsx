@@ -3,11 +3,10 @@ import { toast } from "react-toastify";
 import { getAuth, GoogleAuthProvider, signInWithPopup } from "firebase/auth";
 import { useRouter } from "next/router";
 import GoogleLogo from "../src/components/ui/Icons/GoogleLogo";
-import app from "../firebase";
 
 const Login = () => {
   const auth = getAuth();
-  const provider = new GoogleAuthProvider(); //.credential(process.env.NEXT_PUBLIC_FIREBASE_GOOGLE_CLIENT_ID);
+  const provider = new GoogleAuthProvider();
   const router = useRouter();
 
   const handleSignIn = () => {
@@ -20,16 +19,7 @@ const Login = () => {
         toast.success("You successfully log in!");
         router.push("/");
       })
-      .catch((error) => {
-        const errorCode = error.code;
-        const errorMessage = error.message;
-        const email = error.email;
-        const credential = GoogleAuthProvider.credentialFromError(error);
-        // TODO: more useful error message need to be declared here
-        toast.error(
-          `Error: ${errorCode}, ${errorMessage}, ${email}, ${credential}`
-        );
-      });
+      .catch((error) => toast.error(error.message));
   };
 
   return (

@@ -1,42 +1,31 @@
-import * as React from "react";
 import mapboxgl from "mapbox-gl";
 import "mapbox-gl/dist/mapbox-gl.css";
-import { useRef, useState } from "react";
-// импортируем стили mapbox-gl чтобы карта отображалась коррекно
+import { useEffect, useRef, useState } from "react";
+import { useNavigation } from "../../navigation/useNavigation";
 
 function MapBox() {
-  // здесь будет хранится инстанс карты после инициализации
   const [map, setMap] = useState<mapboxgl.Map>();
-
-  // React ref для хранения ссылки на DOM ноду который будет
-  // использоваться как обязательный параметр `container`
-  // при инициализации карты `mapbox-gl`
-  // по-умолчанию будет содержать `null`
+  const navigation = useNavigation();
   const mapNode = useRef(null);
+  const center: [number, number] = [
+    navigation?.coords.longitude || 24.065285,
+    navigation?.coords.latitude || 49.8138699,
+  ];
 
-  React.useEffect(() => {
+  useEffect(() => {
     const node = mapNode.current;
-    // если объект window не найден,
-    // то есть компонент рендерится на сервере
-    // или dom node не инициализирована, то ничего не делаем
     if (typeof window === "undefined" || node === null) return;
-
-    // иначе создаем инстанс карты передавая ему ссылку на DOM ноду
-    // а также accessToken для mapbox
+    
     const mapboxMap = new mapboxgl.Map({
       container: node,
       accessToken:
         "pk.eyJ1IjoidHJvbnlhIiwiYSI6ImNpdXNteHUwdzAwMWkyenBmamRlbTk2Zm8ifQ.aFKT4IOHyPCPRt_GNfUYnw", //process.env.NEXT_PUBLIC_MAPBOX_TOKEN
       style: "mapbox://styles/mapbox/streets-v11",
-      center: [-74.5, 40],
+      center,
       zoom: 9,
     });
-
-    // и сохраняем созданный объект карты в React.useState
     setMap(mapboxMap);
 
-    // чтобы избежать утечки памяти удаляем инстанс карты
-    // когда компонент будет демонтирован
     return () => {
       mapboxMap.remove();
     };

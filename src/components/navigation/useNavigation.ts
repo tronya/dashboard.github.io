@@ -9,6 +9,7 @@ export const useNavigation = () => {
             setGeolocation(success);
         },
         (error: GeolocationPositionError) => {
+            console.log(error)
             //toast.warning(error.message);
         }
     );

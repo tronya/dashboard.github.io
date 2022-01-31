@@ -14,12 +14,12 @@ const Home: NextPage = () => {
       </Head>
 
       <main>
-        <Grid container spacing={2}>
-          <Grid item>
+        <Grid container >
+          <Grid item xs={12} sm={5} lg={3}>
             <ListWrapper />
           </Grid>
 
-          <Grid item xs={12} sm={6} lg={9}>
+          <Grid item xs={12} sm={7} lg={9}>
             <Paper sx={{ height: 600 }}>
               <MapBox />
             </Paper>

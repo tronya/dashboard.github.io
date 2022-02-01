@@ -1,6 +1,7 @@
 {
   "name": "whereiam",
   "private": true,
+  "homepage" : "https://https://tronya.github.io/whereiam/",
   "scripts": {
     "dev": "next dev",
     "build": "next build",

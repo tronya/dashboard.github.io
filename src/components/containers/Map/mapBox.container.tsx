@@ -1,14 +1,26 @@
 import mapboxgl, { LngLatLike } from "mapbox-gl";
 import "mapbox-gl/dist/mapbox-gl.css";
-import { createElement, FC, useEffect, useRef, useState } from "react";
-import useMarkers from "../../../hooks/useMarkers";
+import {
+  createElement,
+  Dispatch,
+  FC,
+  SetStateAction,
+  useEffect,
+  useRef,
+} from "react";
 import { useNavigation } from "../../../hooks/useNavigation";
+import { Marker } from "../../../models/map";
 import MapBox from "./mapBox.component";
 
-const MapBoxContainer: FC = () => {
-  const [map, setMap] = useState<mapboxgl.Map>();
+interface MapBoxContainerProps {
+  markers?: Marker[];
+  map: mapboxgl.Map | undefined;
+  onSetMap: Dispatch<SetStateAction<mapboxgl.Map | undefined>>;
+}
+
+const MapBoxContainer: FC<MapBoxContainerProps> = (props) => {
+  const { map, onSetMap, markers } = props;
   const navigation = useNavigation();
-  const markers = useMarkers(map);
   const mapNode = useRef<HTMLDivElement>(null);
   const center: LngLatLike = [
     navigation?.coords.longitude ?? 24.065285,
@@ -40,7 +52,7 @@ const MapBoxContainer: FC = () => {
       })
     );
 
-    setMap(mapboxMap);
+    onSetMap(mapboxMap);
 
     return () => {
       mapboxMap.remove();
@@ -48,7 +60,7 @@ const MapBoxContainer: FC = () => {
   }, []);
 
   useEffect(() => {
-    if (markers.length && map) {
+    if (markers?.length && map) {
       for (const marker of markers) {
         new mapboxgl.Marker(marker.popup)
           .setLngLat(marker.marker.geometry.coordinates)

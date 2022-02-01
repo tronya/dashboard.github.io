@@ -11,12 +11,15 @@ import { useAuth } from "../src/hooks/useUser";
 import { getUsers } from "./api/users";
 import MapBoxContainer from "../src/components/containers/Map/mapBox.container";
 import { User } from "../src/models/user.model";
+import useMarkers from "../src/hooks/useMarkers";
 
 const Home: NextPage = () => {
-  const { user, loading } = useAuth();
-  const router = useRouter();
-
+  const [map, setMap] = useState<mapboxgl.Map>();
   const [users, setUsers] = useState<User[]>([]);
+
+  const router = useRouter();
+  const markers = useMarkers(map);
+  const { user, loading } = useAuth();
 
   useEffect(() => {
     getUsers()
@@ -49,7 +52,7 @@ const Home: NextPage = () => {
           </Grid>
 
           <Grid item xs={12} sm={9} lg={9}>
-            <MapBoxContainer />
+            <MapBoxContainer markers={markers} map={map} onSetMap={setMap} />
           </Grid>
         </Grid>
       </main>

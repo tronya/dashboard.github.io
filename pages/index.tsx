@@ -37,8 +37,6 @@ const Home: NextPage = () => {
     return <Loader />;
   }
 
-  const users = geolocation.map((location) => location.user);
-
   return (
     <Wrapper>
       <Head>
@@ -50,7 +48,7 @@ const Home: NextPage = () => {
       <main>
         <Grid container>
           <Grid item xs={12} sm={6} lg={3}>
-            <UsersListContainer users={users} />
+            <UsersListContainer geolocation={geolocation} />
           </Grid>
 
           <Grid item xs={12} sm={6} lg={9}>

@@ -9,7 +9,7 @@ import {
   useRef,
 } from "react";
 import { useNavigation } from "../../../hooks/useNavigation";
-import { Marker } from "../../../models/map";
+import { Marker } from "../../../models/map.model";
 import MapBox from "./mapBox.component";
 
 interface MapBoxContainerProps {

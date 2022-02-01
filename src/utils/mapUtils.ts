@@ -1,5 +1,5 @@
 import { LngLatLike } from "mapbox-gl";
-import { GeoJSONObject } from "../models/map";
+import { GeoJSONObject } from "../models/map.model";
 import { Geolocation } from "../models/geolocation.model";
 
 export const returnGeoJSONArray = (
@@ -14,8 +14,8 @@ export const returnGeoJSONArray = (
     geometry: {
       type: "Point",
       coordinates: [
-        location.coords.longitude,
-        location.coords.latitude,
-      ] as LngLatLike,
+        location.geolocationCoords.coords.longitude,
+        location.geolocationCoords.coords.latitude,
+      ],
     },
   }));

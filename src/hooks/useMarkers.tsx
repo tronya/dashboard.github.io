@@ -3,7 +3,7 @@ import { useState, useEffect } from "react";
 import { toast } from "react-toastify";
 import { getGeolocation } from "../../pages/api/geolocation";
 import { Geolocation } from "../models/geolocation.model";
-import { Marker } from "../models/map";
+import { Marker } from "../models/map.model";
 import { returnGeoJSONArray } from "../utils/mapUtils";
 
 const useMarkers = (map: mapboxgl.Map | undefined): Marker[] => {

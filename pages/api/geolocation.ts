@@ -29,17 +29,21 @@ export const setUserGeolocation = async (
     return null;
   }
 
-  const geolocationCoords: GeolocationCoordinates = {
-    accuracy: navigator.coords.accuracy,
-    altitude: navigator.coords.altitude,
-    altitudeAccuracy: navigator.coords.altitudeAccuracy,
-    heading: navigator.coords.heading,
-    latitude: navigator.coords.latitude,
-    longitude: navigator.coords.longitude,
-    speed: navigator.coords.speed,
+  const geolocationCoords: GeolocationPosition = {
+    coords: {
+      accuracy: navigator.coords.accuracy,
+      altitude: navigator.coords.altitude,
+      altitudeAccuracy: navigator.coords.altitudeAccuracy,
+      heading: navigator.coords.heading,
+      latitude: navigator.coords.latitude,
+      longitude: navigator.coords.longitude,
+      speed: navigator.coords.speed,
+    },
+    timestamp: navigator.timestamp,
   };
+
   return await setDoc(doc(DB, "geolocation", auth.user.uid), {
-    coords: geolocationCoords,
+    geolocationCoords,
     user: auth.user,
   });
 };

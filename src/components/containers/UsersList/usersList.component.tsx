@@ -1,48 +1,66 @@
 import {
   ListItem,
-  List,
   ListItemAvatar,
   Avatar,
   ListItemText,
   Typography,
-  Divider
+  Divider,
 } from "@mui/material";
 import { FC, Fragment } from "react";
-import { UserProps } from "./usersList.container";
 import { UserListEmpty } from "./userList.empty";
-import { lime, purple } from "@mui/material/colors";
+import { green, grey } from "@mui/material/colors";
+import { User } from "../../../models/user.model";
+import { getAuth } from "firebase/auth";
+import { StyledList } from "./userList.styled";
 
 interface ListWrapperProps {
-  users: UserProps[];
+  users: User[];
 }
+
 export const UsersList: FC<ListWrapperProps> = ({ users }) => {
+  const authUser = getAuth().currentUser;
+
   if (!users.length) {
-    return <UserListEmpty count={6}/>;
+    return <UserListEmpty count={6} />;
   }
+
   return (
-    <List sx={{ width: 240, bgcolor: "background.paper" }}>
-      {users.map((user) => (
-        <Fragment key={user.id}>
-          <ListItem alignItems="flex-start">
-            <ListItemAvatar>
-              <Avatar alt={user.name} src={user.picture} />
-            </ListItemAvatar>
-            <ListItemText
-              primary={user.name}
-              secondary={
-                <Typography
-                  component="span"
-                  variant="body2"
-                  color={user.isActive ? lime[500] : purple[500]}
-                >
-                  {user.isActive ? "Online" : "Offline"}
-                </Typography>
-              }
-            />
-          </ListItem>
-          <Divider variant="inset" component="li" />
-        </Fragment>
-      ))}
-    </List>
+    <StyledList sx={{ mr: 2, mb: 2, bgcolor: "background.paper" }}>
+      {users.map((user) => {
+        const isCurrentUser = user.uid === authUser?.uid;
+
+        return (
+          <Fragment key={user.uid}>
+            <ListItem alignItems="flex-start">
+              <ListItemAvatar>
+                <Avatar alt={user.displayName} src={user.photoURL} />
+              </ListItemAvatar>
+              <ListItemText
+                primary={
+                  <>
+                    {user.displayName}
+                    <Typography variant="caption">
+                      {isCurrentUser ? " (It's you)" : undefined}
+                    </Typography>
+                  </>
+                }
+                secondary={
+                  <Typography
+                    component="span"
+                    variant="body2"
+                    // color={user.isActive ? green[700] : grey[700]} TODO
+                    color={isCurrentUser ? green[700] : grey[700]}
+                  >
+                    {/* {user.isActive ? "Online" : "Offline"} TODO */}
+                    {isCurrentUser ? "Online" : "Offline"}
+                  </Typography>
+                }
+              />
+            </ListItem>
+            <Divider variant="inset" component="li" />
+          </Fragment>
+        );
+      })}
+    </StyledList>
   );
 };

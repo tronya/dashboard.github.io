@@ -1,11 +1,11 @@
 import { ReactNode } from "react";
-import { User } from "./user.model";
+import { AuthUser } from "./user.model";
 
 export interface AuthUserProviderProps {
   children: ReactNode;
 }
 
 export interface AuthUserContextProps {
-  user: User | null;
+  user: AuthUser | null;
   loading: boolean;
 }

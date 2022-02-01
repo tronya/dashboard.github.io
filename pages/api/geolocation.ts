@@ -2,9 +2,25 @@ import { collection, doc, getDocs, setDoc } from "firebase/firestore";
 import { toast } from "react-toastify";
 import { DB } from "../../src/firebase";
 import { AuthUserContextProps } from "../../src/models/auth.model";
+import { Geolocation } from "../../src/models/geolocation.model";
 
-export const getGeolocation = async () =>
+export const getGeolocationCollection = async () =>
   await getDocs(collection(DB, "geolocation"));
+
+export const getGeolocation = () =>
+  getGeolocationCollection().then((geolocation) => {
+    const result: Geolocation[] = [];
+
+    geolocation.forEach((location) => {
+      const geolocation: Geolocation = {
+        id: location.id,
+        ...location.data(),
+      } as Geolocation;
+      result.push(geolocation);
+    });
+
+    return result;
+  });
 
 export const setUserGeolocation = async (
   navigator: GeolocationPosition,

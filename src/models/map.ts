@@ -5,7 +5,6 @@ export interface GeoJSONObject {
     description: string;
     iconSize: number[];
     backgroundImage: string;
-    gender: "female" | "male";
   };
   geometry: {
     type: string;

@@ -8,22 +8,22 @@ import { useEffect, useState } from "react";
 import Loader from "../src/components/ui/Loader/loader";
 import Wrapper from "../src/components/ui/Wrapper/wrapper";
 import { useAuth } from "../src/hooks/useUser";
-import { getUsers } from "./api/users";
 import MapBoxContainer from "../src/components/containers/Map/mapBox.container";
-import { User } from "../src/models/user.model";
 import useMarkers from "../src/hooks/useMarkers";
+import { getGeolocation } from "./api/geolocation";
+import { Geolocation } from "../src/models/geolocation.model";
 
 const Home: NextPage = () => {
   const [map, setMap] = useState<mapboxgl.Map>();
-  const [users, setUsers] = useState<User[]>([]);
+  const [geolocation, setGeolocation] = useState<Geolocation[]>([]);
 
   const router = useRouter();
   const markers = useMarkers(map);
   const { user, loading } = useAuth();
 
   useEffect(() => {
-    getUsers()
-      .then((result) => setUsers(result))
+    getGeolocation()
+      .then((result) => setGeolocation(result))
       .catch((error) => toast.error(error));
   }, []);
 
@@ -33,9 +33,11 @@ const Home: NextPage = () => {
     }
   }, [user, loading, router]);
 
-  if (!user || !users.length) {
+  if (!user || !geolocation.length) {
     return <Loader />;
   }
+
+  const users = geolocation.map((location) => location.user);
 
   return (
     <Wrapper>
@@ -47,11 +49,11 @@ const Home: NextPage = () => {
 
       <main>
         <Grid container>
-          <Grid item xs={12} sm={3} lg={3}>
+          <Grid item xs={12} sm={6} lg={3}>
             <UsersListContainer users={users} />
           </Grid>
 
-          <Grid item xs={12} sm={9} lg={9}>
+          <Grid item xs={12} sm={6} lg={9}>
             <MapBoxContainer markers={markers} map={map} onSetMap={setMap} />
           </Grid>
         </Grid>

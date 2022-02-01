@@ -1,22 +1,22 @@
 import mapboxgl from "mapbox-gl";
 import { useState, useEffect } from "react";
 import { toast } from "react-toastify";
-import { getUsers } from "../../pages/api/users";
+import { getGeolocation } from "../../pages/api/geolocation";
+import { Geolocation } from "../models/geolocation.model";
 import { Marker } from "../models/map";
-import { User } from "../models/user.model";
 import { returnGeoJSONArray } from "../utils/mapUtils";
 
 const useMarkers = (map: mapboxgl.Map | undefined): Marker[] => {
-  const [users, setUsers] = useState<User[]>([]);
+  const [geolocation, setGeolocation] = useState<Geolocation[]>([]);
   const markers: Marker[] = [];
 
   useEffect(() => {
-    getUsers()
-      .then((result) => setUsers(result))
+    getGeolocation()
+      .then((result) => setGeolocation(result))
       .catch((error) => toast.error(error));
   }, []);
 
-  const geoJSONArray = returnGeoJSONArray(users);
+  const geoJSONArray = returnGeoJSONArray(geolocation);
 
   geoJSONArray.forEach((marker) => {
     const el = document.createElement("div");
@@ -36,6 +36,7 @@ const useMarkers = (map: mapboxgl.Map | undefined): Marker[] => {
 
     el.addEventListener("mouseenter", () => {
       if (map) {
+        el.style.cursor = "pointer";
         popup
           .setLngLat(marker.geometry.coordinates)
           .setHTML(marker.properties.description)
@@ -44,6 +45,7 @@ const useMarkers = (map: mapboxgl.Map | undefined): Marker[] => {
     });
 
     el.addEventListener("mouseleave", () => {
+      el.style.cursor = "";
       popup.remove();
     });
 

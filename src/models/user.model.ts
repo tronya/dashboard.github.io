@@ -6,19 +6,8 @@ export interface AuthUser {
 }
 
 export interface User {
-  id: string;
-  _id: string;
-  index: number;
-  guid: string;
-  isActive: boolean;
-  picture: string;
-  age: number;
-  name: string;
-  gender: "female" | "male";
-  company: string;
-  email: string;
-  phone: string;
-  address: string;
-  latitude: number;
-  longitude: number;
+  email: string | null;
+  photoURL: string;
+  uid: string;
+  displayName: string;
 }

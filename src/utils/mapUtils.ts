@@ -1,7 +1,8 @@
 import { LngLatLike } from "mapbox-gl";
+import { GeoJSONObject } from "../models/map";
 import { User } from "../models/user.model";
 
-export const returnArrayOfGeoJSON = (users: User[]) =>
+export const returnGeoJSONArray = (users: User[]): GeoJSONObject[] =>
   users.map((user) => ({
     properties: {
       description: user.name,

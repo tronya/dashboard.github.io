@@ -9,24 +9,28 @@ import {
 import { FC, Fragment } from "react";
 import { UserListEmpty } from "./userList.empty";
 import { green, grey } from "@mui/material/colors";
-import { User } from "../../../models/user.model";
+import { Geolocation } from "../../../models/geolocation.model";
 import { getAuth } from "firebase/auth";
 import { StyledList } from "./userList.styled";
+import { getUserStatus } from "../../../utils/user";
 
 interface ListWrapperProps {
-  users: User[];
+  geolocation: Geolocation[];
 }
 
-export const UsersList: FC<ListWrapperProps> = ({ users }) => {
+export const UsersList: FC<ListWrapperProps> = ({ geolocation }) => {
   const authUser = getAuth().currentUser;
 
-  if (!users.length) {
+  if (!geolocation.length) {
     return <UserListEmpty count={6} />;
   }
 
+  const lastUserUid = geolocation[geolocation.length - 1].user.uid;
+
   return (
     <StyledList sx={{ mr: 2, mb: 2, bgcolor: "background.paper" }}>
-      {users.map((user) => {
+      {geolocation.map((location) => {
+        const { user, geolocationCoords } = location;
         const isCurrentUser = user.uid === authUser?.uid;
 
         return (
@@ -36,11 +40,12 @@ export const UsersList: FC<ListWrapperProps> = ({ users }) => {
                 <Avatar alt={user.displayName} src={user.photoURL} />
               </ListItemAvatar>
               <ListItemText
+                sx={{ color: grey[300] }}
                 primary={
                   <>
                     {user.displayName}
                     <Typography variant="caption">
-                      {isCurrentUser ? " (It's you)" : undefined}
+                      {isCurrentUser && " (It's you)"}
                     </Typography>
                   </>
                 }
@@ -48,16 +53,20 @@ export const UsersList: FC<ListWrapperProps> = ({ users }) => {
                   <Typography
                     component="span"
                     variant="body2"
-                    // color={user.isActive ? green[700] : grey[700]} TODO
-                    color={isCurrentUser ? green[700] : grey[700]}
+                    color={
+                      getUserStatus(geolocationCoords.timestamp) === "Online"
+                        ? green[400]
+                        : grey[500]
+                    }
                   >
-                    {/* {user.isActive ? "Online" : "Offline"} TODO */}
-                    {isCurrentUser ? "Online" : "Offline"}
+                    {getUserStatus(geolocationCoords.timestamp)}
                   </Typography>
                 }
               />
             </ListItem>
-            <Divider variant="inset" component="li" />
+            {lastUserUid !== user.uid && (
+              <Divider variant="inset" component="li" />
+            )}
           </Fragment>
         );
       })}

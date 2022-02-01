@@ -16,6 +16,9 @@ import { Geolocation } from "../src/models/geolocation.model";
 const Home: NextPage = () => {
   const [map, setMap] = useState<mapboxgl.Map>();
   const [geolocation, setGeolocation] = useState<Geolocation[]>([]);
+  const [selectedLocation, setSelectedLocation] = useState<Geolocation | null>(
+    null
+  );
 
   const router = useRouter();
   const markers = useMarkers(map);
@@ -37,6 +40,9 @@ const Home: NextPage = () => {
     return <Loader />;
   }
 
+  const handleUserClick = (location: Geolocation) =>
+    setSelectedLocation(location);
+
   return (
     <Wrapper>
       <Head>
@@ -48,11 +54,19 @@ const Home: NextPage = () => {
       <main>
         <Grid container>
           <Grid item xs={12} sm={6} lg={3}>
-            <UsersListContainer geolocation={geolocation} />
+            <UsersListContainer
+              geolocation={geolocation}
+              onUserClick={handleUserClick}
+            />
           </Grid>
 
           <Grid item xs={12} sm={6} lg={9}>
-            <MapBoxContainer markers={markers} map={map} onSetMap={setMap} />
+            <MapBoxContainer
+              markers={markers}
+              map={map}
+              onSetMap={setMap}
+              selectedLocation={selectedLocation}
+            />
           </Grid>
         </Grid>
       </main>

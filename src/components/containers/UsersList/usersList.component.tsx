@@ -5,8 +5,9 @@ import {
   ListItemText,
   Typography,
   Divider,
+  Box,
 } from "@mui/material";
-import { FC, Fragment } from "react";
+import { FC } from "react";
 import { UserListEmpty } from "./userList.empty";
 import { green, grey } from "@mui/material/colors";
 import { Geolocation } from "../../../models/geolocation.model";
@@ -16,9 +17,13 @@ import { getUserStatus } from "../../../utils/user";
 
 interface ListWrapperProps {
   geolocation: Geolocation[];
+  onUserClick: (location: Geolocation) => void;
 }
 
-export const UsersList: FC<ListWrapperProps> = ({ geolocation }) => {
+export const UsersList: FC<ListWrapperProps> = ({
+  geolocation,
+  onUserClick,
+}) => {
   const authUser = getAuth().currentUser;
 
   if (!geolocation.length) {
@@ -34,7 +39,11 @@ export const UsersList: FC<ListWrapperProps> = ({ geolocation }) => {
         const isCurrentUser = user.uid === authUser?.uid;
 
         return (
-          <Fragment key={user.uid}>
+          <Box
+            key={user.uid}
+            onClick={() => onUserClick(location)}
+            sx={{ cursor: "pointer" }}
+          >
             <ListItem alignItems="flex-start">
               <ListItemAvatar>
                 <Avatar alt={user.displayName} src={user.photoURL} />
@@ -67,7 +76,7 @@ export const UsersList: FC<ListWrapperProps> = ({ geolocation }) => {
             {lastUserUid !== user.uid && (
               <Divider variant="inset" component="li" />
             )}
-          </Fragment>
+          </Box>
         );
       })}
     </StyledList>

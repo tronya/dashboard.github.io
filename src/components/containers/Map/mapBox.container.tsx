@@ -10,16 +10,18 @@ import {
 } from "react";
 import { useNavigation } from "../../../hooks/useNavigation";
 import { Marker } from "../../../models/map.model";
+import { Geolocation } from "../../../models/geolocation.model";
 import MapBox from "./mapBox.component";
 
 interface MapBoxContainerProps {
   markers?: Marker[];
   map: mapboxgl.Map | undefined;
   onSetMap: Dispatch<SetStateAction<mapboxgl.Map | undefined>>;
+  selectedLocation: Geolocation | null;
 }
 
 const MapBoxContainer: FC<MapBoxContainerProps> = (props) => {
-  const { map, onSetMap, markers } = props;
+  const { map, onSetMap, markers, selectedLocation } = props;
   const navigation = useNavigation();
   const mapNode = useRef<HTMLDivElement>(null);
   const center: LngLatLike = [
@@ -68,6 +70,19 @@ const MapBoxContainer: FC<MapBoxContainerProps> = (props) => {
       }
     }
   }, [map, markers]);
+
+  useEffect(() => {
+    if (selectedLocation && map) {
+      map.flyTo({
+        center: [
+          selectedLocation?.geolocationCoords.coords.longitude,
+          selectedLocation?.geolocationCoords.coords.latitude,
+        ] as LngLatLike,
+        essential: true,
+        zoom: 14,
+      });
+    }
+  }, [map, selectedLocation]);
 
   return createElement(MapBox, {
     mapNode,

@@ -1,5 +1,4 @@
 import { collection, doc, getDocs, setDoc } from "firebase/firestore";
-import { toast } from "react-toastify";
 import { DB } from "../../src/firebase";
 import { AuthUserContextProps } from "../../src/models/auth.model";
 import { Geolocation } from "../../src/models/geolocation.model";
@@ -27,9 +26,9 @@ export const setUserGeolocation = async (
   auth: AuthUserContextProps
 ) => {
   if (!auth.user?.uid) {
-    toast.warning("User is not defined to update");
-    return;
+    return null;
   }
+
   const geolocationCoords: GeolocationCoordinates = {
     accuracy: navigator.coords.accuracy,
     altitude: navigator.coords.altitude,

@@ -20,8 +20,8 @@
   ],
   "theme_color": "#FFFFFF",
   "background_color": "#FFFFFF",
-  "scope": "/",
-  "start_url": "/",
+  "scope": "/whereiam/",
+  "start_url": "/whereiam/",
   "display": "standalone",
   "orientation": "portrait"
 }

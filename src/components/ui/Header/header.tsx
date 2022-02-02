@@ -1,6 +1,5 @@
 import {
   Avatar,
-  Badge,
   Box,
   IconButton,
   Toolbar,
@@ -8,7 +7,6 @@ import {
   Typography,
 } from "@mui/material";
 import { FC, useState, KeyboardEvent, MouseEvent } from "react";
-import NotificationsIcon from "@mui/icons-material/Notifications";
 import MenuIcon from "@mui/icons-material/Menu";
 import { AppBar } from "../AppBar/appBar";
 import Localization from "../Localization/localization";
@@ -23,7 +21,7 @@ interface HeaderProps {
 
 const Header: FC<HeaderProps> = ({ toggleDrawer, open }) => {
   const { t } = useTranslation();
-  const { user } = useAuth(); // need to save user in the store
+  const { user } = useAuth();
 
   const [openUserDrawer, setOpenUserDrawer] = useState(false);
 
@@ -84,12 +82,6 @@ const Header: FC<HeaderProps> = ({ toggleDrawer, open }) => {
               </IconButton>
             </Tooltip>
           )}
-
-          <IconButton color="inherit">
-            <Badge badgeContent={4} color="secondary">
-              <NotificationsIcon />
-            </Badge>
-          </IconButton>
         </Toolbar>
       </AppBar>
       <Drawer open={openUserDrawer} toggleUserDrawer={toggleUserDrawer} />

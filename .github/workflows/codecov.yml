@@ -1,22 +1,12 @@
-name: "CodeQL"
-
 codecov:
+  token: 623a833d-e67d-4fe3-aad9-6c4a59918044
+  bot: "codecov-io"
+  ci:
+    - "travis.org"
+  strict_yaml_branch: "yaml-config"
+  max_report_age: 24
+  disable_default_path_fixes: no
   require_ci_to_pass: yes
-
-coverage:
-  precision: 2
-  round: down
-  range: "70...100"
-
-parsers:
-  gcov:
-    branch_detection:
-      conditional: yes
-      loop: yes
-      method: no
-      macro: no
-
-comment:
-  layout: "reach,diff,flags,files,footer"
-  behavior: default
-  require_changes: no
+  notify:
+    after_n_builds: 2
+    wait_for_ci: yes

@@ -1,0 +1,21 @@
+{
+  "extends": "next/core-web-vitals",
+  "rules": {
+    "react/react-in-jsx-scope": 0,
+    "react/jsx-uses-react": 0,
+    "no-console": [1, { "allow": ["warn", "error"] }],
+    "no-debugger": 1,
+    "no-empty-function": [
+      1,
+      {
+        "allow": [
+          "arrowFunctions",
+          "methods",
+          "constructors",
+          "asyncFunctions",
+          "asyncMethods"
+        ]
+      }
+    ]
+  }
+}

@@ -1,0 +1,50 @@
+{
+  "name": "whereiam",
+  "private": true,
+  "homepage" : "https://https://tronya.github.io/whereiam/",
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint",
+    "test": "jest jest.config.js --coverage --watch",
+    "export": "next export",
+    "deploy": "rm -rf node_modules/.cache && next build && next export && touch out/.nojekyll && git add out/ && git commit -m \"Deploy Next.js to gh-pages\" && git subtree push --prefix out origin gh-pages"
+  
+  },
+  "dependencies": {
+    "@emotion/react": "^11.7.1",
+    "@emotion/styled": "^11.6.0",
+    "@fontsource/roboto": "^4.5.1",
+    "@mui/icons-material": "^5.3.1",
+    "@mui/material": "^5.3.1",
+    "@mui/styled-engine-sc": "^5.3.0",
+    "@types/mapbox-gl": "^2.6.0",
+    "firebase": "^9.6.4",
+    "i18next": "^21.6.10",
+    "mapbox-gl": "^2.6.1",
+    "moment": "^2.29.1",
+    "next": "^12.0.9",
+    "react": "17.0.2",
+    "react-dom": "17.0.2",
+    "react-i18next": "^11.15.3",
+    "react-toastify": "^8.1.0",
+    "styled-components": "^5.3.3"
+  },
+  "devDependencies": {
+    "@testing-library/jest-dom": "^5.16.1",
+    "@testing-library/react": "^12.1.2",
+    "@types/mapbox-gl": "^2.6.0",
+    "@types/node": "17.0.12",
+    "@types/react": "17.0.38",
+    "@types/styled-components": "^5.1.21",
+    "autoprefixer": "^10.4.2",
+    "babel-jest": "^27.4.6",
+    "eslint": "8.7.0",
+    "eslint-config-next": "12.0.8",
+    "jest": "^27.4.7",
+    "postcss": "^8.4.5",
+    "tailwindcss": "^3.0.16",
+    "typescript": "4.5.5"
+  }
+}

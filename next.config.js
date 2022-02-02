@@ -6,13 +6,12 @@ const isProd = process.env.NODE_ENV === "production";
 const isDev = process.env.NODE_ENV === "development";
 
 module.exports = withPWA({
-  basePath: '/whereiam',
   pwa: {
     dest: "public",
-    subdomainPrefix: '/whereiam/',
     register: true,
     skipWaiting: true,
     disable: isDev,
   },
-  reactStrictMode: true
+  reactStrictMode: true,
+  assetPrefix: isProd ? 'https://tronya.github.io/whereiam/' : '',
 });

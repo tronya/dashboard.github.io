@@ -1,10 +1,15 @@
 /** @type {import('next').NextConfig} */
 // next.config.js
-const isProd = process.env.NODE_ENV === 'production'
+const withPWA = require("next-pwa");
 
-const nextConfig = {
+const isProd = process.env.NODE_ENV === "production";
+
+module.exports = withPWA({
+  pwa: {
+    dest: "public",
+    register: true,
+    skipWaiting: true,
+  },
   reactStrictMode: true,
-  assetPrefix: isProd ? '/whereiam/' : ''
-}
-
-module.exports = nextConfig
+  assetPrefix: isProd ? "/whereiam/" : "",
+});

@@ -12,6 +12,5 @@ module.exports = withPWA({
     skipWaiting: true,
     disable: isDev,
   },
-  reactStrictMode: true,
-  assetPrefix: isProd ? "/whereiam/" : "",
+  reactStrictMode: true
 });

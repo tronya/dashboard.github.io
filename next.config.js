@@ -12,5 +12,6 @@ module.exports = withPWA({
     skipWaiting: true,
     disable: isDev,
   },
-  reactStrictMode: true
+  reactStrictMode: true,
+  assetPrefix: "https://tronya.github.io/whereiam/"
 });

@@ -8,10 +8,10 @@ const isDev = process.env.NODE_ENV === "development";
 module.exports = withPWA({
   pwa: {
     dest: "public",
+    basePath: '/whereiam',
     register: true,
     skipWaiting: true,
     disable: isDev,
   },
-  reactStrictMode: true,
-  assetPrefix: "https://tronya.github.io/whereiam/"
+  reactStrictMode: true
 });

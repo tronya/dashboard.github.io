@@ -79,6 +79,6 @@ jobs:
         with:
           node-version: ${{ matrix.node-version }}
       - run: npm i
-      - run: npm test:coverage
+      - run: npm run test:coverage
       - name: Upload coverage to Codecov
         uses: codecov/codecov-action@v1

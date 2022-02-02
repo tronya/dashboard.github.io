@@ -59,7 +59,6 @@ const Home: NextPage = () => {
               onUserClick={handleUserClick}
             />
           </Grid>
-
           <Grid item xs={12} sm={6} lg={9}>
             <MapBoxContainer
               markers={markers}

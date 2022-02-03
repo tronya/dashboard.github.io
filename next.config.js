@@ -13,6 +13,4 @@ module.exports = withPWA({
     disable: isDev,
   },
   reactStrictMode: true,
-  assetPrefix: isProd ? '/whereiam/' : '',
-  basePath: isProd ? '/whereiam' : '',
 });

@@ -44,6 +44,14 @@ const MapBoxContainer: FC<MapBoxContainerProps> = (props) => {
       zoom: 11,
     });
 
+    if (markers?.length) {
+      for (const marker of markers) {
+        new mapboxgl.Marker(marker.popup)
+          .setLngLat(marker.marker.geometry.coordinates)
+          .addTo(mapboxMap);
+      }
+    }
+
     mapboxMap.addControl(
       new mapboxgl.GeolocateControl({
         positionOptions: {
@@ -60,16 +68,6 @@ const MapBoxContainer: FC<MapBoxContainerProps> = (props) => {
       mapboxMap.remove();
     };
   }, []);
-
-  useEffect(() => {
-    if (markers?.length && map) {
-      for (const marker of markers) {
-        new mapboxgl.Marker(marker.popup)
-          .setLngLat(marker.marker.geometry.coordinates)
-          .addTo(map);
-      }
-    }
-  }, [map, markers]);
 
   useEffect(() => {
     if (selectedLocation && map) {

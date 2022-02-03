@@ -5,7 +5,7 @@ const MyDocument = () => {
     <Html>
       <Head>
         <link rel="manifest" href="/manifest.json" />
-        <link rel="apple-touch-icon" href="/icons/logo_x192.png"></link>
+        <link rel="apple-touch-icon" href="/logo_x192.png"></link>
         <meta name="theme-color" content="#fff" />
       </Head>
       <body>

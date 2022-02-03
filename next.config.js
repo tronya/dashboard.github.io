@@ -13,5 +13,6 @@ module.exports = withPWA({
     disable: isDev,
   },
   reactStrictMode: true,
-  assetPrefix: isProd ? 'https://tronya.github.io/whereiam/' : '',
+  assetPrefix: isProd ? '/whereiam/' : '',
+  basePath: isProd ? '/whereiam' : '',
 });

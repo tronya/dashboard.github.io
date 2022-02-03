@@ -52,8 +52,6 @@ const Home: NextPage = () => {
       </Head>
 
       <main>
-        <p>this env is - {process.env.NODE_ENV}</p>
-        <p>this is some test env- {process.env.NEXT_PUBLIC_TEST}</p>
         <Grid container>
           <Grid item xs={12} sm={6} lg={3}>
             <UsersListContainer

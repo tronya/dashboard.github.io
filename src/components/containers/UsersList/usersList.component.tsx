@@ -14,6 +14,7 @@ import { Geolocation } from "../../../models/geolocation.model";
 import { StyledList } from "./userList.styled";
 import { getUserStatus } from "../../../utils/user";
 import { useAuth } from "../../../hooks/useUser";
+import { NO_PROFILE_IMAGE_URL } from "../../../constants";
 
 interface ListWrapperProps {
   geolocation: Geolocation[];
@@ -46,7 +47,10 @@ export const UsersList: FC<ListWrapperProps> = ({
           >
             <ListItem alignItems="flex-start">
               <ListItemAvatar>
-                <Avatar alt={user.displayName} src={user.photoURL} />
+                <Avatar
+                  alt={user.displayName}
+                  src={user.photoURL ?? NO_PROFILE_IMAGE_URL}
+                />
               </ListItemAvatar>
               <ListItemText
                 sx={{ color: grey[300] }}

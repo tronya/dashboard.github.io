@@ -1,6 +1,7 @@
 import { Avatar, Box, Button, Paper, Typography } from "@mui/material";
 import { FC, useState } from "react";
 import { useTranslation } from "react-i18next";
+import { NO_PROFILE_IMAGE_URL } from "../../../constants";
 import useCurrentUserGeolocation from "../../../hooks/useCurrentUserGeolocation";
 import { NavigationProvider } from "../../../hooks/useNavigation";
 import { useAuth } from "../../../hooks/useUser";
@@ -29,7 +30,7 @@ const UserProfile: FC = () => {
             {user.displayName && user.photoURL && (
               <Avatar
                 alt={user.displayName}
-                src={user.photoURL}
+                src={user.photoURL ?? NO_PROFILE_IMAGE_URL}
                 sx={{ width: 120, height: 120 }}
               />
             )}

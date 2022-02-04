@@ -73,7 +73,7 @@ const Header: FC<HeaderProps> = ({ toggleDrawer, open }) => {
             sx={{ flexGrow: 1, cursor: "pointer" }}
             onClick={handleClick}
           >
-            {t("dashboard")}
+            {t("dashboard.title")}
           </Typography>
 
           <Box pr={1}>

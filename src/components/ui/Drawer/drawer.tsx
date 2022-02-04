@@ -4,6 +4,7 @@ import { getAuth, signOut } from "firebase/auth";
 import { FC, KeyboardEvent, MouseEvent } from "react";
 import DrawerList from "./drawerList";
 import { useRouter } from "next/router";
+import { useTranslation } from "react-i18next";
 
 interface DrawerProps {
   open: boolean;
@@ -15,11 +16,12 @@ interface DrawerProps {
 const Drawer: FC<DrawerProps> = ({ open, toggleUserDrawer }) => {
   const auth = getAuth();
   const router = useRouter();
+  const { t } = useTranslation();
 
   const handleSignOut = () =>
     signOut(auth)
       .then(() => {
-        toast.success("You successfully log out!");
+        toast.success(t("toastSuccess.logOut"));
         router.push("/login");
       })
       .catch((error) => toast.error(`Error: ${error}`));
@@ -43,7 +45,7 @@ const Drawer: FC<DrawerProps> = ({ open, toggleUserDrawer }) => {
         <DrawerList />
         <Box p={2} display="flex" justifyContent="center">
           <Button onClick={handleSignOut} variant="contained" size="large">
-            SIGH OUT
+            {t("drawer.signOutButtonText")}
           </Button>
         </Box>
       </Box>

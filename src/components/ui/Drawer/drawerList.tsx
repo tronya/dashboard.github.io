@@ -9,11 +9,13 @@ import {
 import PermIdentityIcon from "@mui/icons-material/PermIdentity";
 import { FC, MouseEvent } from "react";
 import { useRouter } from "next/router";
-
-const drawerList = [{ href: "/user/profile", text: "User Profile" }];
+import { useTranslation } from "react-i18next";
 
 const DrawerList: FC = () => {
   const router = useRouter();
+  const { t } = useTranslation();
+
+  const drawerList = [{ href: "/user/profile", text: t("profile.title") }];
 
   const handleClick = (event: MouseEvent<HTMLAnchorElement>, href: string) => {
     event.preventDefault();
@@ -31,9 +33,12 @@ const DrawerList: FC = () => {
             key={element.text}
           >
             <ListItemIcon>
-              <PermIdentityIcon sx={{ color: "white" }} />
+              <PermIdentityIcon sx={{ color: "common.white" }} />
             </ListItemIcon>
-            <ListItemText primary={element.text} sx={{ color: "white" }} />
+            <ListItemText
+              primary={element.text}
+              sx={{ color: "common.white" }}
+            />
           </ListItem>
         ))}
       </List>

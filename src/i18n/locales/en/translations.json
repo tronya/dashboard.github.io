@@ -1,4 +1,19 @@
 {
-  "dashboard": "Dashboard",
-  "profile": "Profile"
+  "dashboard": {
+    "title": "Dashboard",
+    "bannerTitle": "You haven't allowed your location yet. Please, do this in your profile page by clicking on the button.",
+    "bannerButtonText": "USER PROFILE PAGE"
+  },
+  "profile": {
+    "title": "Profile",
+    "allowLocationButtonText": "ALLOW TO USE YOUR LOCATION"
+  },
+  "drawer": {
+    "signOutButtonText": "SIGH OUT"
+  },
+  "toastSuccess": {
+    "logIn": "You successfully log in!",
+    "logOut": "You successfully log out!",
+    "acceptGeolocation": "Geolocation was successfully accepted!"
+  }
 }

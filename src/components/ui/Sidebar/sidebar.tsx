@@ -9,7 +9,7 @@ import {
   ListSubheader,
   Toolbar,
 } from "@mui/material";
-import React, { FC } from "react";
+import { FC } from "react";
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import AssignmentIcon from "@mui/icons-material/Assignment";
 import { HeaderDrawer } from "../HeaderDrawer/headerDrawer";
@@ -21,12 +21,14 @@ interface SidebarProps {
 
 const menuItems = (
   <Box>
-    <ListSubheader inset>Saved reports</ListSubheader>
+    <ListSubheader inset sx={{ color: "white" }}>
+      Saved reports
+    </ListSubheader>
     <ListItem button>
       <ListItemIcon>
-        <AssignmentIcon />
+        <AssignmentIcon sx={{ color: "white" }} />
       </ListItemIcon>
-      <ListItemText primary="Current month" />
+      <ListItemText primary="Current month" sx={{ color: "white" }} />
     </ListItem>
   </Box>
 );

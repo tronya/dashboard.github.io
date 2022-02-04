@@ -12,6 +12,9 @@ import MapBoxContainer from "../src/components/containers/Map/mapBox.container";
 import useMarkers from "../src/hooks/useMarkers";
 import { getGeolocation } from "./api/geolocation";
 import { Geolocation } from "../src/models/geolocation.model";
+import Banner from "../src/components/ui/Banner/banner";
+import useCurrentUserGeolocation from "../src/hooks/useCurrentUserGeolocation";
+import { useTranslation } from "react-i18next";
 
 const Home: NextPage = () => {
   const [map, setMap] = useState<mapboxgl.Map>();
@@ -22,7 +25,9 @@ const Home: NextPage = () => {
 
   const router = useRouter();
   const markers = useMarkers(map);
+  const { t } = useTranslation();
   const { user, loading } = useAuth();
+  const currentUserGeolocation = useCurrentUserGeolocation();
 
   useEffect(() => {
     getGeolocation()
@@ -43,6 +48,8 @@ const Home: NextPage = () => {
   const handleUserClick = (location: Geolocation) =>
     setSelectedLocation(location);
 
+  const showBanner = !currentUserGeolocation?.geolocationCoords.allowLocation;
+
   return (
     <Wrapper>
       <Head>
@@ -52,22 +59,30 @@ const Home: NextPage = () => {
       </Head>
 
       <main>
-        <Grid container>
-          <Grid item xs={12} sm={6} lg={3}>
-            <UsersListContainer
-              geolocation={geolocation}
-              onUserClick={handleUserClick}
-            />
+        {showBanner ? (
+          <Banner
+            title={t("dashboard.bannerTitle")}
+            buttonText={t("dashboard.bannerButtonText")}
+            buttonHref="/user/profile"
+          />
+        ) : (
+          <Grid container>
+            <Grid item xs={12} sm={6} lg={3}>
+              <UsersListContainer
+                geolocation={geolocation}
+                onUserClick={handleUserClick}
+              />
+            </Grid>
+            <Grid item xs={12} sm={6} lg={9}>
+              <MapBoxContainer
+                markers={markers}
+                map={map}
+                onSetMap={setMap}
+                selectedLocation={selectedLocation}
+              />
+            </Grid>
           </Grid>
-          <Grid item xs={12} sm={6} lg={9}>
-            <MapBoxContainer
-              markers={markers}
-              map={map}
-              onSetMap={setMap}
-              selectedLocation={selectedLocation}
-            />
-          </Grid>
-        </Grid>
+        )}
       </main>
     </Wrapper>
   );

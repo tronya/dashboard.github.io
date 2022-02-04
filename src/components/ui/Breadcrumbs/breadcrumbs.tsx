@@ -27,7 +27,7 @@ const Breadcrumbs: FC<BreadcrumbsProps> = ({
       href="/"
       onClick={() => router.push("/")}
     >
-      {t("dashboard")}
+      {t("dashboard.title")}
     </Link>,
     ...(otherBreadcrumbs ?? []),
     <Typography key={breadcrumbText} color="text.primary">

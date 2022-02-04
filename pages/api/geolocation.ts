@@ -1,7 +1,10 @@
 import { collection, doc, getDocs, setDoc } from "firebase/firestore";
 import { DB } from "../../src/firebase";
 import { AuthUserContextProps } from "../../src/models/auth.model";
-import { Geolocation } from "../../src/models/geolocation.model";
+import {
+  Geolocation,
+  GeolocationCoords,
+} from "../../src/models/geolocation.model";
 
 export const getGeolocationCollection = async () =>
   await getDocs(collection(DB, "geolocation"));
@@ -29,7 +32,7 @@ export const setUserGeolocation = async (
     return null;
   }
 
-  const geolocationCoords: GeolocationPosition = {
+  const geolocationCoords: GeolocationCoords = {
     coords: {
       accuracy: navigator.coords.accuracy,
       altitude: navigator.coords.altitude,
@@ -40,6 +43,7 @@ export const setUserGeolocation = async (
       speed: navigator.coords.speed,
     },
     timestamp: navigator.timestamp,
+    allowLocation: true,
   };
 
   return await setDoc(doc(DB, "geolocation", auth.user.uid), {

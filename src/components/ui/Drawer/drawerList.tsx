@@ -31,9 +31,12 @@ const DrawerList: FC = () => {
             key={element.text}
           >
             <ListItemIcon>
-              <PermIdentityIcon sx={{ color: "white" }} />
+              <PermIdentityIcon sx={{ color: "common.white" }} />
             </ListItemIcon>
-            <ListItemText primary={element.text} sx={{ color: "white" }} />
+            <ListItemText
+              primary={element.text}
+              sx={{ color: "common.white" }}
+            />
           </ListItem>
         ))}
       </List>

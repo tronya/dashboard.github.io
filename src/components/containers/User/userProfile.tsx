@@ -1,11 +1,11 @@
 import { Avatar, Box, Button, Paper, Typography } from "@mui/material";
 import { FC, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { NO_PROFILE_IMAGE_URL } from "../../../constants";
 import useCurrentUserGeolocation from "../../../hooks/useCurrentUserGeolocation";
 import { NavigationProvider } from "../../../hooks/useNavigation";
 import { useAuth } from "../../../hooks/useUser";
 import Breadcrumbs from "../../ui/Breadcrumbs/breadcrumbs";
+import { stringAvatar } from "../../../utils/user";
 
 const UserProfile: FC = () => {
   const { t } = useTranslation();
@@ -30,8 +30,9 @@ const UserProfile: FC = () => {
             {user.displayName && user.photoURL && (
               <Avatar
                 alt={user.displayName}
-                src={user.photoURL ?? NO_PROFILE_IMAGE_URL}
-                sx={{ width: 120, height: 120 }}
+                src={user.photoURL}
+                {...(stringAvatar(user.displayName),
+                { width: 120, height: 120 })}
               />
             )}
             <Box

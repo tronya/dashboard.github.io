@@ -14,7 +14,7 @@ import { useTranslation } from "react-i18next";
 import Drawer from "../Drawer/drawer";
 import { useAuth } from "../../../hooks/useUser";
 import { useRouter } from "next/router";
-import { NO_PROFILE_IMAGE_URL } from "../../../constants";
+import { stringAvatar } from "../../../utils/user";
 
 interface HeaderProps {
   toggleDrawer: () => void;
@@ -89,7 +89,8 @@ const Header: FC<HeaderProps> = ({ toggleDrawer, open }) => {
               >
                 <Avatar
                   alt={user.displayName}
-                  src={user.photoURL ?? NO_PROFILE_IMAGE_URL}
+                  src={user.photoURL}
+                  {...stringAvatar(user.displayName)}
                 />
               </IconButton>
             </Tooltip>

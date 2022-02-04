@@ -13,6 +13,7 @@ import Localization from "../Localization/localization";
 import { useTranslation } from "react-i18next";
 import Drawer from "../Drawer/drawer";
 import { useAuth } from "../../../hooks/useUser";
+import { useRouter } from "next/router";
 
 interface HeaderProps {
   toggleDrawer: () => void;
@@ -22,6 +23,7 @@ interface HeaderProps {
 const Header: FC<HeaderProps> = ({ toggleDrawer, open }) => {
   const { t } = useTranslation();
   const { user } = useAuth();
+  const router = useRouter();
 
   const [openUserDrawer, setOpenUserDrawer] = useState(false);
 
@@ -37,6 +39,11 @@ const Header: FC<HeaderProps> = ({ toggleDrawer, open }) => {
 
       setOpenUserDrawer(open);
     };
+
+  const handleClick = (event: MouseEvent<HTMLHeadingElement>) => {
+    event.preventDefault();
+    router.push("/");
+  };
 
   return (
     <>
@@ -63,7 +70,8 @@ const Header: FC<HeaderProps> = ({ toggleDrawer, open }) => {
             variant="h6"
             color="inherit"
             noWrap
-            sx={{ flexGrow: 1 }}
+            sx={{ flexGrow: 1, cursor: "pointer" }}
+            onClick={handleClick}
           >
             {t("dashboard")}
           </Typography>

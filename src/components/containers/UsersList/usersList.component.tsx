@@ -11,9 +11,9 @@ import { FC } from "react";
 import { UserListEmpty } from "./userList.empty";
 import { green, grey } from "@mui/material/colors";
 import { Geolocation } from "../../../models/geolocation.model";
-import { getAuth } from "firebase/auth";
 import { StyledList } from "./userList.styled";
 import { getUserStatus } from "../../../utils/user";
+import { useAuth } from "../../../hooks/useUser";
 
 interface ListWrapperProps {
   geolocation: Geolocation[];
@@ -24,7 +24,7 @@ export const UsersList: FC<ListWrapperProps> = ({
   geolocation,
   onUserClick,
 }) => {
-  const authUser = getAuth().currentUser;
+  const { user: authUser } = useAuth();
 
   if (!geolocation.length) {
     return <UserListEmpty count={6} />;

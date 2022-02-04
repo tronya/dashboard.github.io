@@ -4,7 +4,12 @@ import { getGeolocation } from "../../pages/api/geolocation";
 import { Geolocation } from "../../src/models/geolocation.model";
 import { useAuth } from "./useUser";
 
-const useCurrentUserGeolocation = (): Geolocation | undefined => {
+interface useCurrentUserGeolocationProps {
+  user: Geolocation | undefined;
+  isLocationAllowed: boolean;
+}
+
+const useCurrentUserGeolocation = (): useCurrentUserGeolocationProps => {
   const [geolocation, setGeolocation] = useState<Geolocation[]>([]);
   const { user } = useAuth();
 
@@ -18,7 +23,10 @@ const useCurrentUserGeolocation = (): Geolocation | undefined => {
     (location) => location.user.uid === user?.uid
   );
 
-  return currentUserGeolocation;
+  const isLocationAllowed =
+    currentUserGeolocation?.geolocationCoords.allowLocation ?? false;
+
+  return { user: currentUserGeolocation, isLocationAllowed };
 };
 
 export default useCurrentUserGeolocation;

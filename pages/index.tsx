@@ -27,7 +27,7 @@ const Home: NextPage = () => {
   const markers = useMarkers(map);
   const { t } = useTranslation();
   const { user, loading } = useAuth();
-  const currentUserGeolocation = useCurrentUserGeolocation();
+  const { isLocationAllowed } = useCurrentUserGeolocation();
 
   useEffect(() => {
     getGeolocation()
@@ -48,8 +48,6 @@ const Home: NextPage = () => {
   const handleUserClick = (location: Geolocation) =>
     setSelectedLocation(location);
 
-  const showBanner = !currentUserGeolocation?.geolocationCoords.allowLocation;
-
   return (
     <Wrapper>
       <Head>
@@ -59,7 +57,7 @@ const Home: NextPage = () => {
       </Head>
 
       <main>
-        {showBanner ? (
+        {!isLocationAllowed ? (
           <Banner
             title={t("dashboard.bannerTitle")}
             buttonText={t("dashboard.bannerButtonText")}

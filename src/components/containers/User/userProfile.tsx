@@ -9,16 +9,13 @@ import Breadcrumbs from "../../ui/Breadcrumbs/breadcrumbs";
 const UserProfile: FC = () => {
   const { t } = useTranslation();
   const { user } = useAuth();
-  const currentUserGeolocation = useCurrentUserGeolocation();
+  const { isLocationAllowed } = useCurrentUserGeolocation();
 
   const [acceptLocation, setAcceptLocation] = useState(false);
 
-  if (!user || !currentUserGeolocation) {
+  if (!user) {
     return null;
   }
-
-  const showLocationButton =
-    !currentUserGeolocation.geolocationCoords.allowLocation;
 
   return (
     <NavigationProvider acceptLocation={acceptLocation}>
@@ -51,7 +48,7 @@ const UserProfile: FC = () => {
             </Box>
           </Box>
         </Paper>
-        {showLocationButton && (
+        {!isLocationAllowed && (
           <Box width={1} mt={2}>
             <Button
               variant="contained"

@@ -1,6 +1,7 @@
-import { Avatar, Box, Grid, Paper, Typography } from "@mui/material";
+import { Avatar, Box, Paper, Typography } from "@mui/material";
 import { useTranslation } from "react-i18next";
 import { useAuth } from "../../../hooks/useUser";
+import Breadcrumbs from "../../ui/Breadcrumbs/breadcrumbs";
 
 const UserProfile = () => {
   const { t } = useTranslation();
@@ -12,7 +13,10 @@ const UserProfile = () => {
 
   return (
     <>
-      <Typography variant="h4">{t("profile")}</Typography>
+      <Breadcrumbs breadcrumbText={t("profile")} />
+      <Box py={2}>
+        <Typography variant="h4">{t("profile")}</Typography>
+      </Box>
       <Paper sx={{ mt: 2 }}>
         <Box display="flex" flexDirection="column" p={6} alignItems="center">
           {user.displayName && user.photoURL && (

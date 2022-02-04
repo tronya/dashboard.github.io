@@ -1,9 +1,10 @@
 import { Avatar, Box, Paper, Typography } from "@mui/material";
+import { FC } from "react";
 import { useTranslation } from "react-i18next";
 import { useAuth } from "../../../hooks/useUser";
 import Breadcrumbs from "../../ui/Breadcrumbs/breadcrumbs";
 
-const UserProfile = () => {
+const UserProfile: FC = () => {
   const { t } = useTranslation();
   const { user } = useAuth();
 

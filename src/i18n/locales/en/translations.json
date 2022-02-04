@@ -7,5 +7,13 @@
   "profile": {
     "title": "Profile",
     "allowLocationButtonText": "ALLOW TO USE YOUR LOCATION"
+  },
+  "drawer": {
+    "signOutButtonText": "SIGH OUT"
+  },
+  "toastSuccess": {
+    "logIn": "You successfully log in!",
+    "logOut": "You successfully log out!",
+    "acceptGeolocation": "Geolocation was successfully accepted!"
   }
 }

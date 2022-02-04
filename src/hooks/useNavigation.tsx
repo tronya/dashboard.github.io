@@ -1,11 +1,14 @@
 import { useRouter } from "next/router";
 import { FC, useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
 import { toast } from "react-toastify";
 import { setUserGeolocation } from "../../pages/api/geolocation";
 import { useAuth } from "./useUser";
 
 export const useNavigation = (acceptLocation: boolean) => {
   const router = useRouter();
+  const { t } = useTranslation();
+
   const [geolocation, setGeolocation] = useState<GeolocationPosition>();
 
   useEffect(() => {
@@ -13,7 +16,7 @@ export const useNavigation = (acceptLocation: boolean) => {
       navigator.geolocation.getCurrentPosition(
         (success: GeolocationPosition) => {
           setGeolocation(success);
-          toast.success("Geolocation was successfully accepted!");
+          toast.success(t("toastSuccess.acceptGeolocation"));
           router.push("/");
         },
         (error: GeolocationPositionError) => {
@@ -21,7 +24,7 @@ export const useNavigation = (acceptLocation: boolean) => {
         }
       );
     }
-  }, [acceptLocation, router]);
+  }, [acceptLocation, router, t]);
 
   return geolocation;
 };

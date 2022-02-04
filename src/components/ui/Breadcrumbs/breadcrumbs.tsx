@@ -4,6 +4,7 @@ import {
   Typography,
 } from "@mui/material";
 import { useRouter } from "next/router";
+import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 import { FC } from "react";
 import { useTranslation } from "react-i18next";
 
@@ -36,7 +37,10 @@ const Breadcrumbs: FC<BreadcrumbsProps> = ({
   ];
 
   return (
-    <BreadcrumbsComponent separator="›" aria-label="breadcrumb">
+    <BreadcrumbsComponent
+      separator={<ChevronRightIcon />}
+      aria-label="breadcrumb"
+    >
       {breadcrumbs}
     </BreadcrumbsComponent>
   );

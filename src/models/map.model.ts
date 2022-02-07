@@ -5,6 +5,7 @@ export interface GeoJSONObject {
     description: string;
     iconSize: number[];
     backgroundImage: string;
+    displayName: string;
   };
   geometry: {
     type: string;

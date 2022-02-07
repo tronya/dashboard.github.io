@@ -5,6 +5,7 @@ import useCurrentUserGeolocation from "../../../hooks/useCurrentUserGeolocation"
 import { NavigationProvider } from "../../../hooks/useNavigation";
 import { useAuth } from "../../../hooks/useUser";
 import Breadcrumbs from "../../ui/Breadcrumbs/breadcrumbs";
+import { stringAvatar } from "../../../utils/user";
 
 const UserProfile: FC = () => {
   const { t } = useTranslation();
@@ -30,7 +31,8 @@ const UserProfile: FC = () => {
               <Avatar
                 alt={user.displayName}
                 src={user.photoURL}
-                sx={{ width: 120, height: 120 }}
+                {...(stringAvatar(user.displayName),
+                { width: 120, height: 120 })}
               />
             )}
             <Box

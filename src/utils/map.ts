@@ -10,6 +10,7 @@ export const returnGeoJSONArray = (
       description: location.user.displayName,
       iconSize: [40, 40],
       backgroundImage: location.user.photoURL,
+      displayName: location.user.displayName,
     },
     geometry: {
       type: "Point",

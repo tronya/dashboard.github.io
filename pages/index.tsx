@@ -4,7 +4,7 @@ import { toast } from "react-toastify";
 import { Box, Grid, Tooltip, Typography } from "@mui/material";
 import UsersListContainer from "../src/components/containers/UsersList/usersList.container";
 import { useRouter } from "next/router";
-import { useEffect, useState } from "react";
+import { ReactChild, useEffect, useState } from "react";
 import Loader from "../src/components/ui/Loader/loader";
 import Wrapper from "../src/components/ui/Wrapper/wrapper";
 import { useAuth } from "../src/hooks/useUser";
@@ -39,7 +39,8 @@ const Home: NextPage = () => {
   const markers = useMarkers(map, favoritesUsers);
   const { t } = useTranslation();
   const { user, loading } = useAuth();
-  const { isLocationAllowed } = useCurrentUserGeolocation();
+  const { isLocationAllowed, user: currentUserGeolocation } =
+    useCurrentUserGeolocation();
 
   useEffect(() => {
     getGeolocation()
@@ -49,11 +50,14 @@ const Home: NextPage = () => {
 
   useEffect(() => {
     getFavorites()
-      .then((result) =>
-        setFavorites(
-          result.find((favorite: any) => user?.uid === favorite.id)?.users
-        )
-      )
+      .then((result) => {
+        const favoritesUsers = result.find(
+          (favorite) => user?.uid === favorite.id
+        )?.users;
+        if (favoritesUsers) {
+          setFavorites(favoritesUsers);
+        }
+      })
       .catch((error) => toast.error(error));
   }, [user]);
 
@@ -63,7 +67,7 @@ const Home: NextPage = () => {
     }
   }, [user, loading, router]);
 
-  if (!user || !geolocation.length || !favorites?.length) {
+  if (!user || !geolocation.length || !favorites || !currentUserGeolocation) {
     return <Loader />;
   }
 
@@ -88,10 +92,12 @@ const Home: NextPage = () => {
         ) : (
           <Grid container>
             <Grid item xs={12} sm={6} lg={3}>
-              <Box display="flex" alignItems="center" py={2}>
-                <Typography variant="h4">People you follow</Typography>
+              <Box display="flex" alignItems="center" py={2} mr={2}>
+                <Typography variant="h4">
+                  {t("dashboard.peopleYouFollow")}
+                </Typography>
                 <Tooltip
-                  title="You can change it in Favorites Users page"
+                  title={t("dashboard.tooltip") as ReactChild}
                   placement="top"
                 >
                   <Box ml={1}>
@@ -100,7 +106,7 @@ const Home: NextPage = () => {
                 </Tooltip>
               </Box>
               <UsersListContainer
-                geolocation={favoritesUsers}
+                geolocation={[currentUserGeolocation, ...favoritesUsers]}
                 onUserClick={handleUserClick}
               />
             </Grid>

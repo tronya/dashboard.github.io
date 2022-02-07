@@ -25,13 +25,11 @@ const Favorites: FC<FavoritesProps> = ({
         <Typography variant="h4">{t("favorites.title")}</Typography>
       </Box>
       <Paper>
-        <Box>
-          <UsersList
-            geolocation={geolocation}
-            onUserClick={onUserClick}
-            favorites={favorites}
-          />
-        </Box>
+        <UsersList
+          geolocation={geolocation}
+          onUserClick={onUserClick}
+          favorites={favorites}
+        />
       </Paper>
     </>
   );

@@ -2,7 +2,9 @@
   "dashboard": {
     "title": "Dashboard",
     "bannerTitle": "You haven't allowed your location yet. Please, do this in your profile page by clicking on the button.",
-    "bannerButtonText": "USER PROFILE PAGE"
+    "bannerButtonText": "USER PROFILE PAGE",
+    "peopleYouFollow": "People you follow",
+    "tooltip": "You can change the list in the Favorites Users page"
   },
   "profile": {
     "title": "Profile",

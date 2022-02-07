@@ -26,9 +26,8 @@ const GroupsPage: FC = () => {
       <Grid container component="main">
         <Grid item>
           <Breadcrumbs breadcrumbText={t("titles.groups")} />
-          <Box>
-            <PageTitle title={t("titles.groups")} />
-          </Box>
+          <PageTitle title={t("titles.groups")} />
+
           <Box>
             <Link href="/groups/create" passHref>
               <Button variant="contained">{t("titles.groupsCreate")}</Button>

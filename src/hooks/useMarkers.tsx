@@ -1,23 +1,16 @@
 import mapboxgl from "mapbox-gl";
-import { useState, useEffect } from "react";
-import { toast } from "react-toastify";
-import { getGeolocation } from "../../pages/api/geolocation";
 import { Geolocation } from "../models/geolocation.model";
 import { Marker } from "../models/map.model";
 import { returnGeoJSONArray } from "../utils/map";
 import { getFirstUppercaseLetters } from "../utils/user";
 
-const useMarkers = (map: mapboxgl.Map | undefined): Marker[] => {
-  const [geolocation, setGeolocation] = useState<Geolocation[]>([]);
+const useMarkers = (
+  map: mapboxgl.Map | undefined,
+  favoritesUsers: Geolocation[]
+): Marker[] => {
   const markers: Marker[] = [];
 
-  useEffect(() => {
-    getGeolocation()
-      .then((result) => setGeolocation(result))
-      .catch((error) => toast.error(error));
-  }, []);
-
-  const geoJSONArray = returnGeoJSONArray(geolocation);
+  const geoJSONArray = returnGeoJSONArray(favoritesUsers);
 
   geoJSONArray.forEach((marker) => {
     const el = document.createElement("div");

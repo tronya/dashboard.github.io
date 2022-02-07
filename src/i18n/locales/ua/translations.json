@@ -8,6 +8,9 @@
     "title": "Профіль",
     "allowLocationButtonText": "ДОЗВОЛИТИ ВИКОРИСТОВУВАТИ ВАШУ ЛОКАЦІЮ"
   },
+  "favorites": {
+    "title": "Улюблені користувачі"
+  },
   "drawer": {
     "signOutButtonText": "ВИЙТИ"
   },

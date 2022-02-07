@@ -11,20 +11,26 @@ import { FC } from "react";
 import { UserListEmpty } from "./userList.empty";
 import { green, grey } from "@mui/material/colors";
 import { Geolocation } from "../../../models/geolocation.model";
-import { StyledList } from "./userList.styled";
+import { StyledBox, StyledList } from "./userList.styled";
 import { getUserStatus } from "../../../utils/user";
 import { useAuth } from "../../../hooks/useUser";
 import { stringAvatar } from "../../../utils/user";
+import StarBorderIcon from "@mui/icons-material/StarBorder";
+import StarIcon from "@mui/icons-material/Star";
+import { useRouter } from "next/router";
 
 interface ListWrapperProps {
   geolocation: Geolocation[];
   onUserClick: (location: Geolocation) => void;
+  favorites?: string[];
 }
 
 export const UsersList: FC<ListWrapperProps> = ({
   geolocation,
   onUserClick,
+  favorites,
 }) => {
+  const router = useRouter();
   const { user: authUser } = useAuth();
 
   if (!geolocation.length) {
@@ -40,12 +46,12 @@ export const UsersList: FC<ListWrapperProps> = ({
         const isCurrentUser = user.uid === authUser?.uid;
 
         return (
-          <Box
+          <StyledBox
             key={user.uid}
             onClick={() => onUserClick(location)}
             sx={{ cursor: "pointer" }}
           >
-            <ListItem alignItems="flex-start">
+            <ListItem alignItems="center">
               <ListItemAvatar>
                 <Avatar
                   alt={user.displayName}
@@ -77,11 +83,17 @@ export const UsersList: FC<ListWrapperProps> = ({
                   </Typography>
                 }
               />
+              {router.pathname === "/user/favorites" &&
+                (favorites?.find((el) => el === location.id) ? (
+                  <StarIcon sx={{ color: "warning.light" }} />
+                ) : (
+                  <StarBorderIcon sx={{ color: "white" }} />
+                ))}
             </ListItem>
             {lastUserUid !== user.uid && (
               <Divider variant="inset" component="li" />
             )}
-          </Box>
+          </StyledBox>
         );
       })}
     </StyledList>

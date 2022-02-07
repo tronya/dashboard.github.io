@@ -8,6 +8,9 @@
     "title": "Profile",
     "allowLocationButtonText": "ALLOW TO USE YOUR LOCATION"
   },
+  "favorites": {
+    "title": "Favorites Users"
+  },
   "drawer": {
     "signOutButtonText": "SIGH OUT"
   },

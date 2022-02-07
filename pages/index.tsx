@@ -1,7 +1,7 @@
 import type { NextPage } from "next";
 import Head from "next/head";
 import { toast } from "react-toastify";
-import { Grid } from "@mui/material";
+import { Box, Grid, Tooltip, Typography } from "@mui/material";
 import UsersListContainer from "../src/components/containers/UsersList/usersList.container";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
@@ -15,16 +15,28 @@ import { Geolocation } from "../src/models/geolocation.model";
 import Banner from "../src/components/ui/Banner/banner";
 import useCurrentUserGeolocation from "../src/hooks/useCurrentUserGeolocation";
 import { useTranslation } from "react-i18next";
+import { getFavorites } from "./api/favorites";
+import { isNotNullable } from "../src/utils/common";
+import HelpIcon from "@mui/icons-material/Help";
 
 const Home: NextPage = () => {
   const [map, setMap] = useState<mapboxgl.Map>();
+  const [favorites, setFavorites] = useState<string[]>([]);
   const [geolocation, setGeolocation] = useState<Geolocation[]>([]);
   const [selectedLocation, setSelectedLocation] = useState<Geolocation | null>(
     null
   );
 
+  const favoritesUsers = geolocation
+    .map((location) => {
+      if (favorites?.find((id) => id === location.id)) {
+        return location;
+      }
+    })
+    .filter(isNotNullable);
+
   const router = useRouter();
-  const markers = useMarkers(map);
+  const markers = useMarkers(map, favoritesUsers);
   const { t } = useTranslation();
   const { user, loading } = useAuth();
   const { isLocationAllowed } = useCurrentUserGeolocation();
@@ -36,12 +48,22 @@ const Home: NextPage = () => {
   }, []);
 
   useEffect(() => {
+    getFavorites()
+      .then((result) =>
+        setFavorites(
+          result.find((favorite: any) => user?.uid === favorite.id)?.users
+        )
+      )
+      .catch((error) => toast.error(error));
+  }, [user]);
+
+  useEffect(() => {
     if (!loading && !user) {
       router.push("/login");
     }
   }, [user, loading, router]);
 
-  if (!user || !geolocation.length) {
+  if (!user || !geolocation.length || !favorites?.length) {
     return <Loader />;
   }
 
@@ -66,8 +88,19 @@ const Home: NextPage = () => {
         ) : (
           <Grid container>
             <Grid item xs={12} sm={6} lg={3}>
+              <Box display="flex" alignItems="center" py={2}>
+                <Typography variant="h4">People you follow</Typography>
+                <Tooltip
+                  title="You can change it in Favorites Users page"
+                  placement="top"
+                >
+                  <Box ml={1}>
+                    <HelpIcon sx={{ width: 15, height: 15 }} />
+                  </Box>
+                </Tooltip>
+              </Box>
               <UsersListContainer
-                geolocation={geolocation}
+                geolocation={favoritesUsers}
                 onUserClick={handleUserClick}
               />
             </Grid>

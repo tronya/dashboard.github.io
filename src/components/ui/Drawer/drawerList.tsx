@@ -15,7 +15,10 @@ const DrawerList: FC = () => {
   const router = useRouter();
   const { t } = useTranslation();
 
-  const drawerList = [{ href: "/user/profile", text: t("profile.title") }];
+  const drawerList = [
+    { href: "/user/profile", text: t("profile.title") },
+    { href: "/user/favorites", text: t("favorites.title") },
+  ];
 
   const handleClick = (event: MouseEvent<HTMLAnchorElement>, href: string) => {
     event.preventDefault();

@@ -1,4 +1,14 @@
 {
+  "mainMenu": {
+    "groups": "Groups"
+  },
+  "titles":{
+    "groups": "Groups",
+    "groupsCreate": "Create Group"
+  },
+  "buttons":{
+    "create":"Create Group"
+  },
   "dashboard": {
     "title": "Dashboard",
     "bannerTitle": "You haven't allowed your location yet. Please, do this in your profile page by clicking on the button.",

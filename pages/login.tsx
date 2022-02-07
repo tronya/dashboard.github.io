@@ -19,13 +19,6 @@ const Login = () => {
       case "google":
         signInWithPopup(auth, googleProvider)
           .then((result) => {
-            const credential = GoogleAuthProvider.credentialFromResult(result);
-            if (credential?.accessToken) {
-              window.localStorage.setItem(
-                "accessToken",
-                credential.accessToken
-              );
-            }
             toast.success(t("toastSuccess.logIn"));
             router.push("/");
           })

@@ -12,7 +12,6 @@ const FavoritesPage: FC = () => {
   const { user } = useAuth();
 
   const [geolocation, setGeolocation] = useState<Geolocation[]>([]);
-  const [favoritesList, setFavoritesList] = useState<any[]>([]);
   const [favorites, setFavorites] = useState<string[]>([]);
 
   useEffect(() => {
@@ -24,45 +23,45 @@ const FavoritesPage: FC = () => {
   useEffect(() => {
     getFavorites()
       .then((result) => {
-        setFavoritesList(result);
         const favoritesUsers = result.find(
-          (favorite: any) => user?.uid === favorite.id
+          (favorite) => user?.uid === favorite.id
         )?.users;
-        setFavorites(favoritesUsers);
+        if (favoritesUsers) {
+          setFavorites(favoritesUsers);
+        }
       })
       .catch((error) => toast.error(error));
   }, [user]);
 
-  if (!geolocation.length || !user || !favoritesList.length) {
+  if (!geolocation.length || !user) {
     return <Loader />;
   }
 
+  const setFavoritesUsers = (favorites: string[]) => {
+    setFavorites(favorites);
+    setFavoritesToCollection(user.uid, favorites);
+  };
+
   const handleClick = (location: Geolocation) => {
     if (!favorites.some((alreadyFavorite) => alreadyFavorite === location.id)) {
-      const _favorites = [...favorites, location.id];
-      setFavorites(_favorites);
-      setFavoritesToCollection(user.uid, _favorites);
+      const newFavorites = [...favorites, location.id];
+      setFavoritesUsers(newFavorites);
     } else {
-      const _favorites = favorites.filter((id) => location.id !== id);
-      setFavorites(_favorites);
-      setFavoritesToCollection(user.uid, _favorites);
+      const newFavorites = favorites.filter((id) => location.id !== id);
+      setFavoritesUsers(newFavorites);
     }
-
-    geolocation.sort((a, b) => {
-      if (b.id === location.id) {
-        return 1;
-      } else if (a.id === location.id) {
-        return -1;
-      } else {
-        return 0;
-      }
-    });
   };
+
+  const sortedGeolocation = geolocation
+    .filter((location) => user.uid !== location.id)
+    .sort((a, b) =>
+      favorites?.includes(b.id) ? 1 : favorites?.includes(a.id) ? -1 : 0
+    );
 
   return (
     <Wrapper>
       <Favorites
-        geolocation={geolocation.filter((location) => user.uid !== location.id)}
+        geolocation={sortedGeolocation}
         onUserClick={handleClick}
         favorites={favorites}
       />

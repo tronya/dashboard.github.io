@@ -28,9 +28,16 @@ const GroupsPage: FC = () => {
       <PageTitle title={t("titles.groups")} />
       <Grid container justifyContent="center" sx={{ mt: 2 }}>
         <Grid item xs={12} sm={6}>
-          <Box sx={{ display: "flex", flexDirection: "row-reverse" }}>
+          <Box
+            sx={{
+              display: "flex",
+              flexDirection: "row-reverse",
+              mt: 2,
+              mb: 2,
+            }}
+          >
             <Link href="/groups/create" passHref>
-              <Button variant="contained">{t("titles.groupsCreate")}</Button>
+              <Button variant="contained">{t("titles.groupsСreate")}</Button>
             </Link>
           </Box>
           <GroupsList groups={groups} currentUser={user} />

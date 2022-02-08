@@ -1,6 +1,5 @@
 import {
   Box,
-  Paper,
   Table,
   TableBody,
   TableCell,
@@ -11,11 +10,13 @@ import {
 import { FC } from "react";
 import { GroupProps } from "../../../models/groups.model";
 import { AuthUser } from "../../../models/user.model";
+import { StyledTableCell } from "./GroupsList.styles";
 
 interface GroupList {
   groups: GroupProps[];
   currentUser: AuthUser | null;
 }
+
 export const GroupsList: FC<GroupList> = ({ groups, currentUser }) => {
   return (
     <Box>
@@ -23,9 +24,9 @@ export const GroupsList: FC<GroupList> = ({ groups, currentUser }) => {
         <Table aria-label="simple table">
           <TableHead>
             <TableRow>
-              <TableCell>Name</TableCell>
-              <TableCell align="right">Users in Group</TableCell>
-              <TableCell align="right">My Group</TableCell>
+              <StyledTableCell>Name</StyledTableCell>
+              <StyledTableCell align="right">Users in Group</StyledTableCell>
+              <StyledTableCell align="right">My Group</StyledTableCell>
             </TableRow>
           </TableHead>
           <TableBody>

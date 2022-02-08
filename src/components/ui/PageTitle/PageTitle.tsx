@@ -1,8 +1,8 @@
 import { Typography } from "@mui/material";
-import { FC } from "react";
-import { TFunction } from "react-i18next";
+import { FC, ReactNode } from "react";
+
 interface PageTitleProps {
-  title: string | any;
+  title: string | ReactNode;
 }
 const PageTitle: FC<PageTitleProps> = ({ title }) => {
   return (

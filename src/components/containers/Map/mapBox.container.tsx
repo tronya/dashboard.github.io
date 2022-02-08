@@ -1,76 +1,42 @@
 import mapboxgl, { LngLatLike } from "mapbox-gl";
 import "mapbox-gl/dist/mapbox-gl.css";
-import {
-  createElement,
-  Dispatch,
-  FC,
-  SetStateAction,
-  useEffect,
-  useRef,
-} from "react";
-import { useNavigation } from "../../../hooks/useNavigation";
+import { createElement, FC, useEffect } from "react";
 import { Marker } from "../../../models/map.model";
 import { Geolocation } from "../../../models/geolocation.model";
 import MapBox from "./mapBox.component";
 import { createMarkersOnMap } from "../../../utils/map";
+import useMap from "../../../hooks/useMap";
 
 interface MapBoxContainerProps {
   markers?: Marker[];
-  map: mapboxgl.Map | undefined;
-  onSetMap: Dispatch<SetStateAction<mapboxgl.Map | undefined>>;
   selectedLocation: Geolocation | null;
 }
 
 const MapBoxContainer: FC<MapBoxContainerProps> = (props) => {
-  const { map, onSetMap, markers, selectedLocation } = props;
-  const navigation = useNavigation();
-  const mapNode = useRef<HTMLDivElement>(null);
-  const center: LngLatLike = [
-    navigation?.coords.longitude ?? 24.065285,
-    navigation?.coords.latitude ?? 49.8138699,
-  ];
+  const { markers, selectedLocation } = props;
+  const { mapboxMap, mapNode } = useMap();
 
   useEffect(() => {
-    const node = mapNode.current;
+    if (mapboxMap) {
+      mapboxMap.addControl(
+        new mapboxgl.GeolocateControl({
+          positionOptions: {
+            enableHighAccuracy: true,
+          },
+          trackUserLocation: true,
+          showUserHeading: true,
+        })
+      );
 
-    if (typeof window === "undefined" || node === null) {
-      return;
+      return () => {
+        mapboxMap.remove();
+      };
     }
-
-    const mapboxMap = new mapboxgl.Map({
-      container: node,
-      accessToken: process.env.NEXT_PUBLIC_MAPBOX_TOKEN,
-      style: "mapbox://styles/mapbox/streets-v11",
-      center,
-      zoom: 11,
-    });
-
-    if (markers?.length) {
-      for (const marker of markers) {
-        createMarkersOnMap(marker, mapboxMap);
-      }
-    }
-
-    mapboxMap.addControl(
-      new mapboxgl.GeolocateControl({
-        positionOptions: {
-          enableHighAccuracy: true,
-        },
-        trackUserLocation: true,
-        showUserHeading: true,
-      })
-    );
-
-    onSetMap(mapboxMap);
-
-    return () => {
-      mapboxMap.remove();
-    };
-  }, []);
+  }, [mapboxMap]);
 
   useEffect(() => {
-    if (selectedLocation && map) {
-      map.flyTo({
+    if (selectedLocation && mapboxMap) {
+      mapboxMap.flyTo({
         center: [
           selectedLocation?.geolocationCoords.coords.longitude,
           selectedLocation?.geolocationCoords.coords.latitude,
@@ -79,7 +45,15 @@ const MapBoxContainer: FC<MapBoxContainerProps> = (props) => {
         zoom: 14,
       });
     }
-  }, [map, selectedLocation]);
+  }, [mapboxMap, selectedLocation]);
+
+  useEffect(() => {
+    if (markers?.length && mapboxMap) {
+      for (const marker of markers) {
+        createMarkersOnMap(marker, mapboxMap);
+      }
+    }
+  }, [mapboxMap, markers]);
 
   return createElement(MapBox, {
     mapNode,

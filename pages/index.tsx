@@ -20,7 +20,6 @@ import { isNotNullable } from "../src/utils/common";
 import HelpIcon from "@mui/icons-material/Help";
 
 const Home: NextPage = () => {
-  const [map, setMap] = useState<mapboxgl.Map>();
   const [favorites, setFavorites] = useState<string[]>([]);
   const [geolocation, setGeolocation] = useState<Geolocation[]>([]);
   const [selectedLocation, setSelectedLocation] = useState<Geolocation | null>(
@@ -114,8 +113,6 @@ const Home: NextPage = () => {
             <Grid item xs={12} sm={6} lg={9}>
               <MapBoxContainer
                 markers={markers}
-                map={map}
-                onSetMap={setMap}
                 selectedLocation={selectedLocation}
               />
             </Grid>

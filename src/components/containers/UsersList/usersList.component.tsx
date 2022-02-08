@@ -5,32 +5,28 @@ import {
   ListItemText,
   Typography,
   Divider,
-  Box,
 } from "@mui/material";
 import { FC } from "react";
 import { UserListEmpty } from "./userList.empty";
 import { green, grey } from "@mui/material/colors";
 import { Geolocation } from "../../../models/geolocation.model";
-import { StyledBox, StyledList } from "./userList.styled";
+import { Box, StyledList } from "./userList.styled";
 import { getUserStatus } from "../../../utils/user";
 import { useAuth } from "../../../hooks/useUser";
 import { stringAvatar } from "../../../utils/user";
-import StarBorderIcon from "@mui/icons-material/StarBorder";
-import StarIcon from "@mui/icons-material/Star";
-import { useRouter } from "next/router";
 
 interface ListWrapperProps {
   geolocation: Geolocation[];
   onUserClick: (location: Geolocation) => void;
   favorites?: string[];
+  starIcon?: (id: string) => void;
 }
 
 export const UsersList: FC<ListWrapperProps> = ({
   geolocation,
   onUserClick,
-  favorites,
+  starIcon,
 }) => {
-  const router = useRouter();
   const { user: authUser } = useAuth();
 
   if (!geolocation.length) {
@@ -46,7 +42,7 @@ export const UsersList: FC<ListWrapperProps> = ({
         const isCurrentUser = user.uid === authUser?.uid;
 
         return (
-          <StyledBox
+          <Box
             key={user.uid}
             onClick={() => onUserClick(location)}
             sx={{ cursor: "pointer" }}
@@ -83,17 +79,12 @@ export const UsersList: FC<ListWrapperProps> = ({
                   </Typography>
                 }
               />
-              {router.pathname === "/user/favorites" &&
-                (favorites?.find((el) => el === location.id) ? (
-                  <StarIcon sx={{ color: "warning.light" }} />
-                ) : (
-                  <StarBorderIcon sx={{ color: "white" }} />
-                ))}
+              {starIcon && starIcon(location.id)}
             </ListItem>
             {lastUserUid !== user.uid && (
               <Divider variant="inset" component="li" />
             )}
-          </StyledBox>
+          </Box>
         );
       })}
     </StyledList>

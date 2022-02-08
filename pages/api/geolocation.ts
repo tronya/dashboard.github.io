@@ -4,20 +4,22 @@ import { AuthUserContextProps } from "../../src/models/auth.model";
 import {
   Geolocation,
   GeolocationCoords,
+  UsersGeolocationProps,
 } from "../../src/models/geolocation.model";
+import { User } from "../../src/models/user.model";
 
 export const getGeolocationCollection = async () =>
   await getDocs(collection(DB, "geolocation"));
 
-export const getGeolocation = () =>
-  getGeolocationCollection().then((geolocation) => {
-    const result: Geolocation[] = [];
+export const getGeolocation = async () =>
+  await getGeolocationCollection().then((geolocation) => {
+    const result: UsersGeolocationProps[] = [];
 
     geolocation.forEach((location) => {
-      const geolocation: Geolocation = {
+      const geolocation: UsersGeolocationProps = {
         id: location.id,
         ...location.data(),
-      } as Geolocation;
+      } as UsersGeolocationProps;
       result.push(geolocation);
     });
 
@@ -46,8 +48,12 @@ export const setUserGeolocation = async (
     allowLocation: true,
   };
 
-  return await setDoc(doc(DB, "geolocation", auth.user.uid), {
-    geolocationCoords,
-    user: auth.user,
-  });
+  return await setDoc(
+    doc(DB, "geolocation", auth.user.uid),
+    {
+      geolocationCoords,
+      user: auth.user,
+    },
+    { merge: true }
+  );
 };

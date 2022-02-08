@@ -4,6 +4,8 @@ import { useTranslation } from "react-i18next";
 import Breadcrumbs from "../../ui/Breadcrumbs/breadcrumbs";
 import { UsersList } from "../UsersList/usersList.component";
 import { Geolocation } from "../../../models/geolocation.model";
+import StarBorderIcon from "@mui/icons-material/StarBorder";
+import StarIcon from "@mui/icons-material/Star";
 
 interface FavoritesProps {
   geolocation: Geolocation[];
@@ -18,6 +20,13 @@ const Favorites: FC<FavoritesProps> = ({
 }) => {
   const { t } = useTranslation();
 
+  const renderStarIcon = (id: string) =>
+    favorites?.find((el) => el === id) ? (
+      <StarIcon sx={{ color: "warning.light" }} />
+    ) : (
+      <StarBorderIcon sx={{ color: "white" }} />
+    );
+
   return (
     <>
       <Breadcrumbs breadcrumbText={t("favorites.title")} />
@@ -28,7 +37,7 @@ const Favorites: FC<FavoritesProps> = ({
         <UsersList
           geolocation={geolocation}
           onUserClick={onUserClick}
-          favorites={favorites}
+          starIcon={renderStarIcon}
         />
       </Paper>
     </>

@@ -12,6 +12,7 @@ import { useNavigation } from "../../../hooks/useNavigation";
 import { Marker } from "../../../models/map.model";
 import { Geolocation } from "../../../models/geolocation.model";
 import MapBox from "./mapBox.component";
+import { createMarkersOnMap } from "../../../utils/map";
 
 interface MapBoxContainerProps {
   markers?: Marker[];
@@ -46,9 +47,7 @@ const MapBoxContainer: FC<MapBoxContainerProps> = (props) => {
 
     if (markers?.length) {
       for (const marker of markers) {
-        new mapboxgl.Marker(marker.popup)
-          .setLngLat(marker.marker.geometry.coordinates)
-          .addTo(mapboxMap);
+        createMarkersOnMap(marker, mapboxMap);
       }
     }
 

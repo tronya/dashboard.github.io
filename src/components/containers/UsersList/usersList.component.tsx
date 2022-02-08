@@ -5,13 +5,12 @@ import {
   ListItemText,
   Typography,
   Divider,
-  Box,
 } from "@mui/material";
 import { FC } from "react";
 import { UserListEmpty } from "./userList.empty";
 import { green, grey } from "@mui/material/colors";
 import { Geolocation } from "../../../models/geolocation.model";
-import { StyledList } from "./userList.styled";
+import { Box, StyledList } from "./userList.styled";
 import { getUserStatus } from "../../../utils/user";
 import { useAuth } from "../../../hooks/useUser";
 import { stringAvatar } from "../../../utils/user";
@@ -19,11 +18,14 @@ import { stringAvatar } from "../../../utils/user";
 interface ListWrapperProps {
   geolocation: Geolocation[];
   onUserClick: (location: Geolocation) => void;
+  favorites?: string[];
+  starIcon?: (id: string) => void;
 }
 
 export const UsersList: FC<ListWrapperProps> = ({
   geolocation,
   onUserClick,
+  starIcon,
 }) => {
   const { user: authUser } = useAuth();
 
@@ -45,7 +47,7 @@ export const UsersList: FC<ListWrapperProps> = ({
             onClick={() => onUserClick(location)}
             sx={{ cursor: "pointer" }}
           >
-            <ListItem alignItems="flex-start">
+            <ListItem alignItems="center">
               <ListItemAvatar>
                 <Avatar
                   alt={user.displayName}
@@ -77,6 +79,7 @@ export const UsersList: FC<ListWrapperProps> = ({
                   </Typography>
                 }
               />
+              {starIcon && starIcon(location.id)}
             </ListItem>
             {lastUserUid !== user.uid && (
               <Divider variant="inset" component="li" />

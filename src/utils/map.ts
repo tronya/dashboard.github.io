@@ -1,5 +1,5 @@
-import { LngLatLike } from "mapbox-gl";
-import { GeoJSONObject } from "../models/map.model";
+import mapboxgl from "mapbox-gl";
+import { GeoJSONObject, Marker } from "../models/map.model";
 import { Geolocation } from "../models/geolocation.model";
 
 export const returnGeoJSONArray = (
@@ -20,3 +20,27 @@ export const returnGeoJSONArray = (
       ],
     },
   }));
+
+export const createMarkersOnMap = (marker: Marker, map: mapboxgl.Map) => {
+  const popup = new mapboxgl.Popup({
+    closeButton: false,
+    closeOnClick: false,
+  });
+
+  marker.popup.addEventListener("mouseenter", () => {
+    marker.popup.style.cursor = "pointer";
+    popup
+      .setLngLat(marker.marker.geometry.coordinates)
+      .setHTML(marker.marker.properties.description)
+      .addTo(map);
+  });
+
+  marker.popup.addEventListener("mouseleave", () => {
+    marker.popup.style.cursor = "";
+    popup.remove();
+  });
+
+  new mapboxgl.Marker(marker.popup)
+    .setLngLat(marker.marker.geometry.coordinates)
+    .addTo(map);
+};

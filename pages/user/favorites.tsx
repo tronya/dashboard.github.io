@@ -6,7 +6,9 @@ import Wrapper from "../../src/components/ui/Wrapper/wrapper";
 import { getGeolocation } from "../api/geolocation";
 import { Geolocation } from "../../src/models/geolocation.model";
 import { useAuth } from "../../src/hooks/useUser";
-import { getFavorites, setFavoritesToCollection } from "../api/favorites";
+import { setFavoritesToCollection } from "../api/favorites";
+import { query, collection, where, onSnapshot } from "firebase/firestore";
+import { DB } from "../../src/firebase";
 
 const FavoritesPage: FC = () => {
   const { user } = useAuth();
@@ -21,16 +23,17 @@ const FavoritesPage: FC = () => {
   }, []);
 
   useEffect(() => {
-    getFavorites()
-      .then((result) => {
-        const favoritesUsers = result.find(
-          (favorite) => user?.uid === favorite.id
-        )?.users;
-        if (favoritesUsers) {
-          setFavorites(favoritesUsers);
-        }
-      })
-      .catch((error) => toast.error(error));
+    if (user?.uid) {
+      const q = query(
+        collection(DB, "favorites"),
+        where("id", "==", user?.uid)
+      );
+      onSnapshot(q, (snapshot) => {
+        snapshot.forEach((userSnapshot) => {
+          setFavorites(userSnapshot.data().users);
+        });
+      });
+    }
   }, [user]);
 
   if (!geolocation.length || !user) {

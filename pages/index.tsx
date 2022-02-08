@@ -15,9 +15,10 @@ import { Geolocation } from "../src/models/geolocation.model";
 import Banner from "../src/components/ui/Banner/banner";
 import useCurrentUserGeolocation from "../src/hooks/useCurrentUserGeolocation";
 import { useTranslation } from "react-i18next";
-import { getFavorites } from "./api/favorites";
 import { isNotNullable } from "../src/utils/common";
 import HelpIcon from "@mui/icons-material/Help";
+import { collection, where, query, onSnapshot } from "firebase/firestore";
+import { DB } from "../src/firebase";
 
 const Home: NextPage = () => {
   const [map, setMap] = useState<mapboxgl.Map>();
@@ -50,16 +51,17 @@ const Home: NextPage = () => {
   }, []);
 
   useEffect(() => {
-    getFavorites()
-      .then((result) => {
-        const favoritesUsers = result.find(
-          (favorite) => user?.uid === favorite.id
-        )?.users;
-        if (favoritesUsers) {
-          setFavorites(favoritesUsers);
-        }
-      })
-      .catch((error) => toast.error(error));
+    if (user?.uid) {
+      const q = query(
+        collection(DB, "favorites"),
+        where("id", "==", user?.uid)
+      );
+      onSnapshot(q, (snapshot) => {
+        snapshot.forEach((userSnapshot) => {
+          setFavorites(userSnapshot.data().users);
+        });
+      });
+    }
   }, [user]);
 
   useEffect(() => {

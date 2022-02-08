@@ -1,4 +1,5 @@
-import { Box, List } from "@mui/material";
+import { Box as BoxComponent, List } from "@mui/material";
+import { orange } from "@mui/material/colors";
 import styled from "styled-components";
 
 export const StyledList = styled(List)`
@@ -7,11 +8,11 @@ export const StyledList = styled(List)`
   }
 `;
 
-export const StyledBox = styled(Box)`
+export const Box = styled(BoxComponent)`
   &:hover {
     li {
       svg {
-        color: #f9992c;
+        color: ${orange[500]};
       }
     }
   }

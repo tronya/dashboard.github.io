@@ -10,7 +10,7 @@ import { FC } from "react";
 import { UserListEmpty } from "./userList.empty";
 import { green, grey } from "@mui/material/colors";
 import { Geolocation } from "../../../models/geolocation.model";
-import { StyledBox, StyledList } from "./userList.styled";
+import { Box, StyledList } from "./userList.styled";
 import { getUserStatus } from "../../../utils/user";
 import { useAuth } from "../../../hooks/useUser";
 import { stringAvatar } from "../../../utils/user";
@@ -42,7 +42,7 @@ export const UsersList: FC<ListWrapperProps> = ({
         const isCurrentUser = user.uid === authUser?.uid;
 
         return (
-          <StyledBox
+          <Box
             key={user.uid}
             onClick={() => onUserClick(location)}
             sx={{ cursor: "pointer" }}
@@ -84,7 +84,7 @@ export const UsersList: FC<ListWrapperProps> = ({
             {lastUserUid !== user.uid && (
               <Divider variant="inset" component="li" />
             )}
-          </StyledBox>
+          </Box>
         );
       })}
     </StyledList>

@@ -6,6 +6,7 @@ import { UsersList } from "../UsersList/usersList.component";
 import { Geolocation } from "../../../models/geolocation.model";
 import StarBorderIcon from "@mui/icons-material/StarBorder";
 import StarIcon from "@mui/icons-material/Star";
+import { orange } from "@mui/material/colors";
 
 interface FavoritesProps {
   geolocation: Geolocation[];
@@ -22,7 +23,7 @@ const Favorites: FC<FavoritesProps> = ({
 
   const renderStarIcon = (id: string) =>
     favorites?.find((el) => el === id) ? (
-      <StarIcon sx={{ color: "warning.light" }} />
+      <StarIcon sx={{ color: orange[500] }} />
     ) : (
       <StarBorderIcon sx={{ color: "white" }} />
     );

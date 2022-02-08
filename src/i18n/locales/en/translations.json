@@ -2,12 +2,16 @@
   "mainMenu": {
     "groups": "Groups"
   },
-  "titles":{
+  "titles": {
     "groups": "Groups",
-    "groupsCreate": "Create Group"
+    "groupsСreate": "Create Group"
   },
-  "buttons":{
-    "create":"Create Group"
+  "forms": {
+    "createGroupForm": {
+      "groupName":"Group name",
+      "addUsers":"Add Users",
+      "submit":"Create Group"
+    }
   },
   "dashboard": {
     "title": "Dashboard",

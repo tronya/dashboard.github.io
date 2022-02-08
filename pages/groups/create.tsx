@@ -1,4 +1,4 @@
-import { Box, TextField, Button, Typography } from "@mui/material";
+import { TextField, Button, Typography, Grid } from "@mui/material";
 import PageTitle from "../../src/components/ui/PageTitle/PageTitle";
 import Wrapper from "../../src/components/ui/Wrapper/wrapper";
 import { useFormik } from "formik";
@@ -11,6 +11,8 @@ import { setGroup } from "../api/group";
 import { AuthUserContextProps } from "../../src/models/auth.model";
 import { toast } from "react-toastify";
 import Breadcrumbs from "../../src/components/ui/Breadcrumbs/breadcrumbs";
+import router from "next/router";
+import { FC } from "react";
 
 export interface GroupFormFields {
   name: string;
@@ -22,17 +24,18 @@ interface GroupFormProps {
   user: AuthUserContextProps;
 }
 
-const onCreateGroup = ({ fields, user }: GroupFormProps) => {
-  setGroup(fields, user)
+const onGroupCreate = ({ fields, user }: GroupFormProps) => {
+  return setGroup(fields, user)
     .then(() => {
       toast.success(`${fields.name} is successfully creeated!`);
+      router.push("/groups/main");
     })
     .catch((error) => {
       toast.error("error", error);
     });
 };
 
-const GroupsCreatePage = () => {
+const GroupsCreationPage: FC = () => {
   const { t } = useTranslation();
   const user = useAuth();
   const validationSchema = yup.object({
@@ -50,54 +53,61 @@ const GroupsCreatePage = () => {
       name: "",
       users: [],
     },
-    validationSchema: validationSchema,
-    onSubmit: (fields) => onCreateGroup({ fields, user }),
+    validationSchema,
+    onSubmit: (fields) => onGroupCreate({ fields, user }),
   });
 
   return (
     <Wrapper>
       <Breadcrumbs breadcrumbText={t("titles.groups")} />
-      <PageTitle title={t("titles.groupsCreate")} />
-      <Box display="flex" flexDirection="column" width={1} sx={{ mt: 1 }}>
-        <form onSubmit={formik.handleSubmit}>
-          <TextField
-            fullWidth
-            id="name"
-            name="name"
-            label="Group name"
-            value={formik.values.name}
-            onChange={formik.handleChange}
-            error={formik.touched.name && Boolean(formik.errors.name)}
-            helperText={formik.touched.name && formik.errors.name}
-          />
-          <SelectableUsers
-            selectedUsers={(v) => {
-              formik.setFieldValue("users", v);
-            }}
-          />
-          {!!formik.getFieldMeta("users").touched &&
-            !!formik.getFieldMeta("users").error && (
-              <Typography
-                variant="caption"
-                display="block"
-                color={red[500]}
-                gutterBottom
-              >
-                {formik.getFieldMeta("users").error}
-              </Typography>
-            )}
-          <Button
-            type="submit"
-            disabled={!(formik.isValid && formik.dirty)}
-            fullWidth
-            variant="outlined"
-            sx={{ mt: 3, mb: 2 }}
-          >
-            {t("buttons.create")}
-          </Button>
-        </form>
-      </Box>
+      <PageTitle title={t("titles.groupsСreate")} />
+      <Grid container justifyContent="center" sx={{ mt: 2 }}>
+        <Grid item xs={12} sm={6}>
+          <form onSubmit={formik.handleSubmit}>
+            <TextField
+              sx={{ m: 1 }}
+              fullWidth
+              id="name"
+              name="name"
+              label={t("forms.createGroupForm.groupName")}
+              value={formik.values.name}
+              onChange={formik.handleChange}
+              error={formik.touched.name && Boolean(formik.errors.name)}
+              helperText={formik.touched.name && formik.errors.name}
+            />
+            <Typography variant="body1" sx={{ m: 1 }}>
+              {t("forms.createGroupForm.addUsers")}
+            </Typography>
+            <SelectableUsers
+              selectedUsers={(v) => {
+                formik.setFieldValue("users", v);
+              }}
+            />
+            {!!formik.getFieldMeta("users").touched &&
+              !!formik.getFieldMeta("users").error && (
+                <Typography
+                  variant="caption"
+                  display="block"
+                  color={red[500]}
+                  sx={{ m: 1 }}
+                  gutterBottom
+                >
+                  {formik.getFieldMeta("users").error}
+                </Typography>
+              )}
+            <Button
+              type="submit"
+              disabled={!(formik.isValid && formik.dirty)}
+              fullWidth
+              variant="outlined"
+              sx={{ mt: 3, mb: 2 }}
+            >
+              {t("forms.createGroupForm.submit")}
+            </Button>
+          </form>
+        </Grid>
+      </Grid>
     </Wrapper>
   );
 };
-export default GroupsCreatePage;
+export default GroupsCreationPage;

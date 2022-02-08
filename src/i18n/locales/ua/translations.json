@@ -4,10 +4,14 @@
   },
   "titles":{
     "groups": "Групи",
-    "groups.createPage": "Створити Групу"
+    "groupsСreate": "Створити Групу"
   },
-  "buttons":{
-    "create":"Створити Групу"
+  "forms": {
+    "createGroupForm": {
+      "groupName":"Назва Групи",
+      "addUsers":"Додайте юзерів",
+      "submit":"Створити групу"
+    }
   },
   "dashboard": {
     "title": "Панель керування",

@@ -5,7 +5,7 @@ import { toast } from "react-toastify";
 import { setUserGeolocation } from "../../pages/api/geolocation";
 import { useAuth } from "./useUser";
 
-export const useNavigation = (acceptLocation: boolean) => {
+export const useNavigation = (acceptLocation: boolean = false) => {
   const router = useRouter();
   const { t } = useTranslation();
 

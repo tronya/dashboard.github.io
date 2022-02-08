@@ -9,10 +9,8 @@ import {
 } from "@mui/material";
 import { FC, useState, useEffect } from "react";
 import { toast } from "react-toastify";
-import {
-  UsersGeolocationProps,
-  getGeolocation,
-} from "../../../../pages/api/geolocation";
+import { getGeolocation } from "../../../../pages/api/geolocation";
+import { UsersGeolocationProps } from "../../../models/geolocation.model";
 
 interface SelectableUsersProps {
   selectedUsers: (users: string[]) => void;
@@ -39,10 +37,7 @@ const SelectableUsers: FC<SelectableUsersProps> = ({ selectedUsers }) => {
   };
 
   return (
-    <List
-      dense
-      sx={{ width: "100%", maxWidth: 360 }}
-    >
+    <List dense sx={{ width: "100%", maxWidth: 360 }}>
       {users.map((user) => {
         const labelId = `checkbox-list-secondary-label-${user.user.uid}`;
         return (

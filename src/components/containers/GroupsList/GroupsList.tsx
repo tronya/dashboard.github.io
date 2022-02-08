@@ -9,7 +9,7 @@ import {
   TableRow,
 } from "@mui/material";
 import { FC } from "react";
-import { GroupProps } from "../../../../pages/api/group";
+import { GroupProps } from "../../../models/groups.model";
 import { AuthUser } from "../../../models/user.model";
 
 interface GroupList {
@@ -20,7 +20,7 @@ export const GroupsList: FC<GroupList> = ({ groups, currentUser }) => {
   return (
     <Box>
       <TableContainer>
-        <Table sx={{ minWidth: 650 }} aria-label="simple table">
+        <Table aria-label="simple table">
           <TableHead>
             <TableRow>
               <TableCell>Name</TableCell>
@@ -39,7 +39,7 @@ export const GroupsList: FC<GroupList> = ({ groups, currentUser }) => {
                 </TableCell>
                 <TableCell align="right">{group.users.length}</TableCell>
                 <TableCell align="right">
-                  {group.userCreate === currentUser.uid ? "+" : "-"}
+                  {group.userCreate === currentUser?.uid ? "+" : "-"}
                 </TableCell>
               </TableRow>
             ))}

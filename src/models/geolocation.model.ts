@@ -9,3 +9,9 @@ export interface Geolocation {
 export type GeolocationCoords = GeolocationPosition & {
   allowLocation: boolean;
 };
+
+export interface UsersGeolocationProps {
+  geolocationCoords: Geolocation;
+  id: string;
+  user: User;
+}

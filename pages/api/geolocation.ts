@@ -4,17 +4,12 @@ import { AuthUserContextProps } from "../../src/models/auth.model";
 import {
   Geolocation,
   GeolocationCoords,
+  UsersGeolocationProps,
 } from "../../src/models/geolocation.model";
 import { User } from "../../src/models/user.model";
 
 export const getGeolocationCollection = async () =>
   await getDocs(collection(DB, "geolocation"));
-
-export interface UsersGeolocationProps {
-  geolocationCoords: Geolocation;
-  id: string;
-  user: User;
-}
 
 export const getGeolocation = async () =>
   await getGeolocationCollection().then((geolocation) => {

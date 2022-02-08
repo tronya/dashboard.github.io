@@ -8,7 +8,8 @@ import Breadcrumbs from "../../src/components/ui/Breadcrumbs/breadcrumbs";
 import PageTitle from "../../src/components/ui/PageTitle/PageTitle";
 import Wrapper from "../../src/components/ui/Wrapper/wrapper";
 import { useAuth } from "../../src/hooks/useUser";
-import { GroupProps, getGroups } from "../api/group";
+import { GroupProps } from "../../src/models/groups.model";
+import { getGroups } from "../api/group";
 
 const GroupsPage: FC = () => {
   const [groups, setGroup] = useState<GroupProps[]>([]);
@@ -23,12 +24,11 @@ const GroupsPage: FC = () => {
 
   return (
     <Wrapper>
-      <Grid container component="main">
-        <Grid item>
-          <Breadcrumbs breadcrumbText={t("titles.groups")} />
-          <PageTitle title={t("titles.groups")} />
-
-          <Box>
+      <Breadcrumbs breadcrumbText={t("titles.groups")} />
+      <PageTitle title={t("titles.groups")} />
+      <Grid container justifyContent="center" sx={{ mt: 2 }}>
+        <Grid item xs={12} sm={6}>
+          <Box sx={{ display: "flex", flexDirection: "row-reverse" }}>
             <Link href="/groups/create" passHref>
               <Button variant="contained">{t("titles.groupsCreate")}</Button>
             </Link>

@@ -71,7 +71,6 @@ const Home: NextPage = () => {
   if (
     !user ||
     !geolocation.length ||
-    !favorites ||
     !currentUserGeolocation ||
     !markers.length
   ) {

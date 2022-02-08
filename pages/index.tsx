@@ -68,12 +68,7 @@ const Home: NextPage = () => {
     }
   }, [user, loading, router]);
 
-  if (
-    !user ||
-    !geolocation.length ||
-    !currentUserGeolocation ||
-    !markers.length
-  ) {
+  if (!user || !geolocation.length || !currentUserGeolocation) {
     return <Loader />;
   }
 

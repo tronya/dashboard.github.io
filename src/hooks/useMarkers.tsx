@@ -9,7 +9,7 @@ const useMarkers = (
 ): Marker[] => {
   const markers: Marker[] = [];
 
-  if (favoritesUsers.length && currentUser) {
+  if (currentUser) {
     const geoJSONArray = returnGeoJSONArray([currentUser, ...favoritesUsers]);
 
     geoJSONArray.forEach((marker) => {

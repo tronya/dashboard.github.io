@@ -26,7 +26,6 @@ const useMarkers = (
       el.style.width = `${width}px`;
       el.style.height = `${height}px`;
       el.style.backgroundSize = "100%";
-      el.style.boxShadow = "2px 2px 8px rgba(0, 0, 0, 0.5)";
 
       markers.push({ popup: el, marker });
     });

@@ -6,32 +6,40 @@ import {
   ListItem,
   ListItemIcon,
   ListItemText,
-  ListSubheader,
   Toolbar,
 } from "@mui/material";
 import { FC } from "react";
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import AssignmentIcon from "@mui/icons-material/Assignment";
 import { HeaderDrawer } from "../HeaderDrawer/headerDrawer";
+import { useTranslation } from "react-i18next";
+import Link from "next/link";
+import { useRouter } from "next/router";
 
 interface SidebarProps {
   toggleDrawer: () => void;
   open: boolean;
 }
 
-const menuItems = (
-  <Box>
-    <ListSubheader inset sx={{ color: "white" }}>
-      Saved reports
-    </ListSubheader>
-    <ListItem button>
-      <ListItemIcon>
-        <AssignmentIcon sx={{ color: "white" }} />
-      </ListItemIcon>
-      <ListItemText primary="Current month" sx={{ color: "white" }} />
-    </ListItem>
-  </Box>
-);
+const MenuItems: FC = () => {
+  const { t } = useTranslation();
+  const router = useRouter();
+  return (
+    <Box>
+      <Link href={'/groups/main'} passHref>
+        <ListItem button>
+          <ListItemIcon>
+            <AssignmentIcon sx={{ color: "white" }} />
+          </ListItemIcon>
+          <ListItemText
+            primary={t("mainMenu.groups")}
+            sx={{ color: "white" }}
+          />
+        </ListItem>
+      </Link>
+    </Box>
+  );
+};
 
 const Sidebar: FC<SidebarProps> = ({ toggleDrawer, open }) => {
   return (
@@ -49,7 +57,9 @@ const Sidebar: FC<SidebarProps> = ({ toggleDrawer, open }) => {
         </IconButton>
       </Toolbar>
       <Divider />
-      <List>{menuItems}</List>
+      <List>
+        <MenuItems />
+      </List>
     </HeaderDrawer>
   );
 };

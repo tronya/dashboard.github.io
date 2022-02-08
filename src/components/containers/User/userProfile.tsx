@@ -5,6 +5,7 @@ import useCurrentUserGeolocation from "../../../hooks/useCurrentUserGeolocation"
 import { NavigationProvider } from "../../../hooks/useNavigation";
 import { useAuth } from "../../../hooks/useUser";
 import Breadcrumbs from "../../ui/Breadcrumbs/breadcrumbs";
+import PageTitle from "../../ui/PageTitle/PageTitle";
 import { stringAvatar } from "../../../utils/user";
 
 const UserProfile: FC = () => {
@@ -22,9 +23,7 @@ const UserProfile: FC = () => {
     <NavigationProvider acceptLocation={acceptLocation}>
       <>
         <Breadcrumbs breadcrumbText={t("profile.title")} />
-        <Box py={2}>
-          <Typography variant="h4">{t("profile.title")}</Typography>
-        </Box>
+        <PageTitle title={t("profile.title")} />
         <Paper>
           <Box display="flex" flexDirection="column" p={6} alignItems="center">
             {user.displayName && user.photoURL && (

@@ -27,6 +27,12 @@ const Home: NextPage = () => {
     null
   );
 
+  const router = useRouter();
+  const { t } = useTranslation();
+  const { user, loading } = useAuth();
+  const { isLocationAllowed, user: currentUserGeolocation } =
+    useCurrentUserGeolocation();
+
   const favoritesUsers = geolocation
     .map((location) => {
       if (favorites?.find((id) => id === location.id)) {
@@ -35,12 +41,7 @@ const Home: NextPage = () => {
     })
     .filter(isNotNullable);
 
-  const router = useRouter();
-  const markers = useMarkers(map, favoritesUsers);
-  const { t } = useTranslation();
-  const { user, loading } = useAuth();
-  const { isLocationAllowed, user: currentUserGeolocation } =
-    useCurrentUserGeolocation();
+  const markers = useMarkers(favoritesUsers, currentUserGeolocation);
 
   useEffect(() => {
     getGeolocation()
@@ -67,7 +68,13 @@ const Home: NextPage = () => {
     }
   }, [user, loading, router]);
 
-  if (!user || !geolocation.length || !favorites || !currentUserGeolocation) {
+  if (
+    !user ||
+    !geolocation.length ||
+    !favorites ||
+    !currentUserGeolocation ||
+    !markers.length
+  ) {
     return <Loader />;
   }
 

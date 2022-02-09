@@ -1,7 +1,7 @@
 import { Avatar, Box, Button, Paper, Typography } from "@mui/material";
 import { FC, useState } from "react";
 import { useTranslation } from "react-i18next";
-import useCurrentUserGeolocation from "../../../hooks/useCurrentUserGeolocation";
+import useCurrentUser from "../../../hooks/useCurrentUser";
 import { NavigationProvider } from "../../../hooks/useNavigation";
 import { useAuth } from "../../../hooks/useUser";
 import Breadcrumbs from "../../ui/Breadcrumbs/breadcrumbs";
@@ -11,7 +11,7 @@ import { stringAvatar } from "../../../utils/user";
 const UserProfile: FC = () => {
   const { t } = useTranslation();
   const { user } = useAuth();
-  const { isLocationAllowed } = useCurrentUserGeolocation();
+  const { isLocationAllowed } = useCurrentUser();
 
   const [acceptLocation, setAcceptLocation] = useState(false);
 

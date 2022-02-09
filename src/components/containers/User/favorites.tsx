@@ -3,7 +3,6 @@ import { FC } from "react";
 import { useTranslation } from "react-i18next";
 import Breadcrumbs from "../../ui/Breadcrumbs/breadcrumbs";
 import { UsersList } from "../UsersList/usersList.component";
-import { Geolocation } from "../../../models/geolocation.model";
 import StarBorderIcon from "@mui/icons-material/StarBorder";
 import StarIcon from "@mui/icons-material/Star";
 import { orange } from "@mui/material/colors";

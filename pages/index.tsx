@@ -11,7 +11,7 @@ import { useAuth } from "../src/hooks/useUser";
 import MapBoxContainer from "../src/components/containers/Map/mapBox.container";
 import useMarkers from "../src/hooks/useMarkers";
 import Banner from "../src/components/ui/Banner/banner";
-import useCurrentUser from "../src/hooks/useCurrentUserGeolocation";
+import useCurrentUser from "../src/hooks/useCurrentUser";
 import { useTranslation } from "react-i18next";
 import { isNotNullable } from "../src/utils/common";
 import HelpIcon from "@mui/icons-material/Help";

@@ -7,9 +7,8 @@ import { useAuth } from "./useUser";
 import { ref, set } from "firebase/database";
 import { RDB } from "../firebase";
 
-export const writeUserData = (id: number, data: any) => {
+export const writeUserData = (id: string | undefined, data: any) =>
   set(ref(RDB, `users/${id}`), data);
-};
 
 export const useNavigation = (acceptLocation: boolean = false) => {
   const router = useRouter();

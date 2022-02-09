@@ -7,18 +7,15 @@ import { Geolocation } from "../../../models/geolocation.model";
 import StarBorderIcon from "@mui/icons-material/StarBorder";
 import StarIcon from "@mui/icons-material/Star";
 import { orange } from "@mui/material/colors";
+import { User } from "../../../models/user.model";
 
 interface FavoritesProps {
-  geolocation: Geolocation[];
-  onUserClick: (location: Geolocation) => void;
+  users: User[];
+  onUserClick: (user: User) => void;
   favorites: string[];
 }
 
-const Favorites: FC<FavoritesProps> = ({
-  geolocation,
-  onUserClick,
-  favorites,
-}) => {
+const Favorites: FC<FavoritesProps> = ({ users, onUserClick, favorites }) => {
   const { t } = useTranslation();
 
   const renderStarIcon = (id: string) =>
@@ -36,7 +33,7 @@ const Favorites: FC<FavoritesProps> = ({
       </Box>
       <Paper>
         <UsersList
-          geolocation={geolocation}
+          users={users}
           onUserClick={onUserClick}
           starIcon={renderStarIcon}
         />

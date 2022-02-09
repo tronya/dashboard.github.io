@@ -9,18 +9,19 @@ import {
 } from "@mui/material";
 import { FC, useState, useEffect } from "react";
 import { toast } from "react-toastify";
-import { getGeolocation } from "../../../../pages/api/geolocation";
-import { Geolocation } from "../../../models/geolocation.model";
+import { getUsers } from "../../../../pages/api/users";
+import { User } from "../../../models/user.model";
 
 interface SelectableUsersProps {
   selectedUsers: (users: string[]) => void;
 }
+
 const SelectableUsers: FC<SelectableUsersProps> = ({ selectedUsers }) => {
   const [checked, setChecked] = useState<string[]>([]);
-  const [users, setUsers] = useState<Geolocation[]>([]);
+  const [users, setUsers] = useState<User[]>([]);
 
   useEffect(() => {
-    getGeolocation()
+    getUsers()
       .then((result) => setUsers(result))
       .catch((error) => toast.error(error));
   }, []);
@@ -39,15 +40,15 @@ const SelectableUsers: FC<SelectableUsersProps> = ({ selectedUsers }) => {
   return (
     <List dense sx={{ width: "100%", maxWidth: 360 }}>
       {users.map((user) => {
-        const labelId = `checkbox-list-secondary-label-${user.user.uid}`;
+        const labelId = `checkbox-list-secondary-label-${user.uid}`;
         return (
           <ListItem
-            key={user.id}
+            key={user.uid}
             secondaryAction={
               <Checkbox
                 edge="end"
-                onChange={handleToggle(user.id)}
-                checked={checked.includes(user.id)}
+                onChange={handleToggle(user.uid)}
+                checked={checked.includes(user.uid)}
                 inputProps={{ "aria-labelledby": labelId }}
               />
             }
@@ -56,11 +57,11 @@ const SelectableUsers: FC<SelectableUsersProps> = ({ selectedUsers }) => {
             <ListItemButton>
               <ListItemAvatar>
                 <Avatar
-                  alt={`Avatar n°${user.user.displayName}`}
-                  src={user.user.photoURL}
+                  alt={`Avatar n°${user.displayName}`}
+                  src={user.photoURL}
                 />
               </ListItemAvatar>
-              <ListItemText id={labelId} primary={user.user.displayName} />
+              <ListItemText id={labelId} primary={user.displayName} />
             </ListItemButton>
           </ListItem>
         );

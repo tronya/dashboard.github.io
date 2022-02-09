@@ -1,22 +1,20 @@
 import mapboxgl from "mapbox-gl";
 import { GeoJSONObject, Marker } from "../models/map.model";
-import { Geolocation } from "../models/geolocation.model";
+import { User } from "../models/user.model";
 
-export const returnGeoJSONArray = (
-  geolocation: Geolocation[]
-): GeoJSONObject[] =>
-  geolocation.map((location) => ({
+export const returnGeoJSONArray = (users: User[]): GeoJSONObject[] =>
+  users.map((user) => ({
     properties: {
-      description: location.user.displayName,
+      description: user.displayName,
       iconSize: [40, 40],
-      backgroundImage: location.user.photoURL,
-      displayName: location.user.displayName,
+      backgroundImage: user.photoURL,
+      displayName: user.displayName,
     },
     geometry: {
       type: "Point",
       coordinates: [
-        location.geolocationCoords.coords.longitude,
-        location.geolocationCoords.coords.latitude,
+        2, // TODO REALTIME DATA BASE
+        2, // TODO REALTIME DATA BASE
       ],
     },
   }));

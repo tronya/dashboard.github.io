@@ -9,42 +9,41 @@ import {
 import { FC } from "react";
 import { UserListEmpty } from "./userList.empty";
 import { green, grey } from "@mui/material/colors";
-import { Geolocation } from "../../../models/geolocation.model";
 import { Box, StyledList } from "./userList.styled";
 import { getUserStatus } from "../../../utils/user";
 import { useAuth } from "../../../hooks/useUser";
 import { stringAvatar } from "../../../utils/user";
+import { User } from "../../../models/user.model";
 
 interface ListWrapperProps {
-  geolocation: Geolocation[];
-  onUserClick: (location: Geolocation) => void;
+  users: User[];
+  onUserClick: (user: User) => void;
   favorites?: string[];
   starIcon?: (id: string) => void;
 }
 
 export const UsersList: FC<ListWrapperProps> = ({
-  geolocation,
+  users,
   onUserClick,
   starIcon,
 }) => {
   const { user: authUser } = useAuth();
 
-  if (!geolocation.length) {
+  if (!users.length) {
     return <UserListEmpty count={6} />;
   }
 
-  const lastUserUid = geolocation[geolocation.length - 1].user.uid;
+  const lastUserUid = users[users.length - 1].uid;
 
   return (
     <StyledList sx={{ mr: 2, mb: 2, bgcolor: "background.paper" }}>
-      {geolocation.map((location) => {
-        const { user, geolocationCoords } = location;
+      {users.map((user) => {
         const isCurrentUser = user.uid === authUser?.uid;
 
         return (
           <Box
             key={user.uid}
-            onClick={() => onUserClick(location)}
+            onClick={() => onUserClick(user)}
             sx={{ cursor: "pointer" }}
           >
             <ListItem alignItems="center">
@@ -65,21 +64,21 @@ export const UsersList: FC<ListWrapperProps> = ({
                     </Typography>
                   </>
                 }
-                secondary={
-                  <Typography
-                    component="span"
-                    variant="body2"
-                    color={
-                      getUserStatus(geolocationCoords.timestamp) === "Online"
-                        ? green[400]
-                        : grey[500]
-                    }
-                  >
-                    {getUserStatus(geolocationCoords.timestamp)}
-                  </Typography>
-                }
+                // secondary={
+                //   <Typography
+                //     component="span"
+                //     variant="body2"
+                //     color={
+                //       getUserStatus(geolocationCoords.timestamp) === "Online"
+                //         ? green[400]
+                //         : grey[500]
+                //     }
+                //   >
+                //     {getUserStatus(geolocationCoords.timestamp)}
+                //   </Typography>
+                // }
               />
-              {starIcon && starIcon(location.id)}
+              {starIcon && starIcon(user.uid)}
             </ListItem>
             {lastUserUid !== user.uid && (
               <Divider variant="inset" component="li" />

@@ -6,14 +6,15 @@ import { Geolocation } from "../../../models/geolocation.model";
 import MapBox from "./mapBox.component";
 import { createMarkersOnMap } from "../../../utils/map";
 import useMap from "../../../hooks/useMap";
+import { User } from "../../../models/user.model";
 
 interface MapBoxContainerProps {
   markers?: Marker[];
-  selectedLocation: Geolocation | null;
+  selectedUser: User | null;
 }
 
 const MapBoxContainer: FC<MapBoxContainerProps> = (props) => {
-  const { markers, selectedLocation } = props;
+  const { markers, selectedUser } = props;
   const { mapboxMap, mapNode } = useMap();
 
   useEffect(() => {
@@ -35,17 +36,18 @@ const MapBoxContainer: FC<MapBoxContainerProps> = (props) => {
   }, [mapboxMap]);
 
   useEffect(() => {
-    if (selectedLocation && mapboxMap) {
+    if (selectedUser && mapboxMap) {
       mapboxMap.flyTo({
         center: [
-          selectedLocation?.geolocationCoords.coords.longitude,
-          selectedLocation?.geolocationCoords.coords.latitude,
+          2, 2,
+          // selectedUser?.geolocationCoords.coords.longitude, // TODO
+          // selectedUser?.geolocationCoords.coords.latitude, // TODO
         ] as LngLatLike,
         essential: true,
         zoom: 14,
       });
     }
-  }, [mapboxMap, selectedLocation]);
+  }, [mapboxMap, selectedUser]);
 
   useEffect(() => {
     if (markers?.length && mapboxMap) {

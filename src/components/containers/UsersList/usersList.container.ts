@@ -1,18 +1,19 @@
 import { createElement, FC } from "react";
 import { UsersList } from "./usersList.component";
 import { Geolocation } from "../../../models/geolocation.model";
+import { User } from "../../../models/user.model";
 
 interface UsersListContainerProps {
-  geolocation: Geolocation[];
-  onUserClick: (location: Geolocation) => void;
+  users: User[];
+  onUserClick: (user: User) => void;
 }
 
 const UsersListContainer: FC<UsersListContainerProps> = ({
-  geolocation,
+  users,
   onUserClick,
 }) => {
   return createElement(UsersList, {
-    geolocation,
+    users,
     onUserClick,
   });
 };

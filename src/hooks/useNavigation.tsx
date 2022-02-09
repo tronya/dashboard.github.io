@@ -2,13 +2,13 @@ import { useRouter } from "next/router";
 import { FC, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { toast } from "react-toastify";
-import { setUserGeolocation } from "../../pages/api/geolocation";
 import { useAuth } from "./useUser";
-import { ref, set } from "firebase/database";
-import { RDB } from "../firebase";
+// import { ref, set } from "firebase/database";
+// import { RDB } from "../firebase";
+import { setUserToCollection } from "../../pages/api/users";
 
-export const writeUserData = (id: string | undefined, data: any) =>
-  set(ref(RDB, `users/${id}`), data);
+// export const writeUserData = (id: string | undefined, data: any) =>
+//   set(ref(RDB, `users/${id}`), data); // TODO
 
 export const useNavigation = (acceptLocation: boolean = false) => {
   const router = useRouter();
@@ -48,7 +48,7 @@ export const NavigationProvider: FC<NavigationProviderProps> = ({
 
   useEffect(() => {
     if (navigator) {
-      setUserGeolocation(navigator, auth);
+      setUserToCollection(auth);
     }
   }, [navigator, auth]);
 

@@ -1,11 +1,11 @@
-import { Geolocation } from "../models/geolocation.model";
 import { Marker } from "../models/map.model";
+import { User } from "../models/user.model";
 import { returnGeoJSONArray } from "../utils/map";
 import { getFirstUppercaseLetters } from "../utils/user";
 
 const useMarkers = (
-  favoritesUsers: Geolocation[],
-  currentUser: Geolocation | undefined
+  favoritesUsers: User[],
+  currentUser: User | undefined
 ): Marker[] => {
   const markers: Marker[] = [];
 

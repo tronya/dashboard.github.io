@@ -3,25 +3,39 @@ import { FC, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { toast } from "react-toastify";
 import { useAuth } from "./useUser";
-// import { ref, set } from "firebase/database";
-// import { RDB } from "../firebase";
 import { setUserToCollection } from "../../pages/api/users";
+import { setUserGeolocationData } from "../../pages/api/usersGeolocation";
+import { UserGeolocation } from "../models/usersGeolocation";
 
-// export const writeUserData = (id: string | undefined, data: any) =>
-//   set(ref(RDB, `users/${id}`), data); // TODO
-
-export const useNavigation = (acceptLocation: boolean = false) => {
+export const useNavigation = (isLocationAllowed: boolean = false) => {
   const router = useRouter();
+  const auth = useAuth();
   const { t } = useTranslation();
 
   const [geolocation, setGeolocation] = useState<GeolocationPosition>();
 
   useEffect(() => {
-    if (acceptLocation) {
+    if (isLocationAllowed) {
       navigator.geolocation.getCurrentPosition(
         (success: GeolocationPosition) => {
+          const data: UserGeolocation = {
+            coords: {
+              accuracy: success.coords.accuracy,
+              altitude: success.coords.altitude,
+              altitudeAccuracy: success.coords.altitudeAccuracy,
+              heading: success.coords.heading,
+              latitude: success.coords.latitude,
+              longitude: success.coords.longitude,
+              speed: success.coords.speed,
+            },
+            timestamp: success.timestamp,
+            displayName: auth.user?.displayName,
+            photoURL: auth.user?.photoURL,
+          };
           setGeolocation(success);
-          toast.success(t("toastSuccess.acceptGeolocation"));
+          setUserGeolocationData(auth.user?.uid, data);
+
+          // toast.success(t("toastSuccess.acceptGeolocation"));
           router.push("/");
         },
         (error: GeolocationPositionError) => {
@@ -29,28 +43,28 @@ export const useNavigation = (acceptLocation: boolean = false) => {
         }
       );
     }
-  }, [acceptLocation, router, t]);
+  }, [isLocationAllowed, router, t, auth]);
 
   return geolocation;
 };
 
 interface NavigationProviderProps {
   children: JSX.Element[] | JSX.Element;
-  acceptLocation: boolean;
+  isLocationAllowed: boolean;
 }
 
 export const NavigationProvider: FC<NavigationProviderProps> = ({
-  acceptLocation,
+  isLocationAllowed,
   children,
 }) => {
-  const navigator = useNavigation(acceptLocation);
+  const navigator = useNavigation(isLocationAllowed);
   const auth = useAuth();
 
   useEffect(() => {
     if (navigator) {
-      setUserToCollection(auth);
+      setUserToCollection(auth, isLocationAllowed);
     }
-  }, [navigator, auth]);
+  }, [navigator, auth, isLocationAllowed]);
 
   return <>{children}</>;
 };

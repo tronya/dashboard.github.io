@@ -20,12 +20,19 @@ export const getUsers = async () =>
     return users;
   });
 
-export const setUserToCollection = async (auth: AuthUserContextProps) => {
+export const setUserToCollection = async (
+  auth: AuthUserContextProps,
+  isLocationAllowed: boolean
+) => {
   if (!auth.user?.uid) {
     return null;
   }
 
-  return await setDoc(doc(DB, "users", auth.user.uid), auth.user, {
-    merge: true,
-  });
+  return await setDoc(
+    doc(DB, "users", auth.user.uid),
+    { ...auth.user, isLocationAllowed },
+    {
+      merge: true,
+    }
+  );
 };

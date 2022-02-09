@@ -20,7 +20,7 @@ const UserProfile: FC = () => {
   }
 
   return (
-    <NavigationProvider acceptLocation={acceptLocation}>
+    <NavigationProvider isLocationAllowed={acceptLocation}>
       <>
         <Breadcrumbs breadcrumbText={t("profile.title")} />
         <PageTitle title={t("profile.title")} />

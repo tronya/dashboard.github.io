@@ -1,6 +1,5 @@
 import { createElement, FC } from "react";
 import { UsersList } from "./usersList.component";
-import { Geolocation } from "../../../models/geolocation.model";
 import { User } from "../../../models/user.model";
 
 interface UsersListContainerProps {

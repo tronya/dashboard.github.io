@@ -11,7 +11,7 @@ interface UseCurrentUserProps {
 
 const useCurrentUser = (): UseCurrentUserProps => {
   const [users, setUsers] = useState<User[]>([]);
-  const { user } = useAuth();
+  const { user: authUser } = useAuth();
 
   useEffect(() => {
     getUsers()
@@ -19,7 +19,7 @@ const useCurrentUser = (): UseCurrentUserProps => {
       .catch((error) => toast.error(error));
   }, []);
 
-  const currentUser = users.find((user) => user.uid === user?.uid);
+  const currentUser = users.find((user) => user.uid === authUser?.uid);
 
   const isLocationAllowed = true;
   // const isLocationAllowed =

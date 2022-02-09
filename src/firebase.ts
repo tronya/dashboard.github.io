@@ -18,4 +18,4 @@ export const app: FirebaseApp = initializeApp(fireBaseConfig);
 getApps().length === 0 ? initializeApp(fireBaseConfig) : getApp();
 
 export const DB = getFirestore(app);
-export const RDB = getDatabase(app);
+export const RTDB = getDatabase(app);

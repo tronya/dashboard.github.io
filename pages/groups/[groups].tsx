@@ -19,7 +19,7 @@ const GroupsPage: FC = () => {
   useEffect(() => {
     getGroups()
       .then((groups) => setGroup(groups))
-      .catch((error) => toast.error("Something wrong happend", error));
+      .catch((error) => toast.error("Something wrong happened", error));
   }, []);
 
   return (

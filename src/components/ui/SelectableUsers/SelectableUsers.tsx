@@ -11,6 +11,7 @@ import { FC, useState, useEffect } from "react";
 import { toast } from "react-toastify";
 import { getUsers } from "../../../../pages/api/users";
 import { User } from "../../../models/user.model";
+import { stringAvatar } from "../../../utils/user";
 
 interface SelectableUsersProps {
   selectedUsers: (users: string[]) => void;
@@ -59,6 +60,7 @@ const SelectableUsers: FC<SelectableUsersProps> = ({ selectedUsers }) => {
                 <Avatar
                   alt={`Avatar n°${user.displayName}`}
                   src={user.photoURL}
+                  {...stringAvatar(user.displayName)}
                 />
               </ListItemAvatar>
               <ListItemText id={labelId} primary={user.displayName} />

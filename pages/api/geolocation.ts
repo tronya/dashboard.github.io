@@ -4,7 +4,6 @@ import { AuthUserContextProps } from "../../src/models/auth.model";
 import {
   Geolocation,
   GeolocationCoords,
-  UsersGeolocationProps,
 } from "../../src/models/geolocation.model";
 import { User } from "../../src/models/user.model";
 
@@ -13,13 +12,13 @@ export const getGeolocationCollection = async () =>
 
 export const getGeolocation = async () =>
   await getGeolocationCollection().then((geolocation) => {
-    const result: UsersGeolocationProps[] = [];
+    const result: Geolocation[] = [];
 
     geolocation.forEach((location) => {
-      const geolocation: UsersGeolocationProps = {
+      const geolocation: Geolocation = {
         id: location.id,
         ...location.data(),
-      } as UsersGeolocationProps;
+      } as Geolocation;
       result.push(geolocation);
     });
 

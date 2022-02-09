@@ -10,14 +10,14 @@ import {
 import { FC, useState, useEffect } from "react";
 import { toast } from "react-toastify";
 import { getGeolocation } from "../../../../pages/api/geolocation";
-import { UsersGeolocationProps } from "../../../models/geolocation.model";
+import { Geolocation } from "../../../models/geolocation.model";
 
 interface SelectableUsersProps {
   selectedUsers: (users: string[]) => void;
 }
 const SelectableUsers: FC<SelectableUsersProps> = ({ selectedUsers }) => {
   const [checked, setChecked] = useState<string[]>([]);
-  const [users, setUsers] = useState<UsersGeolocationProps[]>([]);
+  const [users, setUsers] = useState<Geolocation[]>([]);
 
   useEffect(() => {
     getGeolocation()

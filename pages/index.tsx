@@ -1,6 +1,5 @@
 import type { NextPage } from "next";
 import Head from "next/head";
-import { toast } from "react-toastify";
 import { Box, Grid, Tooltip, Typography } from "@mui/material";
 import UsersListContainer from "../src/components/containers/UsersList/usersList.container";
 import { useRouter } from "next/router";
@@ -11,26 +10,28 @@ import { useAuth } from "../src/hooks/useUser";
 import MapBoxContainer from "../src/components/containers/Map/mapBox.container";
 import useMarkers from "../src/hooks/useMarkers";
 import Banner from "../src/components/ui/Banner/banner";
-import useCurrentUser from "../src/hooks/useCurrentUser";
+import useCurrentUser from "../src/hooks/useCurrentUserGeolocation";
 import { useTranslation } from "react-i18next";
 import { isNotNullable } from "../src/utils/common";
 import HelpIcon from "@mui/icons-material/Help";
 import { collection, where, query, onSnapshot } from "firebase/firestore";
 import { DB } from "../src/firebase";
-import { getUsers } from "./api/users";
-import { User } from "../src/models/user.model";
+import useUsersGeolocation from "../src/hooks/useUsersGeolocation";
+import { UserGeolocation } from "../src/models/usersGeolocation";
 
 const Home: NextPage = () => {
   const [favorites, setFavorites] = useState<string[]>([]);
-  const [users, setUsers] = useState<User[]>([]);
-  const [selectedUser, setSelectedUser] = useState<User | null>(null);
+  const [selectedUser, setSelectedUser] = useState<UserGeolocation | null>(
+    null
+  );
 
   const router = useRouter();
   const { t } = useTranslation();
   const { user, loading } = useAuth();
-  const { isLocationAllowed, user: currentUserGeolocation } = useCurrentUser();
+  const { isLocationAllowed, currentUserGeolocation } = useCurrentUser();
+  const usersGeolocation = useUsersGeolocation();
 
-  const favoritesUsers = users
+  const favoritesUsers = usersGeolocation
     .map((user) => {
       if (favorites?.find((id) => id === user.uid)) {
         return user;
@@ -39,12 +40,6 @@ const Home: NextPage = () => {
     .filter(isNotNullable);
 
   const markers = useMarkers(favoritesUsers, currentUserGeolocation);
-
-  useEffect(() => {
-    getUsers()
-      .then((result) => setUsers(result))
-      .catch((error) => toast.error(error));
-  }, []);
 
   useEffect(() => {
     if (user?.uid) {
@@ -66,11 +61,15 @@ const Home: NextPage = () => {
     }
   }, [user, loading, router]);
 
-  if (!user || !users.length || !currentUserGeolocation) {
+  if (!user || !usersGeolocation) {
     return <Loader />;
   }
 
-  const handleUserClick = (user: User) => setSelectedUser(user);
+  const handleUserClick = (user: UserGeolocation) => setSelectedUser(user);
+
+  const usersList = currentUserGeolocation
+    ? [currentUserGeolocation, ...favoritesUsers]
+    : [];
 
   return (
     <Wrapper>
@@ -104,7 +103,7 @@ const Home: NextPage = () => {
                 </Tooltip>
               </Box>
               <UsersListContainer
-                users={[currentUserGeolocation, ...favoritesUsers]}
+                users={usersList}
                 onUserClick={handleUserClick}
               />
             </Grid>

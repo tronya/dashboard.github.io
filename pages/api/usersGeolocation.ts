@@ -6,9 +6,3 @@ export const setUserGeolocationData = (
   id: string | undefined,
   data: UserGeolocation
 ) => set(ref(RTDB, `usersGeolocation/${id}`), data);
-
-export const getUserGeolocationDataById = (id: string) =>
-  onValue(ref(RTDB, `usersGeolocation/${id}`), (snapshot) => {
-    const data = snapshot.val();
-    return data;
-  });

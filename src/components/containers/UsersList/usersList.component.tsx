@@ -14,12 +14,13 @@ import { getUserStatus } from "../../../utils/user";
 import { useAuth } from "../../../hooks/useUser";
 import { stringAvatar } from "../../../utils/user";
 import { User } from "../../../models/user.model";
+import { UserGeolocation } from "../../../models/usersGeolocation";
 
 interface ListWrapperProps {
-  users: User[];
-  onUserClick: (user: User) => void;
+  users: UserGeolocation[];
+  onUserClick: (user: UserGeolocation) => void;
   favorites?: string[];
-  starIcon?: (id: string) => void;
+  starIcon?: (id?: string) => void;
 }
 
 export const UsersList: FC<ListWrapperProps> = ({
@@ -47,13 +48,15 @@ export const UsersList: FC<ListWrapperProps> = ({
             sx={{ cursor: "pointer" }}
           >
             <ListItem alignItems="center">
-              <ListItemAvatar>
-                <Avatar
-                  alt={user.displayName}
-                  src={user.photoURL}
-                  {...stringAvatar(user.displayName)}
-                />
-              </ListItemAvatar>
+              {user.displayName && user.photoURL && (
+                <ListItemAvatar>
+                  <Avatar
+                    alt={user.displayName}
+                    src={user.photoURL}
+                    {...stringAvatar(user.displayName)}
+                  />
+                </ListItemAvatar>
+              )}
               <ListItemText
                 sx={{ color: grey[300] }}
                 primary={
@@ -64,19 +67,19 @@ export const UsersList: FC<ListWrapperProps> = ({
                     </Typography>
                   </>
                 }
-                // secondary={
-                //   <Typography
-                //     component="span"
-                //     variant="body2"
-                //     color={
-                //       getUserStatus(geolocationCoords.timestamp) === "Online"
-                //         ? green[400]
-                //         : grey[500]
-                //     }
-                //   >
-                //     {getUserStatus(geolocationCoords.timestamp)}
-                //   </Typography>
-                // }
+                secondary={
+                  <Typography
+                    component="span"
+                    variant="body2"
+                    color={
+                      getUserStatus(user.timestamp) === "Online"
+                        ? green[400]
+                        : grey[500]
+                    }
+                  >
+                    {getUserStatus(user.timestamp)}
+                  </Typography>
+                }
               />
               {starIcon && starIcon(user.uid)}
             </ListItem>

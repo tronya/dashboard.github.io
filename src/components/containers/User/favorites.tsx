@@ -7,17 +7,18 @@ import StarBorderIcon from "@mui/icons-material/StarBorder";
 import StarIcon from "@mui/icons-material/Star";
 import { orange } from "@mui/material/colors";
 import { User } from "../../../models/user.model";
+import { UserGeolocation } from "../../../models/usersGeolocation";
 
 interface FavoritesProps {
-  users: User[];
-  onUserClick: (user: User) => void;
+  users: UserGeolocation[];
+  onUserClick: (user: UserGeolocation) => void;
   favorites: string[];
 }
 
 const Favorites: FC<FavoritesProps> = ({ users, onUserClick, favorites }) => {
   const { t } = useTranslation();
 
-  const renderStarIcon = (id: string) =>
+  const renderStarIcon = (id?: string) =>
     favorites?.find((el) => el === id) ? (
       <StarIcon sx={{ color: orange[500] }} />
     ) : (

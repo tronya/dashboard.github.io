@@ -9,6 +9,7 @@ export interface UserGeolocation {
     speed: number | null;
   };
   timestamp: number;
-  displayName: string | undefined;
-  photoURL: string | undefined;
+  displayName: string | undefined | null;
+  photoURL: string | undefined | null;
+  uid: string | undefined;
 }

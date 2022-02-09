@@ -1,7 +1,7 @@
 import { Avatar, Box, Button, Paper, Typography } from "@mui/material";
 import { FC, useState } from "react";
 import { useTranslation } from "react-i18next";
-import useCurrentUser from "../../../hooks/useCurrentUser";
+import useCurrentUser from "../../../hooks/useCurrentUserGeolocation";
 import { NavigationProvider } from "../../../hooks/useNavigation";
 import { useAuth } from "../../../hooks/useUser";
 import Breadcrumbs from "../../ui/Breadcrumbs/breadcrumbs";

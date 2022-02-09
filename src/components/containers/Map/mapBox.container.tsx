@@ -5,11 +5,11 @@ import { Marker } from "../../../models/map.model";
 import MapBox from "./mapBox.component";
 import { createMarkersOnMap } from "../../../utils/map";
 import useMap from "../../../hooks/useMap";
-import { User } from "../../../models/user.model";
+import { UserGeolocation } from "../../../models/usersGeolocation";
 
 interface MapBoxContainerProps {
   markers?: Marker[];
-  selectedUser: User | null;
+  selectedUser: UserGeolocation | null;
 }
 
 const MapBoxContainer: FC<MapBoxContainerProps> = (props) => {
@@ -38,9 +38,8 @@ const MapBoxContainer: FC<MapBoxContainerProps> = (props) => {
     if (selectedUser && mapboxMap) {
       mapboxMap.flyTo({
         center: [
-          2, 2,
-          // selectedUser?.geolocationCoords.coords.longitude, // TODO
-          // selectedUser?.geolocationCoords.coords.latitude, // TODO
+          selectedUser?.coords.longitude,
+          selectedUser?.coords.latitude,
         ] as LngLatLike,
         essential: true,
         zoom: 14,

@@ -1,8 +1,8 @@
 import mapboxgl from "mapbox-gl";
 import { GeoJSONObject, Marker } from "../models/map.model";
-import { User } from "../models/user.model";
+import { UserGeolocation } from "../models/usersGeolocation";
 
-export const returnGeoJSONArray = (users: User[]): GeoJSONObject[] =>
+export const returnGeoJSONArray = (users: UserGeolocation[]): GeoJSONObject[] =>
   users.map((user) => ({
     properties: {
       description: user.displayName,
@@ -12,10 +12,7 @@ export const returnGeoJSONArray = (users: User[]): GeoJSONObject[] =>
     },
     geometry: {
       type: "Point",
-      coordinates: [
-        2, // TODO REALTIME DATA BASE
-        2, // TODO REALTIME DATA BASE
-      ],
+      coordinates: [user.coords.longitude, user.coords.latitude],
     },
   }));
 

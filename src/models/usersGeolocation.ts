@@ -11,5 +11,5 @@ export interface UserGeolocation {
   timestamp: number;
   displayName: string | undefined | null;
   photoURL: string | undefined | null;
-  uid: string | undefined;
+  uid: string;
 }

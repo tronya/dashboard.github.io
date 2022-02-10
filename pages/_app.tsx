@@ -7,6 +7,7 @@ import { initializeApp } from "firebase/app";
 import { AuthUserProvider } from "../src/hooks/useUser";
 import fireBaseConfig from "../src/firebase";
 
+
 initializeApp(fireBaseConfig);
 
 const MyApp = ({ Component, pageProps }: AppProps) => {

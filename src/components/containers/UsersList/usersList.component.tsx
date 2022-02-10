@@ -15,6 +15,7 @@ import { useAuth } from "../../../hooks/useUser";
 import { stringAvatar } from "../../../utils/user";
 import { User } from "../../../models/user.model";
 import { UserGeolocation } from "../../../models/usersGeolocation";
+import { useTranslation } from "react-i18next";
 
 interface ListWrapperProps {
   users: UserGeolocation[];
@@ -29,6 +30,7 @@ export const UsersList: FC<ListWrapperProps> = ({
   starIcon,
 }) => {
   const { user: authUser } = useAuth();
+  const { t } = useTranslation();
 
   if (!users.length) {
     return <UserListEmpty count={6} />;
@@ -63,7 +65,7 @@ export const UsersList: FC<ListWrapperProps> = ({
                   <>
                     {user.displayName}
                     <Typography variant="caption">
-                      {isCurrentUser && " (It's you)"}
+                      {isCurrentUser && t("usersList.itsYou")}
                     </Typography>
                   </>
                 }

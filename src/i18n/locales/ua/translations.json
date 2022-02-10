@@ -2,15 +2,15 @@
   "mainMenu": {
     "groups": "Групи"
   },
-  "titles":{
+  "titles": {
     "groups": "Групи",
     "groupsСreate": "Створити Групу"
   },
   "forms": {
     "createGroupForm": {
-      "groupName":"Назва Групи",
-      "addUsers":"Додайте юзерів",
-      "submit":"Створити групу"
+      "groupName": "Назва Групи",
+      "addUsers": "Додайте юзерів",
+      "submit": "Створити групу"
     }
   },
   "dashboard": {
@@ -34,5 +34,8 @@
     "logIn": "Ви успішно увійшли!",
     "logOut": "Ви успішно вийшли!",
     "acceptGeolocation": "Геолокацію було успішно прийнято!"
+  },
+  "usersList": {
+    "itsYou": " (це ти)"
   }
 }

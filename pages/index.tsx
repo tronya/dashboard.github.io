@@ -10,7 +10,7 @@ import { useAuth } from "../src/hooks/useUser";
 import MapBoxContainer from "../src/components/containers/Map/mapBox.container";
 import useMarkers from "../src/hooks/useMarkers";
 import Banner from "../src/components/ui/Banner/banner";
-import useCurrentUser from "../src/hooks/useCurrentUserGeolocation";
+import useCurrentUserGeolocation from "../src/hooks/useCurrentUserGeolocation";
 import { useTranslation } from "react-i18next";
 import { isNotNullable } from "../src/utils/common";
 import HelpIcon from "@mui/icons-material/Help";
@@ -28,7 +28,8 @@ const Home: NextPage = () => {
   const router = useRouter();
   const { t } = useTranslation();
   const { user, loading } = useAuth();
-  const { isLocationAllowed, currentUserGeolocation } = useCurrentUser();
+  const { isLocationAllowed, currentUserGeolocation, isLoading } =
+    useCurrentUserGeolocation();
   const usersGeolocation = useUsersGeolocation();
 
   const favoritesUsers = usersGeolocation
@@ -61,7 +62,7 @@ const Home: NextPage = () => {
     }
   }, [user, loading, router]);
 
-  if (!user || !usersGeolocation) {
+  if (!user || !usersGeolocation || isLoading) {
     return <Loader />;
   }
 

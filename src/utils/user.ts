@@ -11,7 +11,7 @@ export const getUserStatus = (userTimestamp: number): UserStatus => {
     moment(userTimestamp)
   );
   const differenceInMinutes = +moment(differenceInMilliseconds).format("m");
-  return differenceInMinutes > 5 ? UserStatus.OFFLINE : UserStatus.ONLINE;
+  return differenceInMinutes > 2 ? UserStatus.OFFLINE : UserStatus.ONLINE;
 };
 
 export const stringToColor = (string: string) => {

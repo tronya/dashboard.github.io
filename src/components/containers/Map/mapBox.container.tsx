@@ -2,18 +2,18 @@ import mapboxgl, { LngLatLike } from "mapbox-gl";
 import "mapbox-gl/dist/mapbox-gl.css";
 import { createElement, FC, useEffect } from "react";
 import { Marker } from "../../../models/map.model";
-import { Geolocation } from "../../../models/geolocation.model";
 import MapBox from "./mapBox.component";
 import { createMarkersOnMap } from "../../../utils/map";
 import useMap from "../../../hooks/useMap";
+import { UserGeolocation } from "../../../models/usersGeolocation";
 
 interface MapBoxContainerProps {
   markers?: Marker[];
-  selectedLocation: Geolocation | null;
+  selectedUser: UserGeolocation | null;
 }
 
 const MapBoxContainer: FC<MapBoxContainerProps> = (props) => {
-  const { markers, selectedLocation } = props;
+  const { markers, selectedUser } = props;
   const { mapboxMap, mapNode } = useMap();
 
   useEffect(() => {
@@ -35,17 +35,17 @@ const MapBoxContainer: FC<MapBoxContainerProps> = (props) => {
   }, [mapboxMap]);
 
   useEffect(() => {
-    if (selectedLocation && mapboxMap) {
+    if (selectedUser && mapboxMap) {
       mapboxMap.flyTo({
         center: [
-          selectedLocation?.geolocationCoords.coords.longitude,
-          selectedLocation?.geolocationCoords.coords.latitude,
+          selectedUser?.coords.longitude,
+          selectedUser?.coords.latitude,
         ] as LngLatLike,
         essential: true,
         zoom: 14,
       });
     }
-  }, [mapboxMap, selectedLocation]);
+  }, [mapboxMap, selectedUser]);
 
   useEffect(() => {
     if (markers?.length && mapboxMap) {

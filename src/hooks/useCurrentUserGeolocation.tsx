@@ -1,32 +1,37 @@
 import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
-import { getGeolocation } from "../../pages/api/geolocation";
-import { Geolocation } from "../../src/models/geolocation.model";
+import { getUsers } from "../../pages/api/users";
+import { User } from "../models/user.model";
+import { UserGeolocation } from "../models/usersGeolocation";
 import { useAuth } from "./useUser";
+import useUsersGeolocation from "./useUsersGeolocation";
 
-interface useCurrentUserGeolocationProps {
-  user: Geolocation | undefined;
+interface UseCurrentUserGeolocationProps {
+  currentUserGeolocation: UserGeolocation | undefined;
   isLocationAllowed: boolean;
 }
 
-const useCurrentUserGeolocation = (): useCurrentUserGeolocationProps => {
-  const [geolocation, setGeolocation] = useState<Geolocation[]>([]);
-  const { user } = useAuth();
+const useCurrentUserGeolocation = (): UseCurrentUserGeolocationProps => {
+  const [users, setUsers] = useState<User[]>([]);
+
+  const { user: authUser } = useAuth();
+  const usersGeolocation = useUsersGeolocation();
 
   useEffect(() => {
-    getGeolocation()
-      .then((result) => setGeolocation(result))
+    getUsers()
+      .then((result) => setUsers(result))
       .catch((error) => toast.error(error));
   }, []);
 
-  const currentUserGeolocation = geolocation.find(
-    (location) => location.user.uid === user?.uid
+  const isLocationAllowed =
+    users?.find((user) => user.uid === authUser?.uid)?.isLocationAllowed ??
+    false;
+
+  const currentUserGeolocation = usersGeolocation.find(
+    (user) => user.uid === authUser?.uid
   );
 
-  const isLocationAllowed =
-    currentUserGeolocation?.geolocationCoords.allowLocation ?? false;
-
-  return { user: currentUserGeolocation, isLocationAllowed };
+  return { currentUserGeolocation, isLocationAllowed };
 };
 
 export default useCurrentUserGeolocation;

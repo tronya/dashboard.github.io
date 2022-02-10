@@ -2,7 +2,6 @@ import { getDocs, collection, addDoc } from "firebase/firestore";
 import { DB } from "../../src/firebase";
 import { AuthUserContextProps } from "../../src/models/auth.model";
 import { GroupProps } from "../../src/models/groups.model";
-import { AuthUser } from "../../src/models/user.model";
 import { GroupFormFields } from "../groups/create";
 
 export const getGroupsCollection = async () =>

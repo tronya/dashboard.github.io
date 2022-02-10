@@ -4,7 +4,7 @@ import Wrapper from "../../src/components/ui/Wrapper/wrapper";
 import { useFormik } from "formik";
 import * as yup from "yup";
 import { useTranslation } from "react-i18next";
-import SelectableUsers from "../../src/components/ui/SelectableUsers/SelectableeUsers";
+import SelectableUsers from "../../src/components/ui/SelectableUsers/SelectableUsers";
 import { red } from "@mui/material/colors";
 import { useAuth } from "../../src/hooks/useUser";
 import { setGroup } from "../api/group";

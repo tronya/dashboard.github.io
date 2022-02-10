@@ -1,6 +1,5 @@
 import type { NextPage } from "next";
 import Head from "next/head";
-import { toast } from "react-toastify";
 import { Box, Grid, Tooltip, Typography } from "@mui/material";
 import UsersListContainer from "../src/components/containers/UsersList/usersList.container";
 import { useRouter } from "next/router";
@@ -10,8 +9,6 @@ import Wrapper from "../src/components/ui/Wrapper/wrapper";
 import { useAuth } from "../src/hooks/useUser";
 import MapBoxContainer from "../src/components/containers/Map/mapBox.container";
 import useMarkers from "../src/hooks/useMarkers";
-import { getGeolocation } from "./api/geolocation";
-import { Geolocation } from "../src/models/geolocation.model";
 import Banner from "../src/components/ui/Banner/banner";
 import useCurrentUserGeolocation from "../src/hooks/useCurrentUserGeolocation";
 import { useTranslation } from "react-i18next";
@@ -19,35 +16,31 @@ import { isNotNullable } from "../src/utils/common";
 import HelpIcon from "@mui/icons-material/Help";
 import { collection, where, query, onSnapshot } from "firebase/firestore";
 import { DB } from "../src/firebase";
+import useUsersGeolocation from "../src/hooks/useUsersGeolocation";
+import { UserGeolocation } from "../src/models/usersGeolocation";
 
 const Home: NextPage = () => {
   const [favorites, setFavorites] = useState<string[]>([]);
-  const [geolocation, setGeolocation] = useState<Geolocation[]>([]);
-  const [selectedLocation, setSelectedLocation] = useState<Geolocation | null>(
+  const [selectedUser, setSelectedUser] = useState<UserGeolocation | null>(
     null
   );
 
   const router = useRouter();
   const { t } = useTranslation();
   const { user, loading } = useAuth();
-  const { isLocationAllowed, user: currentUserGeolocation } =
+  const { isLocationAllowed, currentUserGeolocation } =
     useCurrentUserGeolocation();
+  const usersGeolocation = useUsersGeolocation();
 
-  const favoritesUsers = geolocation
-    .map((location) => {
-      if (favorites?.find((id) => id === location.id)) {
-        return location;
+  const favoritesUsers = usersGeolocation
+    .map((user) => {
+      if (favorites?.find((id) => id === user.uid)) {
+        return user;
       }
     })
     .filter(isNotNullable);
 
   const markers = useMarkers(favoritesUsers, currentUserGeolocation);
-
-  useEffect(() => {
-    getGeolocation()
-      .then((result) => setGeolocation(result))
-      .catch((error) => toast.error(error));
-  }, []);
 
   useEffect(() => {
     if (user?.uid) {
@@ -69,12 +62,15 @@ const Home: NextPage = () => {
     }
   }, [user, loading, router]);
 
-  if (!user || !geolocation.length || !currentUserGeolocation) {
+  if (!user || !usersGeolocation) {
     return <Loader />;
   }
 
-  const handleUserClick = (location: Geolocation) =>
-    setSelectedLocation(location);
+  const handleUserClick = (user: UserGeolocation) => setSelectedUser(user);
+
+  const usersList = currentUserGeolocation
+    ? [currentUserGeolocation, ...favoritesUsers]
+    : [];
 
   return (
     <Wrapper>
@@ -108,15 +104,12 @@ const Home: NextPage = () => {
                 </Tooltip>
               </Box>
               <UsersListContainer
-                geolocation={[currentUserGeolocation, ...favoritesUsers]}
+                users={usersList}
                 onUserClick={handleUserClick}
               />
             </Grid>
             <Grid item xs={12} sm={6} lg={9}>
-              <MapBoxContainer
-                markers={markers}
-                selectedLocation={selectedLocation}
-              />
+              <MapBoxContainer markers={markers} selectedUser={selectedUser} />
             </Grid>
           </Grid>
         )}

@@ -8,9 +8,9 @@
   },
   "forms": {
     "createGroupForm": {
-      "groupName":"Group name",
-      "addUsers":"Add Users",
-      "submit":"Create Group"
+      "groupName": "Group name",
+      "addUsers": "Add Users",
+      "submit": "Create Group"
     }
   },
   "dashboard": {
@@ -34,5 +34,8 @@
     "logIn": "You successfully log in!",
     "logOut": "You successfully log out!",
     "acceptGeolocation": "Geolocation was successfully accepted!"
+  },
+  "usersList": {
+    "itsYou": " (it's you)"
   }
 }

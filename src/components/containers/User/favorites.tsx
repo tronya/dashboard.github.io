@@ -3,25 +3,22 @@ import { FC } from "react";
 import { useTranslation } from "react-i18next";
 import Breadcrumbs from "../../ui/Breadcrumbs/breadcrumbs";
 import { UsersList } from "../UsersList/usersList.component";
-import { Geolocation } from "../../../models/geolocation.model";
 import StarBorderIcon from "@mui/icons-material/StarBorder";
 import StarIcon from "@mui/icons-material/Star";
 import { orange } from "@mui/material/colors";
+import { User } from "../../../models/user.model";
+import { UserGeolocation } from "../../../models/usersGeolocation";
 
 interface FavoritesProps {
-  geolocation: Geolocation[];
-  onUserClick: (location: Geolocation) => void;
+  users: UserGeolocation[];
+  onUserClick: (user: UserGeolocation) => void;
   favorites: string[];
 }
 
-const Favorites: FC<FavoritesProps> = ({
-  geolocation,
-  onUserClick,
-  favorites,
-}) => {
+const Favorites: FC<FavoritesProps> = ({ users, onUserClick, favorites }) => {
   const { t } = useTranslation();
 
-  const renderStarIcon = (id: string) =>
+  const renderStarIcon = (id?: string) =>
     favorites?.find((el) => el === id) ? (
       <StarIcon sx={{ color: orange[500] }} />
     ) : (
@@ -36,7 +33,7 @@ const Favorites: FC<FavoritesProps> = ({
       </Box>
       <Paper>
         <UsersList
-          geolocation={geolocation}
+          users={users}
           onUserClick={onUserClick}
           starIcon={renderStarIcon}
         />

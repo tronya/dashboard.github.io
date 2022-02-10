@@ -18,7 +18,7 @@ const Login = () => {
     switch (provider) {
       case "google":
         signInWithPopup(auth, googleProvider)
-          .then((result) => {
+          .then(() => {
             toast.success(t("toastSuccess.logIn"));
             router.push("/");
           })

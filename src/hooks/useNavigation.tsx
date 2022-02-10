@@ -31,7 +31,7 @@ export const useNavigation = (isLocationAllowed: boolean = false) => {
             timestamp: success.timestamp,
             displayName: auth.user?.displayName,
             photoURL: auth.user?.photoURL,
-            uid: auth.user?.uid,
+            uid: auth.user?.uid ?? "",
           };
           setGeolocation(success);
           setUserGeolocationData(auth.user?.uid, data);

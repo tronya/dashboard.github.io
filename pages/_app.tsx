@@ -5,7 +5,7 @@ import "react-toastify/dist/ReactToastify.css";
 import "../src/i18n/config";
 import { initializeApp } from "firebase/app";
 import { AuthUserProvider } from "../src/hooks/useUser";
-import { fireBaseConfig } from "../src/firebase";
+import fireBaseConfig from "../src/firebase";
 
 initializeApp(fireBaseConfig);
 

@@ -40,6 +40,9 @@ jobs:
           npm i --legacy-peer-deps
           npm run build
           npm run export
+        env:
+          NEXT_PUBLIC_FIREBASE_API_KEY: ${{ secrets.NEXT_PUBLIC_FIREBASE_API_KEY }}
+          NEXT_PUBLIC_FIREBASE_APP_ID: ${{ secrets.NEXT_PUBLIC_FIREBASE_APP_ID }}
 
 
       - name: Deploy

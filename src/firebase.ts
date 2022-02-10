@@ -12,9 +12,11 @@ export const fireBaseConfig = {
   measurementId: process.env.NEXT_PUBLIC_FIREBASE_MEASUREMENT_ID,
 };
 
-export const app: FirebaseApp = initializeApp(fireBaseConfig);
+const app: FirebaseApp = initializeApp(fireBaseConfig);
 
 getApps().length === 0 ? initializeApp(fireBaseConfig) : getApp();
 
 export const DB = getFirestore(app);
 export const RTDB = getDatabase(app);
+
+export default fireBaseConfig;

@@ -2,10 +2,10 @@ import { LngLatLike } from "mapbox-gl";
 
 export interface GeoJSONObject {
   properties: {
-    description: string;
+    description: string | undefined | null;
     iconSize: number[];
-    backgroundImage: string;
-    displayName: string;
+    backgroundImage: string | undefined | null;
+    displayName: string | undefined | null;
   };
   geometry: {
     type: string;

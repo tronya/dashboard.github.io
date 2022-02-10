@@ -39,7 +39,10 @@ const FavoritesPage: FC = () => {
   };
 
   const handleClick = (user: UserGeolocation) => {
-    if (!favorites.some((alreadyFavorite) => alreadyFavorite === user.uid)) {
+    if (
+      !favorites.some((alreadyFavorite) => alreadyFavorite === user.uid) &&
+      user.uid
+    ) {
       const newFavorites = [...favorites, user.uid];
       setFavoritesUsers(newFavorites);
     } else {
@@ -50,9 +53,12 @@ const FavoritesPage: FC = () => {
 
   const sortedUsers = usersGeolocation
     .filter((user) => authUser.uid !== user.uid)
-    .sort((a, b) =>
-      favorites?.includes(b.uid) ? 1 : favorites?.includes(a.uid) ? -1 : 0
-    );
+    .sort((a, b) => {
+      if (a.uid && b.uid) {
+        favorites?.includes(b.uid) ? 1 : favorites?.includes(a.uid) ? -1 : 0;
+      }
+      return 0;
+    });
 
   return (
     <Wrapper>

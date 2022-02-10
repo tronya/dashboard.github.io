@@ -1,4 +1,4 @@
-import { set, ref, onValue } from "firebase/database";
+import { set, ref } from "firebase/database";
 import { RTDB } from "../../src/firebase";
 import { UserGeolocation } from "../../src/models/usersGeolocation";
 

@@ -28,7 +28,7 @@ const Home: NextPage = () => {
   const router = useRouter();
   const { t } = useTranslation();
   const { user, loading } = useAuth();
-  const { isLocationAllowed, currentUserGeolocation, isLoading } =
+  const { isLocationAllowed, currentUserGeolocation } =
     useCurrentUserGeolocation();
   const usersGeolocation = useUsersGeolocation();
 
@@ -62,7 +62,7 @@ const Home: NextPage = () => {
     }
   }, [user, loading, router]);
 
-  if (!user || !usersGeolocation || isLoading) {
+  if (!user || !usersGeolocation) {
     return <Loader />;
   }
 

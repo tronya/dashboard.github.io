@@ -9,13 +9,10 @@ import useUsersGeolocation from "./useUsersGeolocation";
 interface UseCurrentUserGeolocationProps {
   currentUserGeolocation: UserGeolocation | undefined;
   isLocationAllowed: boolean;
-  isLoading: boolean;
 }
 
 const useCurrentUserGeolocation = (): UseCurrentUserGeolocationProps => {
   const [users, setUsers] = useState<User[]>([]);
-  const [isLoading, setIsLoading] = useState(false);
-  const [isLocationAllowed, setIsLocationAllowed] = useState(false);
 
   const { user: authUser } = useAuth();
   const usersGeolocation = useUsersGeolocation();
@@ -26,25 +23,15 @@ const useCurrentUserGeolocation = (): UseCurrentUserGeolocationProps => {
       .catch((error) => toast.error(error));
   }, []);
 
-  useEffect(() => {
-    setIsLoading(true);
-
-    const isLocationAllowed = users?.find(
-      (user) => user.uid === authUser?.uid
-    )?.isLocationAllowed;
-
-    if (isLocationAllowed!!) {
-      setIsLocationAllowed(isLocationAllowed);
-    }
-
-    setIsLoading(false);
-  }, [users, authUser]);
+  const isLocationAllowed =
+    users?.find((user) => user.uid === authUser?.uid)?.isLocationAllowed ??
+    false;
 
   const currentUserGeolocation = usersGeolocation.find(
     (user) => user.uid === authUser?.uid
   );
 
-  return { currentUserGeolocation, isLocationAllowed, isLoading };
+  return { currentUserGeolocation, isLocationAllowed };
 };
 
 export default useCurrentUserGeolocation;

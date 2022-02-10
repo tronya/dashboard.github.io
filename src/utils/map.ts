@@ -2,7 +2,7 @@ import mapboxgl from "mapbox-gl";
 import { GeoJSONObject, Marker } from "../models/map.model";
 import { UserGeolocation } from "../models/usersGeolocation";
 
-export const returnGeoJSONArray = (users: UserGeolocation[]): GeoJSONObject[] =>
+export const returnGeoJSONArray = (users: UserGeolocation[]): any[] =>
   users.map((user) => ({
     properties: {
       description: user.displayName,

@@ -1,5 +1,4 @@
 import { FC, useEffect, useState } from "react";
-import { toast } from "react-toastify";
 import Favorites from "../../src/components/containers/User/favorites";
 import Loader from "../../src/components/ui/Loader/loader";
 import Wrapper from "../../src/components/ui/Wrapper/wrapper";
@@ -7,20 +6,14 @@ import { useAuth } from "../../src/hooks/useUser";
 import { setFavoritesToCollection } from "../api/favorites";
 import { query, collection, where, onSnapshot } from "firebase/firestore";
 import { DB } from "../../src/firebase";
-import { User } from "../../src/models/user.model";
-import { getUsers } from "../api/users";
+import useUsersGeolocation from "../../src/hooks/useUsersGeolocation";
+import { UserGeolocation } from "../../src/models/usersGeolocation";
 
 const FavoritesPage: FC = () => {
   const { user: authUser } = useAuth();
+  const usersGeolocation = useUsersGeolocation();
 
-  const [users, setUsers] = useState<User[]>([]);
   const [favorites, setFavorites] = useState<string[]>([]);
-
-  useEffect(() => {
-    getUsers()
-      .then((result) => setUsers(result))
-      .catch((error) => toast.error(error));
-  }, []);
 
   useEffect(() => {
     if (authUser?.uid) {
@@ -36,7 +29,7 @@ const FavoritesPage: FC = () => {
     }
   }, [authUser]);
 
-  if (!users.length || !authUser) {
+  if (!usersGeolocation || !authUser) {
     return <Loader />;
   }
 
@@ -45,7 +38,7 @@ const FavoritesPage: FC = () => {
     setFavoritesToCollection(authUser.uid, favorites);
   };
 
-  const handleClick = (user: User) => {
+  const handleClick = (user: UserGeolocation) => {
     if (!favorites.some((alreadyFavorite) => alreadyFavorite === user.uid)) {
       const newFavorites = [...favorites, user.uid];
       setFavoritesUsers(newFavorites);
@@ -55,7 +48,7 @@ const FavoritesPage: FC = () => {
     }
   };
 
-  const sortedUsers = users
+  const sortedUsers = usersGeolocation
     .filter((user) => authUser.uid !== user.uid)
     .sort((a, b) =>
       favorites?.includes(b.uid) ? 1 : favorites?.includes(a.uid) ? -1 : 0

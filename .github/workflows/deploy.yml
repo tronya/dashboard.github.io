@@ -8,7 +8,7 @@ on:
   workflow_dispatch:
 
 jobs:
-  preepare:
+  deployment:
     runs-on: ubuntu-latest
 
     strategy:
@@ -34,14 +34,7 @@ jobs:
           restore-keys: |
             ${{ runner.OS }}-node-
             ${{ runner.OS }}-
-  build:
-    runs-on: ubuntu-latest
 
-    strategy:
-      matrix:
-        node-version: [17.x]
-
-    steps:
       - name: Build
         run: |
           npm i --legacy-peer-deps
@@ -57,17 +50,10 @@ jobs:
           NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET: ${{ secrets.NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET }}
           NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID: ${{ secrets.NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID }}
           NEXT_PUBLIC_FIREBASE_MEASUREMENT_ID: ${{ secrets.NEXT_PUBLIC_FIREBASE_MEASUREMENT_ID }}
-          NEXT_PUBLIC_FIREBASE_GOOGLE_CLIENT_ID: ${{ secrets.NEXT_PUBLIC_FIREBASE_GOOGLE_CLIENT_ID }}
-          NEXT_PUBLIC_FIREBASE_GOOGLE_CLIENT_SECRET: ${{ secrets.NEXT_PUBLIC_FIREBASE_GOOGLE_CLIENT_SECRET }}
+          NEXT_PUBLIC_FIREBASE_GOOGLE_CLIENT_ID: ${{ secrets.NEXT_PUBLIC_FIREBASE_MEASUREMENT_ID }}
+          NEXT_PUBLIC_FIREBASE_GOOGLE_CLIENT_SECRET: ${{ secrets.NEXT_PUBLIC_FIREBASE_MEASUREMENT_ID }}
 
-  deploy:
-    runs-on: ubuntu-latest
 
-    strategy:
-      matrix:
-        node-version: [17.x]
-
-    steps:
       - name: Deploy
         uses: peaceiris/actions-gh-pages@v3
         with:

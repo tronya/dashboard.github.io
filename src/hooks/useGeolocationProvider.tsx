@@ -60,7 +60,6 @@ const useNavigatorGeolocation = (): NavigatorState => {
 
 export const GeolocationProvider = ({ children }: GeolocationProviderProps) => {
   const geoNavigator = useNavigatorGeolocation()
-  console.log(geoNavigator)
   return (
     <GeolocationProviderContext.Provider value={geoNavigator}>
       {children}

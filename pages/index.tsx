@@ -1,9 +1,8 @@
 import type { NextPage } from "next";
 import Head from "next/head";
-import { Box, Grid, Tooltip, Typography } from "@mui/material";
-import UsersListContainer from "../src/components/containers/UsersList/usersList.container";
+import { Box } from "@mui/material";
 import { useRouter } from "next/router";
-import { ReactChild, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import Loader from "../src/components/ui/Loader/loader";
 import Wrapper from "../src/components/ui/Wrapper/wrapper";
 import { useAuth } from "../src/hooks/useUser";
@@ -12,15 +11,11 @@ import useMarkers from "../src/hooks/useMarkers";
 import Banner from "../src/components/ui/Banner/banner";
 import useCurrentUserGeolocation from "../src/hooks/useCurrentUserGeolocation";
 import { useTranslation } from "react-i18next";
-import { isNotNullable } from "../src/utils/common";
-import HelpIcon from "@mui/icons-material/Help";
-import { collection, where, query, onSnapshot } from "firebase/firestore";
-import { DB } from "../src/firebase";
 import useUsersGeolocation from "../src/hooks/useUsersGeolocation";
 import { UserGeolocation } from "../src/models/usersGeolocation";
+import UsersListGroup from "../src/components/containers/UsersList/usersListGroup";
 
 const Home: NextPage = () => {
-  const [favorites, setFavorites] = useState<string[]>([]);
   const [selectedUser, setSelectedUser] = useState<UserGeolocation | null>(
     null
   );
@@ -32,29 +27,7 @@ const Home: NextPage = () => {
     useCurrentUserGeolocation();
   const usersGeolocation = useUsersGeolocation();
 
-  const favoritesUsers = usersGeolocation
-    .map((user) => {
-      if (favorites?.find((id) => id === user.uid)) {
-        return user;
-      }
-    })
-    .filter(isNotNullable);
-
-  const markers = useMarkers(favoritesUsers, currentUserGeolocation);
-
-  useEffect(() => {
-    if (user?.uid) {
-      const q = query(
-        collection(DB, "favorites"),
-        where("id", "==", user?.uid)
-      );
-      onSnapshot(q, (snapshot) => {
-        snapshot.forEach((userSnapshot) => {
-          setFavorites(userSnapshot.data().users);
-        });
-      });
-    }
-  }, [user]);
+  const markers = useMarkers(usersGeolocation, currentUserGeolocation);
 
   useEffect(() => {
     if (!loading && !user) {
@@ -62,15 +35,11 @@ const Home: NextPage = () => {
     }
   }, [user, loading, router]);
 
-  if (!user || !usersGeolocation) {
+  if (!user || !usersGeolocation || !currentUserGeolocation) {
     return <Loader />;
   }
 
   const handleUserClick = (user: UserGeolocation) => setSelectedUser(user);
-
-  const usersList = currentUserGeolocation
-    ? [currentUserGeolocation, ...favoritesUsers]
-    : [];
 
   return (
     <Wrapper>
@@ -88,30 +57,20 @@ const Home: NextPage = () => {
             buttonHref="/user/profile"
           />
         ) : (
-          <Grid container>
-            <Grid item xs={12} sm={6} lg={3}>
-              <Box display="flex" alignItems="center" py={2} mr={2}>
-                <Typography variant="h4">
-                  {t("dashboard.peopleYouFollow")}
-                </Typography>
-                <Tooltip
-                  title={t("dashboard.tooltip") as ReactChild}
-                  placement="top"
-                >
-                  <Box ml={1}>
-                    <HelpIcon sx={{ width: 15, height: 15 }} />
-                  </Box>
-                </Tooltip>
-              </Box>
-              <UsersListContainer
-                users={usersList}
+          <>
+            <Box display="flex" py={1}>
+              <UsersListGroup
+                users={[
+                  currentUserGeolocation,
+                  ...usersGeolocation.filter(
+                    (user) => user.uid !== currentUserGeolocation?.uid
+                  ),
+                ]}
                 onUserClick={handleUserClick}
               />
-            </Grid>
-            <Grid item xs={12} sm={6} lg={9}>
-              <MapBoxContainer markers={markers} selectedUser={selectedUser} />
-            </Grid>
-          </Grid>
+            </Box>
+            <MapBoxContainer markers={markers} selectedUser={selectedUser} />
+          </>
         )}
       </main>
     </Wrapper>

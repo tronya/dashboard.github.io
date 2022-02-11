@@ -6,7 +6,7 @@ interface MapBoxProps {
 }
 
 const MapBox: FC<MapBoxProps> = ({ mapNode }) => (
-  <Paper sx={{ height: 600 }}>
+  <Paper sx={{ height: "calc(100vh - 155px)" }}>
     <div ref={mapNode} style={{ width: "100%", height: "100%" }} />
   </Paper>
 );

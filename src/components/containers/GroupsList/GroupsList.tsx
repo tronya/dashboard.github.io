@@ -6,15 +6,15 @@ import {
   TableContainer,
   TableHead,
   TableRow,
-} from "@mui/material";
-import { FC } from "react";
-import { GroupProps } from "../../../models/groups.model";
-import { AuthUser } from "../../../models/user.model";
-import { StyledTableCell } from "./GroupsList.styles";
+} from '@mui/material'
+import { FC } from 'react'
+import { GroupProps } from '../../../models/groups.model'
+import { User } from '../../../models/user.model'
+import { StyledTableCell } from './GroupsList.styles'
 
 interface GroupList {
-  groups: GroupProps[];
-  currentUser: AuthUser | null;
+  groups: GroupProps[]
+  currentUser: User | null
 }
 
 export const GroupsList: FC<GroupList> = ({ groups, currentUser }) => {
@@ -33,14 +33,14 @@ export const GroupsList: FC<GroupList> = ({ groups, currentUser }) => {
             {groups.map((group) => (
               <TableRow
                 key={group.id}
-                sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
+                sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
               >
                 <TableCell component="th" scope="row">
                   {group.name}
                 </TableCell>
                 <TableCell align="right">{group.users.length}</TableCell>
                 <TableCell align="right">
-                  {group.userCreate === currentUser?.uid ? "+" : "-"}
+                  {group.userCreate === currentUser?.uid ? '+' : '-'}
                 </TableCell>
               </TableRow>
             ))}
@@ -48,5 +48,5 @@ export const GroupsList: FC<GroupList> = ({ groups, currentUser }) => {
         </Table>
       </TableContainer>
     </Box>
-  );
-};
+  )
+}

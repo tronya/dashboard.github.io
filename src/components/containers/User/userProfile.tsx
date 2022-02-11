@@ -8,6 +8,10 @@ import { stringAvatar } from '../../../utils/user'
 import Loader from '../../ui/Loader/loader'
 import { toast } from 'react-toastify'
 import { useGeolocationProvider } from '../../../hooks/useGeolocationProvider'
+import {
+  prepareUserData,
+  setUserGeolocationData,
+} from '../../../../pages/api/usersGeolocation'
 
 const UserProfile: FC = () => {
   const { t } = useTranslation()
@@ -22,8 +26,9 @@ const UserProfile: FC = () => {
   const setAcceptLocation = () => {
     navigator.geolocation.getCurrentPosition(
       (success) => {
-        console.log(success)
-        //TODO some  callback should be to retrigger User (success.onchange)
+        setUserGeolocationData(user.uid, prepareUserData(success, user))
+          .then((s) => toast.success(t('toastSuccess.acceptGeolocation')))
+          .catch((e) => console.error(e))
       },
       (e) => {
         toast.error(e.message)

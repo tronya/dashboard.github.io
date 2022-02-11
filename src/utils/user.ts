@@ -39,7 +39,7 @@ export const stringAvatar = (name: string) => ({
   children: getFirstUppercaseLetters(name),
 });
 
-export const getFirstUppercaseLetters = (name: string) =>
-  `${name.split(" ")[0][0].toUpperCase()}${name
-    .split(" ")[1][0]
+export const getFirstUppercaseLetters = (name: string | undefined | null) =>
+  `${name?.split(" ")[0][0].toUpperCase()}${name
+    ?.split(" ")[1][0]
     .toUpperCase()}`;

@@ -1,19 +1,19 @@
-import { LngLatLike } from "mapbox-gl";
+import { LngLatLike } from 'mapbox-gl'
 
 export interface GeoJSONObject {
   properties: {
-    description: string;
-    iconSize: number[];
-    backgroundImage: string;
-    displayName: string;
-  };
+    description: string | undefined | null
+    iconSize: number[]
+    backgroundImage: string | undefined | null
+    displayName: string | undefined | null
+  }
   geometry: {
-    type: string;
-    coordinates: LngLatLike;
-  };
+    type: string
+    coordinates: LngLatLike
+  }
 }
 
 export interface Marker {
-  popup: HTMLDivElement;
-  marker: GeoJSONObject;
+  popup: HTMLDivElement
+  marker: GeoJSONObject
 }

@@ -19,7 +19,8 @@ const SelectableUsers: FC<SelectableUsersProps> = ({ selectedUsers }) => {
   const [checked, setChecked] = useState<string[]>([])
   const users = useUsersGeolocation()
 
-  const handleToggle = (id: string) => () => {
+  const handleToggle = (id: string | undefined) => () => {
+    if (!id) return
     const newUsers = [...checked]
     if (newUsers.includes(id)) {
       newUsers.splice(newUsers.indexOf(id), 1)
@@ -41,7 +42,7 @@ const SelectableUsers: FC<SelectableUsersProps> = ({ selectedUsers }) => {
               <Checkbox
                 edge="end"
                 onChange={handleToggle(user.uid)}
-                checked={checked.includes(user.uid)}
+                checked={checked.includes(user.uid ?? '')} // TODO: take a loo to this
                 inputProps={{ 'aria-labelledby': labelId }}
               />
             }

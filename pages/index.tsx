@@ -14,6 +14,7 @@ import useUsersGeolocation from '../src/hooks/useUsersGeolocation'
 import { UserGeolocation } from '../src/models/usersGeolocation'
 import { useGeolocationProvider } from '../src/hooks/useGeolocationProvider'
 import UsersListGroup from '../src/components/containers/UsersList/usersListGroup'
+import PageTitle from '../src/components/ui/PageTitle/PageTitle'
 
 const Home: NextPage = () => {
   const [selectedUser, setSelectedUser] = useState<UserGeolocation | null>(null)
@@ -55,7 +56,8 @@ const Home: NextPage = () => {
           />
         ) : (
           <>
-            <Box display="flex" py={1}>
+            <PageTitle title={t('dashboard.users')} />
+            <Box display="flex" p={1}>
               <UsersListGroup
                 users={usersGeolocation}
                 onUserClick={handleUserClick}

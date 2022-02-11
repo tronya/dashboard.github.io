@@ -12,7 +12,7 @@ import { AppBar } from "../AppBar/appBar";
 import Localization from "../Localization/localization";
 import { useTranslation } from "react-i18next";
 import Drawer from "../Drawer/drawer";
-import { useAuth } from "../../../hooks/useUser";
+import { useAuth } from "../../../hooks/useAuth";
 import { useRouter } from "next/router";
 import { stringAvatar } from "../../../utils/user";
 

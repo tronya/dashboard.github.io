@@ -3,9 +3,10 @@ import { DB } from "../../src/firebase";
 import { AuthUserContextProps } from "../../src/models/auth.model";
 import { GroupProps } from "../../src/models/groups.model";
 import { GroupFormFields } from "../groups/create";
+import { DataBaseModel } from "./api.model";
 
 export const getGroupsCollection = async () =>
-  await getDocs(collection(DB, "groups"));
+  await getDocs(collection(DB, DataBaseModel.GROUPS));
 
 export const getGroups = async () =>
   await getGroupsCollection().then((groups) => {
@@ -30,7 +31,7 @@ export const setGroup = async (
     return null;
   }
 
-  return await addDoc(collection(DB, "groups"), {
+  return await addDoc(collection(DB, DataBaseModel.GROUPS), {
     ...groupFields,
     userCreate: auth.user.uid,
   });

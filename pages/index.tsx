@@ -1,76 +1,43 @@
-import type { NextPage } from "next";
-import Head from "next/head";
-import { Box, Grid, Tooltip, Typography } from "@mui/material";
-import UsersListContainer from "../src/components/containers/UsersList/usersList.container";
-import { useRouter } from "next/router";
-import { ReactChild, useEffect, useState } from "react";
-import Loader from "../src/components/ui/Loader/loader";
-import Wrapper from "../src/components/ui/Wrapper/wrapper";
-import { useAuth } from "../src/hooks/useUser";
-import MapBoxContainer from "../src/components/containers/Map/mapBox.container";
-import useMarkers from "../src/hooks/useMarkers";
-import Banner from "../src/components/ui/Banner/banner";
-import useCurrentUserGeolocation from "../src/hooks/useCurrentUserGeolocation";
-import { useTranslation } from "react-i18next";
-import { isNotNullable } from "../src/utils/common";
-import HelpIcon from "@mui/icons-material/Help";
-import { collection, where, query, onSnapshot } from "firebase/firestore";
-import { DB } from "../src/firebase";
-import useUsersGeolocation from "../src/hooks/useUsersGeolocation";
-import { UserGeolocation } from "../src/models/usersGeolocation";
+import type { NextPage } from 'next'
+import Head from 'next/head'
+import { Box, Grid, Tooltip, Typography } from '@mui/material'
+import UsersListContainer from '../src/components/containers/UsersList/usersList.container'
+import { useRouter } from 'next/router'
+import { ReactChild, useEffect, useState } from 'react'
+import Loader from '../src/components/ui/Loader/loader'
+import Wrapper from '../src/components/ui/Wrapper/wrapper'
+import { useAuth } from '../src/hooks/useAuth'
+import MapBoxContainer from '../src/components/containers/Map/mapBox.container'
+import useUsersMarkers from '../src/hooks/useUsersMarkers'
+import Banner from '../src/components/ui/Banner/banner'
+import { useTranslation } from 'react-i18next'
+import HelpIcon from '@mui/icons-material/Help'
+import useUsersGeolocation from '../src/hooks/useUsersGeolocation'
+import { UserGeolocation } from '../src/models/usersGeolocation'
+import { useGeolocationProvider } from '../src/hooks/useGeolocationProvider'
 
 const Home: NextPage = () => {
-  const [favorites, setFavorites] = useState<string[]>([]);
-  const [selectedUser, setSelectedUser] = useState<UserGeolocation | null>(
-    null
-  );
+  const [selectedUser, setSelectedUser] = useState<UserGeolocation | null>(null)
 
-  const router = useRouter();
-  const { t } = useTranslation();
-  const { user, loading } = useAuth();
-  const { isLocationAllowed, currentUserGeolocation } =
-    useCurrentUserGeolocation();
-  const usersGeolocation = useUsersGeolocation();
+  const router = useRouter()
+  const { t } = useTranslation()
+  const { user, loading } = useAuth()
+  const { isLocationAllowed } = useGeolocationProvider()
+  const usersGeolocation = useUsersGeolocation()
 
-  const favoritesUsers = usersGeolocation
-    .map((user) => {
-      if (favorites?.find((id) => id === user.uid)) {
-        return user;
-      }
-    })
-    .filter(isNotNullable);
-
-  const markers = useMarkers(favoritesUsers, currentUserGeolocation);
-
-  useEffect(() => {
-    if (user?.uid) {
-      const q = query(
-        collection(DB, "favorites"),
-        where("id", "==", user?.uid)
-      );
-      onSnapshot(q, (snapshot) => {
-        snapshot.forEach((userSnapshot) => {
-          setFavorites(userSnapshot.data().users);
-        });
-      });
-    }
-  }, [user]);
+  const markers = useUsersMarkers(usersGeolocation)
 
   useEffect(() => {
     if (!loading && !user) {
-      router.push("/login");
+      router.push('/login')
     }
-  }, [user, loading, router]);
+  }, [user, loading, router])
 
-  if (!user || !usersGeolocation) {
-    return <Loader />;
+  if (!usersGeolocation) {
+    return <Loader />
   }
 
-  const handleUserClick = (user: UserGeolocation) => setSelectedUser(user);
-
-  const usersList = currentUserGeolocation
-    ? [currentUserGeolocation, ...favoritesUsers]
-    : [];
+  const handleUserClick = (user: UserGeolocation) => setSelectedUser(user)
 
   return (
     <Wrapper>
@@ -83,8 +50,8 @@ const Home: NextPage = () => {
       <main>
         {!isLocationAllowed ? (
           <Banner
-            title={t("dashboard.bannerTitle")}
-            buttonText={t("dashboard.bannerButtonText")}
+            title={t('dashboard.bannerTitle')}
+            buttonText={t('dashboard.bannerButtonText')}
             buttonHref="/user/profile"
           />
         ) : (
@@ -92,10 +59,10 @@ const Home: NextPage = () => {
             <Grid item xs={12} sm={6} lg={3}>
               <Box display="flex" alignItems="center" py={2} mr={2}>
                 <Typography variant="h4">
-                  {t("dashboard.peopleYouFollow")}
+                  {t('dashboard.peopleYouFollow')}
                 </Typography>
                 <Tooltip
-                  title={t("dashboard.tooltip") as ReactChild}
+                  title={t('dashboard.tooltip') as ReactChild}
                   placement="top"
                 >
                   <Box ml={1}>
@@ -104,7 +71,7 @@ const Home: NextPage = () => {
                 </Tooltip>
               </Box>
               <UsersListContainer
-                users={usersList}
+                users={usersGeolocation}
                 onUserClick={handleUserClick}
               />
             </Grid>
@@ -115,7 +82,7 @@ const Home: NextPage = () => {
         )}
       </main>
     </Wrapper>
-  );
-};
+  )
+}
 
-export default Home;
+export default Home

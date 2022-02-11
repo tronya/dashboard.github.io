@@ -1,72 +1,81 @@
-import { Avatar, Box, Button, Paper, Typography } from "@mui/material";
-import { FC, useState } from "react";
-import { useTranslation } from "react-i18next";
-import useCurrentUserGeolocation from "../../../hooks/useCurrentUserGeolocation";
-import { NavigationProvider } from "../../../hooks/useNavigation";
-import { useAuth } from "../../../hooks/useUser";
-import Breadcrumbs from "../../ui/Breadcrumbs/breadcrumbs";
-import PageTitle from "../../ui/PageTitle/PageTitle";
-import { stringAvatar } from "../../../utils/user";
+import { Avatar, Box, Button, Paper, Typography } from '@mui/material'
+import { FC } from 'react'
+import { useTranslation } from 'react-i18next'
+import { useAuth } from '../../../hooks/useAuth'
+import Breadcrumbs from '../../ui/Breadcrumbs/breadcrumbs'
+import PageTitle from '../../ui/PageTitle/PageTitle'
+import { stringAvatar } from '../../../utils/user'
+import Loader from '../../ui/Loader/loader'
+import { toast } from 'react-toastify'
+import { useGeolocationProvider } from '../../../hooks/useGeolocationProvider'
+import {
+  prepareUserData,
+  setUserGeolocationData,
+} from '../../../../pages/api/usersGeolocation'
 
 const UserProfile: FC = () => {
-  const { t } = useTranslation();
-  const { user } = useAuth();
-  const { isLocationAllowed } = useCurrentUserGeolocation();
-
-  const [acceptLocation, setAcceptLocation] = useState(false);
-
+  const { t } = useTranslation()
+  const { user, loading } = useAuth()
+  const { isLocationAllowed } = useGeolocationProvider()
   if (!user) {
-    return null;
+    return null
+  }
+  if (loading) {
+    return <Loader />
+  }
+  const setAcceptLocation = () => {
+    navigator.geolocation.getCurrentPosition(
+      (success) => {
+        setUserGeolocationData(user.uid, prepareUserData(success, user))
+          .then((s) => toast.success(t('toastSuccess.acceptGeolocation')))
+          .catch((e) => console.error(e))
+      },
+      (e) => {
+        toast.error(e.message)
+      }
+    )
   }
 
   return (
-    <NavigationProvider isLocationAllowed={acceptLocation}>
-      <>
-        <Breadcrumbs breadcrumbText={t("profile.title")} />
-        <PageTitle title={t("profile.title")} />
-        <Paper>
-          <Box display="flex" flexDirection="column" p={6} alignItems="center">
-            {user.displayName && user.photoURL && (
-              <Avatar
-                alt={user.displayName}
-                src={user.photoURL}
-                {...(stringAvatar(user.displayName),
-                { width: 120, height: 120 })}
-              />
-            )}
-            <Box
-              display="flex"
-              flexDirection="column"
-              alignItems="center"
-              mt={6}
-            >
-              <Typography variant="h6" sx={{ color: "common.white" }}>
-                {user.displayName}
-              </Typography>
-              <Typography variant="h6" sx={{ color: "common.white" }}>
-                {user.email}
-              </Typography>
-            </Box>
+    <>
+      <Breadcrumbs breadcrumbText={t('profile.title')} />
+      <PageTitle title={t('profile.title')} />
+      <Paper>
+        <Box display="flex" flexDirection="column" p={6} alignItems="center">
+          {user.displayName && user.photoURL && (
+            <Avatar
+              alt={user.displayName}
+              src={user.photoURL}
+              {...(stringAvatar(user.displayName), { width: 120, height: 120 })}
+            />
+          )}
+          <Box display="flex" flexDirection="column" alignItems="center" mt={6}>
+            <Typography variant="h6" sx={{ color: 'common.white' }}>
+              {user.displayName}
+            </Typography>
+            <Typography variant="h6" sx={{ color: 'common.white' }}>
+              {user.email}
+            </Typography>
           </Box>
-        </Paper>
-        {!isLocationAllowed && (
-          <Box width={1} mt={2}>
-            <Button
-              variant="contained"
-              fullWidth
-              sx={{
-                color: "common.white",
-                backgroundColor: "green !important",
-              }}
-              onClick={() => setAcceptLocation(true)}
-            >
-              {t("profile.allowLocationButtonText")}
-            </Button>
-          </Box>
-        )}
-      </>
-    </NavigationProvider>
-  );
-};
+        </Box>
+      </Paper>
+      {!isLocationAllowed && (
+        <Box width={1} mt={2}>
+          <Button
+            variant="contained"
+            fullWidth
+            sx={{
+              color: 'common.white',
+              backgroundColor: 'green !important',
+            }}
+            onClick={() => setAcceptLocation()}
+          >
+            {t('profile.allowLocationButtonText')}
+          </Button>
+        </Box>
+      )}
+    </>
+  )
+}
 
-export default UserProfile;
+export default UserProfile

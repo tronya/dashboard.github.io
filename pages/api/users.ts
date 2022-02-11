@@ -1,38 +1,40 @@
-import { collection, doc, getDocs, setDoc } from "firebase/firestore";
-import { DB } from "../../src/firebase";
-import { AuthUserContextProps } from "../../src/models/auth.model";
-import { User } from "../../src/models/user.model";
+import { collection, doc, getDocs, setDoc } from 'firebase/firestore'
+import { DB } from '../../src/firebase'
+import { AuthUserContextProps } from '../../src/models/auth.model'
+import { User } from '../../src/models/user.model'
+import { DataBaseModel } from './api.model'
 
-const getUsersCollection = async () => await getDocs(collection(DB, "users"));
+const getUsersCollection = async () =>
+  await getDocs(collection(DB, DataBaseModel.USERS))
 
 export const getUsers = async () =>
   await getUsersCollection().then((result) => {
-    const users: User[] = [];
+    const users: User[] = []
 
     result.forEach((doc) => {
       const user: User = {
         uid: doc.id,
         ...doc.data(),
-      } as User;
-      users.push(user);
-    });
+      } as User
+      users.push(user)
+    })
 
-    return users;
-  });
+    return users
+  })
 
 export const setUserToCollection = async (
   auth: AuthUserContextProps,
   isLocationAllowed: boolean
 ) => {
   if (!auth.user?.uid) {
-    return null;
+    return null
   }
 
   return await setDoc(
-    doc(DB, "users", auth.user.uid),
+    doc(DB, DataBaseModel.USERS, auth.user.uid),
     { ...auth.user, isLocationAllowed },
     {
       merge: true,
     }
-  );
-};
+  )
+}

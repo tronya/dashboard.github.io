@@ -11,7 +11,7 @@ import { UserListEmpty } from "./userList.empty";
 import { green, grey } from "@mui/material/colors";
 import { Box, StyledList } from "./userList.styled";
 import { getUserStatus } from "../../../utils/user";
-import { useAuth } from "../../../hooks/useUser";
+import { useAuth } from "../../../hooks/useAuth";
 import { stringAvatar } from "../../../utils/user";
 import { UserGeolocation } from "../../../models/usersGeolocation";
 import { useTranslation } from "react-i18next";

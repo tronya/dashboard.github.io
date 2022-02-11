@@ -1,21 +1,24 @@
 import "../styles/globals.css";
-import type { AppProps } from "next/app";
-import { ToastContainer } from "react-toastify";
+import type {AppProps} from "next/app";
+import {ToastContainer} from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import "../src/i18n/config";
-import { AuthUserProvider } from "../src/hooks/useUser";
+import {AuthUserProvider} from "../src/hooks/useAuth";
 import fireBaseConfig from "../src/firebase";
-import { initializeApp } from "firebase/app";
+import {getApp, getApps, initializeApp} from "firebase/app";
+import {GeolocationProvider} from "../src/hooks/useGeolocationProvider";
 
-initializeApp(fireBaseConfig);
+getApps().length === 0 ? initializeApp(fireBaseConfig) : getApp();
 
-const MyApp = ({ Component, pageProps }: AppProps) => {
-  return (
-    <AuthUserProvider>
-      <Component {...pageProps} />
-      <ToastContainer />
-    </AuthUserProvider>
-  );
+const MyApp = ({Component, pageProps}: AppProps) => {
+    return (
+        <AuthUserProvider>
+            <GeolocationProvider>
+                <Component {...pageProps} />
+                <ToastContainer/>
+            </GeolocationProvider>
+        </AuthUserProvider>
+    );
 };
 
 export default MyApp;

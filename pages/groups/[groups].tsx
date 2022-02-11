@@ -7,7 +7,7 @@ import { GroupsList } from "../../src/components/containers/GroupsList/GroupsLis
 import Breadcrumbs from "../../src/components/ui/Breadcrumbs/breadcrumbs";
 import PageTitle from "../../src/components/ui/PageTitle/PageTitle";
 import Wrapper from "../../src/components/ui/Wrapper/wrapper";
-import { useAuth } from "../../src/hooks/useUser";
+import { useAuth } from "../../src/hooks/useAuth";
 import { GroupProps } from "../../src/models/groups.model";
 import { getGroups } from "../api/group";
 

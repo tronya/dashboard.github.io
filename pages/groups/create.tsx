@@ -6,7 +6,7 @@ import * as yup from "yup";
 import { useTranslation } from "react-i18next";
 import SelectableUsers from "../../src/components/ui/SelectableUsers/SelectableUsers";
 import { red } from "@mui/material/colors";
-import { useAuth } from "../../src/hooks/useUser";
+import { useAuth } from "../../src/hooks/useAuth";
 import { setGroup } from "../api/group";
 import { AuthUserContextProps } from "../../src/models/auth.model";
 import { toast } from "react-toastify";

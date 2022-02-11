@@ -33,7 +33,7 @@ const useFirebaseAuth = () => {
 
   return {
     user,
-    loading,
+    loading
   };
 };
 

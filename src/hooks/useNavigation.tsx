@@ -1,9 +1,8 @@
 import { useRouter } from "next/router";
-import { FC, useEffect, useState } from "react";
+import { createContext, FC, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { toast } from "react-toastify";
-import { useAuth } from "./useUser";
-import { setUserToCollection } from "../../pages/api/users";
+import { useAuth } from "./useAuth";
 import { setUserGeolocationData } from "../../pages/api/usersGeolocation";
 import { UserGeolocation } from "../models/usersGeolocation";
 
@@ -15,9 +14,9 @@ export const useNavigation = (isLocationAllowed: boolean = false) => {
   const [geolocation, setGeolocation] = useState<GeolocationPosition>();
 
   useEffect(() => {
-    if (isLocationAllowed) {
-      navigator.geolocation.getCurrentPosition(
+      const watcher = navigator.geolocation.watchPosition(
         (success: GeolocationPosition) => {
+            console.log(success)
           const data: UserGeolocation = {
             coords: {
               accuracy: success.coords.accuracy,
@@ -43,29 +42,9 @@ export const useNavigation = (isLocationAllowed: boolean = false) => {
           toast.error(error.message);
         }
       );
-    }
+
+    return () => navigator.geolocation.clearWatch(watcher)
   }, [isLocationAllowed, router, t, auth]);
 
   return geolocation;
-};
-
-interface NavigationProviderProps {
-  children: JSX.Element[] | JSX.Element;
-  isLocationAllowed: boolean;
-}
-
-export const NavigationProvider: FC<NavigationProviderProps> = ({
-  isLocationAllowed,
-  children,
-}) => {
-  const navigator = useNavigation(isLocationAllowed);
-  const auth = useAuth();
-
-  useEffect(() => {
-    if (navigator) {
-      setUserToCollection(auth, isLocationAllowed);
-    }
-  }, [navigator, auth, isLocationAllowed]);
-
-  return <>{children}</>;
 };

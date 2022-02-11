@@ -2,7 +2,7 @@ import { FC, useEffect, useState } from "react";
 import Favorites from "../../src/components/containers/User/favorites";
 import Loader from "../../src/components/ui/Loader/loader";
 import Wrapper from "../../src/components/ui/Wrapper/wrapper";
-import { useAuth } from "../../src/hooks/useUser";
+import { useAuth } from "../../src/hooks/useAuth";
 import { setFavoritesToCollection } from "../api/favorites";
 import { query, collection, where, onSnapshot } from "firebase/firestore";
 import { DB } from "../../src/firebase";

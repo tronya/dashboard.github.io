@@ -1,72 +1,73 @@
-import { Avatar, Box, Button, Paper, Typography } from "@mui/material";
-import { FC, useState } from "react";
-import { useTranslation } from "react-i18next";
-import useCurrentUserGeolocation from "../../../hooks/useCurrentUserGeolocation";
-import { NavigationProvider } from "../../../hooks/useNavigation";
-import { useAuth } from "../../../hooks/useUser";
+import {Avatar, Box, Button, Paper, Typography} from "@mui/material";
+import {FC} from "react";
+import {useTranslation} from "react-i18next";
+import {useAuth} from "../../../hooks/useAuth";
 import Breadcrumbs from "../../ui/Breadcrumbs/breadcrumbs";
 import PageTitle from "../../ui/PageTitle/PageTitle";
-import { stringAvatar } from "../../../utils/user";
+import {stringAvatar} from "../../../utils/user";
+import Loader from "../../ui/Loader/loader";
+import {toast} from "react-toastify";
+import {useGeolocationProvider} from "../../../hooks/useGeolocationProvider";
 
 const UserProfile: FC = () => {
-  const { t } = useTranslation();
-  const { user } = useAuth();
-  const { isLocationAllowed } = useCurrentUserGeolocation();
+    const {t} = useTranslation();
+    const {user, loading} = useAuth();
+    const {status, isLocationAllowed} = useGeolocationProvider()
+    if (!user) {
+        return null;
+    }
+    if (loading) {
+        return <Loader/>
+    }
+    console.log(status, isLocationAllowed)
+    const setAcceptLocation = () => {
+        navigator.geolocation.getCurrentPosition((success) => {
+            console.log(success)
+        }, (e) => {
+            toast.error(e.message)
+        })
+    }
 
-  const [acceptLocation, setAcceptLocation] = useState(false);
-
-  if (!user) {
-    return null;
-  }
-
-  return (
-    <NavigationProvider isLocationAllowed={acceptLocation}>
-      <>
-        <Breadcrumbs breadcrumbText={t("profile.title")} />
-        <PageTitle title={t("profile.title")} />
-        <Paper>
-          <Box display="flex" flexDirection="column" p={6} alignItems="center">
-            {user.displayName && user.photoURL && (
-              <Avatar
-                alt={user.displayName}
-                src={user.photoURL}
-                {...(stringAvatar(user.displayName),
-                { width: 120, height: 120 })}
-              />
+    return (
+        <>
+            <Breadcrumbs breadcrumbText={t("profile.title")}/>
+            <PageTitle title={t("profile.title")}/>
+            <Paper>
+                <Box display="flex" flexDirection="column" p={6} alignItems="center">
+                    {user.displayName && user.photoURL && (
+                        <Avatar
+                            alt={user.displayName}
+                            src={user.photoURL}
+                            {...(stringAvatar(user.displayName), {width: 120, height: 120})}
+                        />
+                    )}
+                    <Box display="flex" flexDirection="column" alignItems="center" mt={6}>
+                        <Typography variant="h6" sx={{color: "common.white"}}>
+                            {user.displayName}
+                        </Typography>
+                        <Typography variant="h6" sx={{color: "common.white"}}>
+                            {user.email}
+                        </Typography>
+                    </Box>
+                </Box>
+            </Paper>
+            {!isLocationAllowed && (
+                <Box width={1} mt={2}>
+                    <Button
+                        variant="contained"
+                        fullWidth
+                        sx={{
+                            color: "common.white",
+                            backgroundColor: "green !important",
+                        }}
+                        onClick={() => setAcceptLocation()}
+                    >
+                        {t("profile.allowLocationButtonText")}
+                    </Button>
+                </Box>
             )}
-            <Box
-              display="flex"
-              flexDirection="column"
-              alignItems="center"
-              mt={6}
-            >
-              <Typography variant="h6" sx={{ color: "common.white" }}>
-                {user.displayName}
-              </Typography>
-              <Typography variant="h6" sx={{ color: "common.white" }}>
-                {user.email}
-              </Typography>
-            </Box>
-          </Box>
-        </Paper>
-        {!isLocationAllowed && (
-          <Box width={1} mt={2}>
-            <Button
-              variant="contained"
-              fullWidth
-              sx={{
-                color: "common.white",
-                backgroundColor: "green !important",
-              }}
-              onClick={() => setAcceptLocation(true)}
-            >
-              {t("profile.allowLocationButtonText")}
-            </Button>
-          </Box>
-        )}
-      </>
-    </NavigationProvider>
-  );
+        </>
+    );
 };
 
 export default UserProfile;

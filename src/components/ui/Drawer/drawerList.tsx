@@ -5,19 +5,19 @@ import {
   ListItemIcon,
   ListItemText,
   Divider,
-} from "@mui/material";
-import PermIdentityIcon from "@mui/icons-material/PermIdentity";
-import { FC, MouseEvent } from "react";
-import { useRouter } from "next/router";
-import { useTranslation } from "react-i18next";
+} from '@mui/material';
+import PermIdentityIcon from '@mui/icons-material/PermIdentity';
+import { FC, MouseEvent } from 'react';
+import { useRouter } from 'next/router';
+import { useTranslation } from 'react-i18next';
 
 const DrawerList: FC = () => {
   const router = useRouter();
   const { t } = useTranslation();
 
   const drawerList = [
-    { href: "/user/profile", text: t("profile.title") },
-    { href: "/user/favorites", text: t("favorites.title") },
+    { href: '/user/profile', text: t('profile.title') },
+    { href: '/user/favorites', text: t('favorites.title') },
   ];
 
   const handleClick = (event: MouseEvent<HTMLAnchorElement>, href: string) => {
@@ -36,11 +36,11 @@ const DrawerList: FC = () => {
             key={element.text}
           >
             <ListItemIcon>
-              <PermIdentityIcon sx={{ color: "common.white" }} />
+              <PermIdentityIcon sx={{ color: 'common.white' }} />
             </ListItemIcon>
             <ListItemText
               primary={element.text}
-              sx={{ color: "common.white" }}
+              sx={{ color: 'common.white' }}
             />
           </ListItem>
         ))}

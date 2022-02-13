@@ -56,3 +56,4 @@ yarn-error.log*
 **/public/workbox-*.js.map
 **/public/worker-*.js.map
 /.idea/
+/.vscode/

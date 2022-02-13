@@ -2,11 +2,11 @@ import {
   Breadcrumbs as BreadcrumbsComponent,
   Link,
   Typography,
-} from "@mui/material";
-import { useRouter } from "next/router";
-import ChevronRightIcon from "@mui/icons-material/ChevronRight";
-import { FC } from "react";
-import { useTranslation } from "react-i18next";
+} from '@mui/material';
+import { useRouter } from 'next/router';
+import ChevronRightIcon from '@mui/icons-material/ChevronRight';
+import { FC } from 'react';
+import { useTranslation } from 'react-i18next';
 
 interface BreadcrumbsProps {
   otherBreadcrumbs?: Element[];
@@ -26,9 +26,9 @@ const Breadcrumbs: FC<BreadcrumbsProps> = ({
       key="dashboard"
       color="inherit"
       href="/"
-      onClick={() => router.push("/")}
+      onClick={() => router.push('/')}
     >
-      {t("dashboard.title")}
+      {t('dashboard.title')}
     </Link>,
     ...(otherBreadcrumbs ?? []),
     <Typography key={breadcrumbText} color="text.primary">

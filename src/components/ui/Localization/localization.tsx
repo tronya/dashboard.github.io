@@ -1,6 +1,6 @@
-import { FC, MouseEvent } from "react";
-import { useTranslation } from "react-i18next";
-import { Button, ButtonGroup } from "@mui/material";
+import { FC, MouseEvent } from 'react';
+import { useTranslation } from 'react-i18next';
+import { Button, ButtonGroup } from '@mui/material';
 
 const Localization: FC = () => {
   const { i18n } = useTranslation();

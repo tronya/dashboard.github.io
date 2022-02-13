@@ -1,5 +1,5 @@
-import { Link, Typography } from "@mui/material";
-import { FC } from "react";
+import { Link, Typography } from '@mui/material';
+import { FC } from 'react';
 
 const Copyright: FC = () => (
   <Typography
@@ -8,10 +8,10 @@ const Copyright: FC = () => (
     align="center"
     sx={{ mt: 5 }}
   >
-    {"Copyright © "}
+    {'Copyright © '}
     <Link color="inherit" href="https://tronya.github.io">
       whereiam
-    </Link>{" "}
+    </Link>{' '}
     {new Date().getFullYear()}
   </Typography>
 );

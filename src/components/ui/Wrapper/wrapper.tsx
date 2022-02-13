@@ -1,10 +1,10 @@
-import { Container, ThemeProvider, Toolbar } from "@mui/material";
-import Box from "@mui/material/Box";
-import CssBaseline from "@mui/material/CssBaseline";
-import { FC, useState } from "react";
-import Sidebar from "../Sidebar/sidebar";
-import Header from "../Header/header";
-import theme from "../../theme";
+import { Container, ThemeProvider, Toolbar } from '@mui/material';
+import Box from '@mui/material/Box';
+import CssBaseline from '@mui/material/CssBaseline';
+import { FC, useState } from 'react';
+import Sidebar from '../Sidebar/sidebar';
+import Header from '../Header/header';
+import theme from '../../theme';
 
 const Wrapper: FC = ({ children }) => {
   const [open, setOpen] = useState(false);
@@ -13,7 +13,7 @@ const Wrapper: FC = ({ children }) => {
 
   return (
     <ThemeProvider theme={theme}>
-      <Box sx={{ display: "flex" }}>
+      <Box sx={{ display: 'flex' }}>
         <CssBaseline />
         <Header open={open} toggleDrawer={toggleDrawer} />
         <Sidebar open={open} toggleDrawer={toggleDrawer} />
@@ -21,8 +21,8 @@ const Wrapper: FC = ({ children }) => {
           component="main"
           sx={{
             flexGrow: 1,
-            height: "100vh",
-            overflow: "auto",
+            height: '100vh',
+            overflow: 'auto',
           }}
         >
           <Toolbar />

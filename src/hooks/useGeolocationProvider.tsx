@@ -33,12 +33,12 @@ const initialState: NavigatorState = {
   isLocationAllowed: false,
 };
 
-const useNavigatorGeolocation = (): NavigatorState => {
+export const useNavigatorGeolocation = (): NavigatorState => {
   const [context, setContext] = useState<NavigatorState>(initialState);
   const router = useRouter();
 
   useEffect(() => {
-    navigator.permissions
+    window.navigator.permissions
       .query({ name: 'geolocation' })
       .then((status: PermissionStatus) => {
         status.onchange = () => router.reload();

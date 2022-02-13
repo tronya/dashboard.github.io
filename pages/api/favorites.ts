@@ -1,7 +1,7 @@
-import { collection, doc, getDocs, setDoc } from "firebase/firestore";
-import { DB } from "../../src/firebase";
-import { Favorite } from "../../src/models/favorites.model";
-import { DataBaseModel } from "./api.model";
+import { collection, doc, getDocs, setDoc } from 'firebase/firestore';
+import { DB } from '../../src/firebase';
+import { Favorite } from '../../src/models/favorites.model';
+import { DataBaseModel } from './api.model';
 
 export const getFavoritesCollection = async () =>
   await getDocs(collection(DB, DataBaseModel.FAVORITES));

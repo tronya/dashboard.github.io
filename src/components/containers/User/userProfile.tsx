@@ -1,40 +1,40 @@
-import { Avatar, Box, Button, Paper, Typography } from '@mui/material'
-import { FC } from 'react'
-import { useTranslation } from 'react-i18next'
-import { useAuth } from '../../../hooks/useAuth'
-import Breadcrumbs from '../../ui/Breadcrumbs/breadcrumbs'
-import PageTitle from '../../ui/PageTitle/PageTitle'
-import { stringAvatar } from '../../../utils/user'
-import Loader from '../../ui/Loader/loader'
-import { toast } from 'react-toastify'
-import { useGeolocationProvider } from '../../../hooks/useGeolocationProvider'
+import { Avatar, Box, Button, Paper, Typography } from '@mui/material';
+import { FC } from 'react';
+import { useTranslation } from 'react-i18next';
+import { useAuth } from '../../../hooks/useAuth';
+import Breadcrumbs from '../../ui/Breadcrumbs/breadcrumbs';
+import PageTitle from '../../ui/PageTitle/PageTitle';
+import { stringAvatar } from '../../../utils/user';
+import Loader from '../../ui/Loader/loader';
+import { toast } from 'react-toastify';
+import { useGeolocationProvider } from '../../../hooks/useGeolocationProvider';
 import {
   prepareUserData,
   setUserGeolocationData,
-} from '../../../../pages/api/usersGeolocation'
+} from '../../../../pages/api/usersGeolocation';
 
 const UserProfile: FC = () => {
-  const { t } = useTranslation()
-  const { user, loading } = useAuth()
-  const { isLocationAllowed } = useGeolocationProvider()
+  const { t } = useTranslation();
+  const { user, loading } = useAuth();
+  const { isLocationAllowed } = useGeolocationProvider();
   if (!user) {
-    return null
+    return null;
   }
   if (loading) {
-    return <Loader />
+    return <Loader />;
   }
   const setAcceptLocation = () => {
     navigator.geolocation.getCurrentPosition(
       (success) => {
         setUserGeolocationData(user.uid, prepareUserData(success, user))
           .then((s) => toast.success(t('toastSuccess.acceptGeolocation')))
-          .catch((e) => console.error(e))
+          .catch((e) => console.error(e));
       },
       (e) => {
-        toast.error(e.message)
+        toast.error(e.message);
       }
-    )
-  }
+    );
+  };
 
   return (
     <>
@@ -75,7 +75,7 @@ const UserProfile: FC = () => {
         </Box>
       )}
     </>
-  )
-}
+  );
+};
 
-export default UserProfile
+export default UserProfile;

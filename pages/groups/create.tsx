@@ -1,43 +1,43 @@
-import { Button, Grid, TextField, Typography } from '@mui/material'
-import PageTitle from '../../src/components/ui/PageTitle/PageTitle'
-import Wrapper from '../../src/components/ui/Wrapper/wrapper'
-import { useFormik } from 'formik'
-import * as yup from 'yup'
-import { useTranslation } from 'react-i18next'
-import SelectableUsers from '../../src/components/ui/SelectableUsers/SelectableUsers'
-import { red } from '@mui/material/colors'
-import { useAuth } from '../../src/hooks/useAuth'
-import { setGroup } from '../api/group'
-import { AuthUserContextProps } from '../../src/models/auth.model'
-import { toast } from 'react-toastify'
-import Breadcrumbs from '../../src/components/ui/Breadcrumbs/breadcrumbs'
-import router from 'next/router'
-import { FC } from 'react'
+import { Button, Grid, TextField, Typography } from '@mui/material';
+import PageTitle from '../../src/components/ui/PageTitle/PageTitle';
+import Wrapper from '../../src/components/ui/Wrapper/wrapper';
+import { useFormik } from 'formik';
+import * as yup from 'yup';
+import { useTranslation } from 'react-i18next';
+import SelectableUsers from '../../src/components/ui/SelectableUsers/SelectableUsers';
+import { red } from '@mui/material/colors';
+import { useAuth } from '../../src/hooks/useAuth';
+import { setGroup } from '../api/group';
+import { AuthUserContextProps } from '../../src/models/auth.model';
+import { toast } from 'react-toastify';
+import Breadcrumbs from '../../src/components/ui/Breadcrumbs/breadcrumbs';
+import router from 'next/router';
+import { FC } from 'react';
 
 export interface GroupFormFields {
-  name: string
-  users: string[]
+  name: string;
+  users: string[];
 }
 
 interface GroupFormProps {
-  fields: GroupFormFields
-  user: AuthUserContextProps
+  fields: GroupFormFields;
+  user: AuthUserContextProps;
 }
 
 const onGroupCreate = ({ fields, user }: GroupFormProps) => {
   return setGroup(fields, user)
     .then(() => {
-      toast.success(`${fields.name} is successfully creeated!`)
-      router.push('/groups/main')
+      toast.success(`${fields.name} is successfully creeated!`);
+      router.push('/groups/main');
     })
     .catch((error) => {
-      toast.error('error', error)
-    })
-}
+      toast.error('error', error);
+    });
+};
 
 const GroupsCreationPage: FC = () => {
-  const { t } = useTranslation()
-  const user = useAuth()
+  const { t } = useTranslation();
+  const user = useAuth();
   const validationSchema = yup.object({
     name: yup
       .string()
@@ -47,7 +47,7 @@ const GroupsCreationPage: FC = () => {
       .array()
       .min(1, 'You should select minimum one User')
       .required('Users should be selected'),
-  })
+  });
   const formik = useFormik({
     initialValues: {
       name: '',
@@ -55,7 +55,7 @@ const GroupsCreationPage: FC = () => {
     },
     validationSchema,
     onSubmit: (fields) => onGroupCreate({ fields, user }),
-  })
+  });
 
   return (
     <Wrapper>
@@ -80,7 +80,7 @@ const GroupsCreationPage: FC = () => {
             </Typography>
             <SelectableUsers
               selectedUsers={(v) => {
-                formik.setFieldValue('users', v)
+                formik.setFieldValue('users', v);
               }}
             />
             {formik.getFieldMeta('users').touched &&
@@ -108,6 +108,6 @@ const GroupsCreationPage: FC = () => {
         </Grid>
       </Grid>
     </Wrapper>
-  )
-}
-export default GroupsCreationPage
+  );
+};
+export default GroupsCreationPage;

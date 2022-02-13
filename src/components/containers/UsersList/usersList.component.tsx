@@ -5,17 +5,17 @@ import {
   ListItemText,
   Typography,
   Divider,
-} from "@mui/material";
-import { FC } from "react";
-import { UserListEmpty } from "./userList.empty";
-import { green, grey } from "@mui/material/colors";
-import { Box, StyledList } from "./userList.styled";
-import { getUserStatus } from "../../../utils/user";
-import { useAuth } from "../../../hooks/useAuth";
-import { stringAvatar } from "../../../utils/user";
-import { User } from "../../../models/user.model";
-import { UserGeolocation } from "../../../models/usersGeolocation";
-import { useTranslation } from "react-i18next";
+} from '@mui/material';
+import { FC } from 'react';
+import { UserListEmpty } from './userList.empty';
+import { green, grey } from '@mui/material/colors';
+import { Box, StyledList } from './userList.styled';
+import { getUserStatus } from '../../../utils/user';
+import { useAuth } from '../../../hooks/useAuth';
+import { stringAvatar } from '../../../utils/user';
+import { User } from '../../../models/user.model';
+import { UserGeolocation } from '../../../models/usersGeolocation';
+import { useTranslation } from 'react-i18next';
 
 interface ListWrapperProps {
   users: UserGeolocation[];
@@ -39,7 +39,7 @@ export const UsersList: FC<ListWrapperProps> = ({
   const lastUserUid = users[users.length - 1].uid;
 
   return (
-    <StyledList sx={{ mr: 2, mb: 2, bgcolor: "background.paper" }}>
+    <StyledList sx={{ mr: 2, mb: 2, bgcolor: 'background.paper' }}>
       {users.map((user) => {
         const isCurrentUser = user.uid === authUser?.uid;
 
@@ -47,7 +47,7 @@ export const UsersList: FC<ListWrapperProps> = ({
           <Box
             key={user.uid}
             onClick={() => onUserClick(user)}
-            sx={{ cursor: "pointer" }}
+            sx={{ cursor: 'pointer' }}
           >
             <ListItem alignItems="center">
               {user.displayName && user.photoURL && (
@@ -65,7 +65,7 @@ export const UsersList: FC<ListWrapperProps> = ({
                   <>
                     {user.displayName}
                     <Typography variant="caption">
-                      {isCurrentUser && t("usersList.itsYou")}
+                      {isCurrentUser && t('usersList.itsYou')}
                     </Typography>
                   </>
                 }
@@ -74,7 +74,7 @@ export const UsersList: FC<ListWrapperProps> = ({
                     component="span"
                     variant="body2"
                     color={
-                      getUserStatus(user.timestamp) === "Online"
+                      getUserStatus(user.timestamp) === 'Online'
                         ? green[400]
                         : grey[500]
                     }

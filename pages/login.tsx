@@ -1,9 +1,9 @@
-import { toast } from "react-toastify";
-import { getAuth, GoogleAuthProvider, signInWithPopup } from "firebase/auth";
-import { useRouter } from "next/router";
-import LogInPageContainer from "../src/components/containers/LogIn/logInPage.container";
-import { FormEvent } from "react";
-import { useTranslation } from "react-i18next";
+import { toast } from 'react-toastify';
+import { getAuth, GoogleAuthProvider, signInWithPopup } from 'firebase/auth';
+import { useRouter } from 'next/router';
+import LogInPageContainer from '../src/components/containers/LogIn/logInPage.container';
+import { FormEvent } from 'react';
+import { useTranslation } from 'react-i18next';
 
 const Login = () => {
   const auth = getAuth();
@@ -12,24 +12,24 @@ const Login = () => {
   const { t } = useTranslation();
 
   const handleSignIn = (
-    provider: "google" | "email",
+    provider: 'google' | 'email',
     event?: FormEvent<HTMLFormElement>
   ) => {
     switch (provider) {
-      case "google":
+      case 'google':
         signInWithPopup(auth, googleProvider)
           .then(() => {
-            toast.success(t("toastSuccess.logIn"));
-            router.push("/");
+            toast.success(t('toastSuccess.logIn'));
+            router.push('/');
           })
           .catch((error) => toast.error(error.message));
         break;
-      case "email":
+      case 'email':
         event?.preventDefault();
         const data = new FormData(event?.currentTarget);
         console.log({
-          email: data.get("email"),
-          password: data.get("password"),
+          email: data.get('email'),
+          password: data.get('password'),
         });
         break;
 

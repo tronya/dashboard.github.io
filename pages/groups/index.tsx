@@ -1,4 +1,4 @@
-import { Grid, Box, Button } from '@mui/material';
+import { Box, Button, Grid } from '@mui/material';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { FC, useEffect, useState } from 'react';
@@ -20,7 +20,7 @@ const GroupsPage: FC = () => {
   const { t } = useTranslation();
 
   useEffect(() => {
-    getGroups()
+    getGroups(user?.uid)
       .then((groups) => setGroup(groups))
       .catch((error) => toast.error('Something wrong happened', error));
   }, []);

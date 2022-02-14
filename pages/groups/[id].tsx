@@ -15,6 +15,7 @@ import { Group } from '../../src/models/groups.model';
 import { UserGeolocation } from '../../src/models/usersGeolocation';
 import { isNotNullable } from '../../src/utils/common';
 import { getGroups } from '../api/group';
+import { useAuth } from '../../src/hooks/useAuth';
 
 const GroupDetailsPage: FC = () => {
   const [groups, setGroup] = useState<Group[]>([]);
@@ -25,6 +26,7 @@ const GroupDetailsPage: FC = () => {
   const [groupUsers, setGroupUsers] = useState<UserGeolocation[]>([]);
 
   const router = useRouter();
+  const { user } = useAuth();
   const { t } = useTranslation();
   const { id } = router.query;
   const usersGeolocation = useUsersGeolocation();
@@ -32,7 +34,7 @@ const GroupDetailsPage: FC = () => {
   const markers = useUsersMarkers(groupUsers);
 
   useEffect(() => {
-    getGroups()
+    getGroups(user?.uid)
       .then((groups) => setGroup(groups))
       .catch((error) => toast.error('Something wrong happened', error));
   }, []);

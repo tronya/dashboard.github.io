@@ -8,16 +8,21 @@ import {
   TableRow,
 } from '@mui/material';
 import { FC } from 'react';
-import { GroupProps } from '../../../models/groups.model';
+import { Group } from '../../../models/groups.model';
 import { User } from '../../../models/user.model';
 import { StyledTableCell } from './GroupsList.styles';
 
 interface GroupList {
-  groups: GroupProps[];
+  groups: Group[];
   currentUser: User | null;
+  onGroupClick: (id: string) => void;
 }
 
-export const GroupsList: FC<GroupList> = ({ groups, currentUser }) => {
+export const GroupsList: FC<GroupList> = ({
+  groups,
+  currentUser,
+  onGroupClick,
+}) => {
   return (
     <Box>
       <TableContainer>
@@ -33,7 +38,11 @@ export const GroupsList: FC<GroupList> = ({ groups, currentUser }) => {
             {groups.map((group) => (
               <TableRow
                 key={group.id}
-                sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+                sx={{
+                  cursor: 'pointer',
+                  '&:last-child td, &:last-child th': { border: 0 },
+                }}
+                onClick={() => onGroupClick(group.id)}
               >
                 <TableCell component="th" scope="row">
                   {group.name}

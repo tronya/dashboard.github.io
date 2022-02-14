@@ -39,6 +39,7 @@ export const setGroup = async (
 
   return await addDoc(collection(DB, DataBaseModel.GROUPS), {
     ...groupFields,
+    users: [...groupFields.users, auth.user.uid],
     userCreate: auth.user.uid,
   });
 };

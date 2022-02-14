@@ -38,7 +38,6 @@ const onGroupCreate = ({ fields, user }: GroupFormProps) => {
 const GroupsCreationPage: FC = () => {
   const { t } = useTranslation();
   const user = useAuth();
-  const currentUserId = user?.user?.uid || null;
   const validationSchema = yup.object({
     name: yup
       .string()
@@ -52,7 +51,7 @@ const GroupsCreationPage: FC = () => {
   const formik = useFormik({
     initialValues: {
       name: '',
-      users: currentUserId ? [currentUserId] : [],
+      users: [],
     },
     validationSchema,
     onSubmit: (fields) => onGroupCreate({ fields, user }),

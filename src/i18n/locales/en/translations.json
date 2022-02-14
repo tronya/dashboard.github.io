@@ -15,6 +15,7 @@
   },
   "dashboard": {
     "title": "Dashboard",
+    "users": "Users",
     "bannerTitle": "You haven't allowed your location yet. Please, do this in your profile page by clicking on the button.",
     "bannerButtonText": "USER PROFILE PAGE",
     "peopleYouFollow": "People you follow",

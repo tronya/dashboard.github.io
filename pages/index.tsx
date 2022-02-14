@@ -1,9 +1,8 @@
 import type { NextPage } from 'next';
 import Head from 'next/head';
-import { Box, Grid, Tooltip, Typography } from '@mui/material';
-import UsersListContainer from '../src/components/containers/UsersList/usersList.container';
+import { Box } from '@mui/material';
 import { useRouter } from 'next/router';
-import { ReactChild, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import Loader from '../src/components/ui/Loader/loader';
 import Wrapper from '../src/components/ui/Wrapper/wrapper';
 import { useAuth } from '../src/hooks/useAuth';
@@ -11,10 +10,11 @@ import MapBoxContainer from '../src/components/containers/Map/mapBox.container';
 import useUsersMarkers from '../src/hooks/useUsersMarkers';
 import Banner from '../src/components/ui/Banner/banner';
 import { useTranslation } from 'react-i18next';
-import HelpIcon from '@mui/icons-material/Help';
 import useUsersGeolocation from '../src/hooks/useUsersGeolocation';
 import { UserGeolocation } from '../src/models/usersGeolocation';
 import { useGeolocationProvider } from '../src/hooks/useGeolocationProvider';
+import UsersListGroup from '../src/components/containers/UsersList/usersListGroup';
+import PageTitle from '../src/components/ui/PageTitle/PageTitle';
 
 const Home: NextPage = () => {
   const [selectedUser, setSelectedUser] = useState<UserGeolocation | null>(
@@ -57,30 +57,16 @@ const Home: NextPage = () => {
             buttonHref="/user/profile"
           />
         ) : (
-          <Grid container>
-            <Grid item xs={12} sm={6} lg={3}>
-              <Box display="flex" alignItems="center" py={2} mr={2}>
-                <Typography variant="h4">
-                  {t('dashboard.peopleYouFollow')}
-                </Typography>
-                <Tooltip
-                  title={t('dashboard.tooltip') as ReactChild}
-                  placement="top"
-                >
-                  <Box ml={1}>
-                    <HelpIcon sx={{ width: 15, height: 15 }} />
-                  </Box>
-                </Tooltip>
-              </Box>
-              <UsersListContainer
+          <>
+            <PageTitle title={t('dashboard.users')} />
+            <Box display="flex" p={1}>
+              <UsersListGroup
                 users={usersGeolocation}
                 onUserClick={handleUserClick}
               />
-            </Grid>
-            <Grid item xs={12} sm={6} lg={9}>
-              <MapBoxContainer markers={markers} selectedUser={selectedUser} />
-            </Grid>
-          </Grid>
+            </Box>
+            <MapBoxContainer markers={markers} selectedUser={selectedUser} />
+          </>
         )}
       </main>
     </Wrapper>

@@ -1,5 +1,4 @@
 import {
-  AvatarGroup,
   Badge,
   Box as BoxComponent,
   List,
@@ -49,12 +48,5 @@ export const StyledBadge = styledMUI(Badge)(() => ({
       transform: 'scale(2.4)',
       opacity: 0,
     },
-  },
-}));
-
-export const StyledAvatarGroup = styledMUI(AvatarGroup)(() => ({
-  '& .MuiAvatarGroup-avatar': {
-    height: 50,
-    width: 50,
   },
 }));

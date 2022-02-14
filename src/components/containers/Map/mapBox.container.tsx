@@ -6,6 +6,11 @@ import MapBox from './mapBox.component';
 import { createMarkersOnMap } from '../../../utils/map';
 import useMap from '../../../hooks/useMap';
 import { UserGeolocation } from '../../../models/usersGeolocation';
+import {
+  prepareUserData,
+  setUserGeolocationData,
+} from '../../../../pages/api/usersGeolocation';
+import { useAuth } from '../../../hooks/useAuth';
 
 interface MapBoxContainerProps {
   markers?: Marker[];
@@ -15,6 +20,7 @@ interface MapBoxContainerProps {
 const MapBoxContainer: FC<MapBoxContainerProps> = (props) => {
   const { markers, selectedUser } = props;
   const { mapboxMap, mapNode } = useMap();
+  const authUser = useAuth();
 
   useEffect(() => {
     if (mapboxMap) {
@@ -47,6 +53,22 @@ const MapBoxContainer: FC<MapBoxContainerProps> = (props) => {
     }
   }, [mapboxMap, selectedUser]);
 
+  useEffect(() => {
+    const geolocationUpdater = navigator.geolocation.watchPosition(
+      (position) => {
+        if (authUser.user?.uid) {
+          // if User exists update his location
+          setUserGeolocationData(
+            authUser.user.uid,
+            prepareUserData(position, authUser.user)
+          );
+        }
+      }
+    );
+    return () => {
+      navigator.geolocation.clearWatch(geolocationUpdater);
+    };
+  }, []);
   useEffect(() => {
     if (markers?.length && mapboxMap) {
       for (const marker of markers) {

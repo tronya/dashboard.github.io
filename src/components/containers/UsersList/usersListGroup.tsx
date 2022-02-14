@@ -1,10 +1,10 @@
-import { Avatar, Tooltip } from '@mui/material';
+import { Avatar, AvatarGroup, Tooltip } from '@mui/material';
 import { FC } from 'react';
 import { ScreenType } from '../../../constants';
 import useWindowDimensions from '../../../hooks/useWindowDimensions';
 import { UserGeolocation } from '../../../models/usersGeolocation';
 import { getUserStatus } from '../../../utils/user';
-import { StyledAvatarGroup, StyledBadge } from './userList.styled';
+import { StyledBadge } from './userList.styled';
 import { UserListGroupEmpty } from './usersListGroup.empty';
 
 interface UsersListGroupProps {
@@ -27,7 +27,7 @@ const UsersListGroup: FC<UsersListGroupProps> = ({ users, onUserClick }) => {
       : 4;
 
   return (
-    <StyledAvatarGroup max={maxCountOfAvatars} total={users.length}>
+    <AvatarGroup max={maxCountOfAvatars} total={users.length}>
       {users.map((user) => (
         <StyledBadge
           overlap="circular"
@@ -44,12 +44,12 @@ const UsersListGroup: FC<UsersListGroupProps> = ({ users, onUserClick }) => {
             <Avatar
               alt={user.displayName!!}
               src={user.photoURL!!}
-              sx={{ width: 50, height: 50 }}
+              sx={{ width: 40, height: 40 }}
             />
           </Tooltip>
         </StyledBadge>
       ))}
-    </StyledAvatarGroup>
+    </AvatarGroup>
   );
 };
 

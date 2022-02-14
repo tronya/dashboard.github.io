@@ -1,6 +1,5 @@
 import type { NextPage } from 'next';
 import Head from 'next/head';
-import { Box } from '@mui/material';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 import Loader from '../src/components/ui/Loader/loader';
@@ -15,6 +14,10 @@ import { UserGeolocation } from '../src/models/usersGeolocation';
 import { useGeolocationProvider } from '../src/hooks/useGeolocationProvider';
 import UsersListGroup from '../src/components/containers/UsersList/usersListGroup';
 import PageTitle from '../src/components/ui/PageTitle/PageTitle';
+import {
+  MapHolder,
+  MapHolderFooter,
+} from '../src/components/containers/Map/mapBox.styled';
 
 const Home: NextPage = () => {
   const [selectedUser, setSelectedUser] = useState<UserGeolocation | null>(
@@ -59,13 +62,15 @@ const Home: NextPage = () => {
         ) : (
           <>
             <PageTitle title={t('dashboard.users')} />
-            <Box display="flex" p={1}>
-              <UsersListGroup
-                users={usersGeolocation}
-                onUserClick={handleUserClick}
-              />
-            </Box>
-            <MapBoxContainer markers={markers} selectedUser={selectedUser} />
+            <MapHolder>
+              <MapBoxContainer markers={markers} selectedUser={selectedUser} />
+              <MapHolderFooter>
+                <UsersListGroup
+                  users={usersGeolocation}
+                  onUserClick={handleUserClick}
+                />
+              </MapHolderFooter>
+            </MapHolder>
           </>
         )}
       </main>

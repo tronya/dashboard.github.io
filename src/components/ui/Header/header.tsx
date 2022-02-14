@@ -1,6 +1,7 @@
 import {
   Avatar,
   Box,
+  Button,
   IconButton,
   Toolbar,
   Tooltip,
@@ -15,21 +16,25 @@ import Drawer from '../Drawer/drawer';
 import { useAuth } from '../../../hooks/useAuth';
 import { useRouter } from 'next/router';
 import { stringAvatar } from '../../../utils/user';
+import { getAuth, signOut } from 'firebase/auth';
+import { toast } from 'react-toastify';
+import { drawerListLeft, drawerListRight } from '../Drawer/drawerList';
+import { AnchorType } from '../../../constants';
 
-interface HeaderProps {
-  toggleDrawer: () => void;
-  open: boolean;
-}
-
-const Header: FC<HeaderProps> = ({ toggleDrawer, open }) => {
+const Header: FC = () => {
   const { t } = useTranslation();
   const { user } = useAuth();
   const router = useRouter();
+  const auth = getAuth();
 
-  const [openUserDrawer, setOpenUserDrawer] = useState(false);
+  const [openDrawerState, setOpenDrawerState] = useState({
+    left: false,
+    right: false,
+  });
 
-  const toggleUserDrawer =
-    (open: boolean) => (event: KeyboardEvent | MouseEvent) => {
+  const toggleDrawer =
+    (open: boolean, anchor: AnchorType) =>
+    (event: KeyboardEvent | MouseEvent) => {
       if (
         event.type === 'keydown' &&
         ((event as KeyboardEvent).key === 'Tab' ||
@@ -38,7 +43,10 @@ const Header: FC<HeaderProps> = ({ toggleDrawer, open }) => {
         return null;
       }
 
-      setOpenUserDrawer(open);
+      setOpenDrawerState({
+        ...openDrawerState,
+        [anchor]: open,
+      });
     };
 
   const handleClick = (event: MouseEvent<HTMLHeadingElement>) => {
@@ -46,22 +54,30 @@ const Header: FC<HeaderProps> = ({ toggleDrawer, open }) => {
     router.push('/');
   };
 
+  const handleSignOut = () =>
+    signOut(auth)
+      .then(() => {
+        toast.success(t('toastSuccess.logOut'));
+        router.push('/login');
+      })
+      .catch((error) => toast.error(`Error: ${error}`));
+
   return (
     <>
-      <AppBar position="absolute" open={open}>
-        <Toolbar
-          sx={{
-            pr: '24px', // keep right padding when drawer closed
-          }}
-        >
+      <AppBar position="absolute" open={false}>
+        <Toolbar>
           <IconButton
             edge="start"
             color="inherit"
             aria-label="open drawer"
-            onClick={toggleDrawer}
+            onClick={() =>
+              setOpenDrawerState((state) => ({
+                ...openDrawerState,
+                left: !state.left,
+              }))
+            }
             sx={{
               marginRight: '36px',
-              ...(open && { display: 'none' }),
             }}
           >
             <MenuIcon />
@@ -85,7 +101,12 @@ const Header: FC<HeaderProps> = ({ toggleDrawer, open }) => {
             <Tooltip title="Open settings">
               <IconButton
                 sx={{ p: 0 }}
-                onClick={() => setOpenUserDrawer((open) => !open)}
+                onClick={() =>
+                  setOpenDrawerState((state) => ({
+                    ...openDrawerState,
+                    right: !state.right,
+                  }))
+                }
               >
                 <Avatar
                   alt={user.displayName}
@@ -97,7 +118,25 @@ const Header: FC<HeaderProps> = ({ toggleDrawer, open }) => {
           )}
         </Toolbar>
       </AppBar>
-      <Drawer open={openUserDrawer} toggleUserDrawer={toggleUserDrawer} />
+      <Drawer
+        open={openDrawerState.left}
+        toggleDrawer={toggleDrawer}
+        anchor={AnchorType.LEFT}
+        drawerList={drawerListLeft}
+      />
+      <Drawer
+        open={openDrawerState.right}
+        toggleDrawer={toggleDrawer}
+        anchor={AnchorType.RIGHT}
+        signOutButton={
+          <Box p={2} display="flex" justifyContent="center">
+            <Button onClick={handleSignOut} variant="contained" size="large">
+              {t('drawer.signOutButtonText')}
+            </Button>
+          </Box>
+        }
+        drawerList={drawerListRight}
+      />
     </>
   );
 };

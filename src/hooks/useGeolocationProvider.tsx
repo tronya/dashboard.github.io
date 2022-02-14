@@ -4,68 +4,68 @@ import {
   useContext,
   useEffect,
   useState,
-} from 'react'
-import { useRouter } from 'next/router'
+} from 'react';
+import { useRouter } from 'next/router';
 
-type GeolocationStatusesTypes = 'denied' | 'granted' | 'prompt'
+type GeolocationStatusesTypes = 'denied' | 'granted' | 'prompt';
 
 interface GeolocationProviderContext {
-  status: null | GeolocationStatusesTypes
-  isLocationAllowed: boolean
+  status: null | GeolocationStatusesTypes;
+  isLocationAllowed: boolean;
 }
 
 export interface GeolocationProviderProps {
-  children: ReactNode
+  children: ReactNode;
 }
 
 const GeolocationProviderContext = createContext<GeolocationProviderContext>({
   status: null,
   isLocationAllowed: false,
-})
+});
 
 interface NavigatorState extends GeolocationProviderContext {
-  status: null | GeolocationStatusesTypes
-  isLocationAllowed: boolean
+  status: null | GeolocationStatusesTypes;
+  isLocationAllowed: boolean;
 }
 
 const initialState: NavigatorState = {
   status: null,
   isLocationAllowed: false,
-}
+};
 
-const useNavigatorGeolocation = (): NavigatorState => {
-  const [context, setContext] = useState<NavigatorState>(initialState)
-  const router = useRouter()
+export const useNavigatorGeolocation = (): NavigatorState => {
+  const [context, setContext] = useState<NavigatorState>(initialState);
+  const router = useRouter();
 
   useEffect(() => {
-    navigator.permissions
+    window.navigator.permissions
       .query({ name: 'geolocation' })
       .then((status: PermissionStatus) => {
-        status.onchange = () => router.reload()
+        status.onchange = () => router.reload();
         setContext({
           status: status.state,
           isLocationAllowed: status.state === 'granted',
-        })
+        });
       })
       .catch((e) => {
         setContext({
           status: null,
           isLocationAllowed: false,
-        })
-      })
-  }, [])
+        });
+      });
+  }, []);
 
-  return context
-}
+  return context;
+};
 
 export const GeolocationProvider = ({ children }: GeolocationProviderProps) => {
-  const geoNavigator = useNavigatorGeolocation()
+  const geoNavigator = useNavigatorGeolocation();
   return (
     <GeolocationProviderContext.Provider value={geoNavigator}>
       {children}
     </GeolocationProviderContext.Provider>
-  )
-}
+  );
+};
 
 export const useGeolocationProvider = () =>
-  useContext(GeolocationProviderContext)
+  useContext(GeolocationProviderContext);

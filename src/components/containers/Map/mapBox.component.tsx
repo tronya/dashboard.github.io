@@ -1,13 +1,13 @@
-import { Paper } from "@mui/material";
-import { FC, LegacyRef } from "react";
+import { Paper } from '@mui/material';
+import { FC, LegacyRef } from 'react';
 
 interface MapBoxProps {
   mapNode: LegacyRef<HTMLDivElement> | null;
 }
 
 const MapBox: FC<MapBoxProps> = ({ mapNode }) => (
-  <Paper sx={{ height: "calc(100vh - 155px)" }}>
-    <div ref={mapNode} style={{ width: "100%", height: "100%" }} />
+  <Paper sx={{ height: 'calc(100vh - 155px)' }}>
+    <div ref={mapNode} style={{ width: '100%', height: '100%' }} />
   </Paper>
 );
 

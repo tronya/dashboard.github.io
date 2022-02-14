@@ -6,13 +6,13 @@ import {
   Button,
   Link,
   Divider,
-} from "@mui/material";
-import { FC, FormEvent, ReactNode } from "react";
-import theme from "../../theme";
+} from '@mui/material';
+import { FC, FormEvent, ReactNode } from 'react';
+import theme from '../../theme';
 
 interface LogInPageProps {
   onSignIn: (
-    provider: "google" | "email",
+    provider: 'google' | 'email',
     event?: FormEvent<HTMLFormElement>
   ) => void;
   copyright?: ReactNode;
@@ -24,7 +24,7 @@ const LogInPage: FC<LogInPageProps> = ({
   onSignIn,
   googleLogInButton,
 }) => (
-  <Grid container component="main" sx={{ height: "100vh" }}>
+  <Grid container component="main" sx={{ height: '100vh' }}>
     <Grid
       item
       xs={false}
@@ -32,14 +32,14 @@ const LogInPage: FC<LogInPageProps> = ({
       md={5}
       sx={{
         backgroundImage:
-          "url(https://www.pngkit.com/png/full/332-3325220_transparent-cat-face-tumblr-download-.png)",
-        backgroundRepeat: "no-repeat",
+          'url(https://www.pngkit.com/png/full/332-3325220_transparent-cat-face-tumblr-download-.png)',
+        backgroundRepeat: 'no-repeat',
         backgroundColor: theme.palette.primary.main,
-        backgroundSize: "cover",
-        backgroundPosition: "center",
+        backgroundSize: 'cover',
+        backgroundPosition: 'center',
       }}
     />
-    <Grid item xs={12} sm={8} md={7} sx={{ height: "100vh" }}>
+    <Grid item xs={12} sm={8} md={7} sx={{ height: '100vh' }}>
       <Box
         height="100vh"
         display="flex"
@@ -62,7 +62,7 @@ const LogInPage: FC<LogInPageProps> = ({
           component="form"
           noValidate
           onSubmit={(event: FormEvent<HTMLFormElement>) =>
-            onSignIn("email", event)
+            onSignIn('email', event)
           }
           sx={{ mt: 1 }}
         >

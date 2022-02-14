@@ -1,11 +1,11 @@
-import mapboxgl, { LngLatLike } from "mapbox-gl";
-import "mapbox-gl/dist/mapbox-gl.css";
-import { createElement, FC, useEffect } from "react";
-import { Marker } from "../../../models/map.model";
-import MapBox from "./mapBox.component";
-import { createMarkersOnMap } from "../../../utils/map";
-import useMap from "../../../hooks/useMap";
-import { UserGeolocation } from "../../../models/usersGeolocation";
+import mapboxgl, { LngLatLike } from 'mapbox-gl';
+import 'mapbox-gl/dist/mapbox-gl.css';
+import { createElement, FC, useEffect } from 'react';
+import { Marker } from '../../../models/map.model';
+import MapBox from './mapBox.component';
+import { createMarkersOnMap } from '../../../utils/map';
+import useMap from '../../../hooks/useMap';
+import { UserGeolocation } from '../../../models/usersGeolocation';
 
 interface MapBoxContainerProps {
   markers?: Marker[];

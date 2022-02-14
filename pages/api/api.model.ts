@@ -1,6 +1,6 @@
 export enum DataBaseModel {
-  FAVORITES = "favorites",
-  GROUPS = "groups",
-  USERS = "users",
-  USERS_GEOLOCATION = "usersGeolocation"
+  FAVORITES = 'favorites',
+  GROUPS = 'groups',
+  USERS = 'users',
+  USERS_GEOLOCATION = 'usersGeolocation',
 }

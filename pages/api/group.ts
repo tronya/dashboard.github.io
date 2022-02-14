@@ -1,9 +1,9 @@
-import { getDocs, collection, addDoc } from "firebase/firestore";
-import { DB } from "../../src/firebase";
-import { AuthUserContextProps } from "../../src/models/auth.model";
-import { GroupProps } from "../../src/models/groups.model";
-import { GroupFormFields } from "../groups/create";
-import { DataBaseModel } from "./api.model";
+import { getDocs, collection, addDoc } from 'firebase/firestore';
+import { DB } from '../../src/firebase';
+import { AuthUserContextProps } from '../../src/models/auth.model';
+import { GroupProps } from '../../src/models/groups.model';
+import { GroupFormFields } from '../groups/create';
+import { DataBaseModel } from './api.model';
 
 export const getGroupsCollection = async () =>
   await getDocs(collection(DB, DataBaseModel.GROUPS));

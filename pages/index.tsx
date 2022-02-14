@@ -1,43 +1,45 @@
-import type { NextPage } from 'next'
-import Head from 'next/head'
-import { Box } from '@mui/material'
-import { useRouter } from 'next/router'
-import {  useEffect, useState } from 'react'
-import Loader from '../src/components/ui/Loader/loader'
-import Wrapper from '../src/components/ui/Wrapper/wrapper'
-import { useAuth } from '../src/hooks/useAuth'
-import MapBoxContainer from '../src/components/containers/Map/mapBox.container'
-import useUsersMarkers from '../src/hooks/useUsersMarkers'
-import Banner from '../src/components/ui/Banner/banner'
-import { useTranslation } from 'react-i18next'
-import useUsersGeolocation from '../src/hooks/useUsersGeolocation'
-import { UserGeolocation } from '../src/models/usersGeolocation'
-import { useGeolocationProvider } from '../src/hooks/useGeolocationProvider'
-import UsersListGroup from '../src/components/containers/UsersList/usersListGroup'
-import PageTitle from '../src/components/ui/PageTitle/PageTitle'
+import type { NextPage } from 'next';
+import Head from 'next/head';
+import { Box } from '@mui/material';
+import { useRouter } from 'next/router';
+import { useEffect, useState } from 'react';
+import Loader from '../src/components/ui/Loader/loader';
+import Wrapper from '../src/components/ui/Wrapper/wrapper';
+import { useAuth } from '../src/hooks/useAuth';
+import MapBoxContainer from '../src/components/containers/Map/mapBox.container';
+import useUsersMarkers from '../src/hooks/useUsersMarkers';
+import Banner from '../src/components/ui/Banner/banner';
+import { useTranslation } from 'react-i18next';
+import useUsersGeolocation from '../src/hooks/useUsersGeolocation';
+import { UserGeolocation } from '../src/models/usersGeolocation';
+import { useGeolocationProvider } from '../src/hooks/useGeolocationProvider';
+import UsersListGroup from '../src/components/containers/UsersList/usersListGroup';
+import PageTitle from '../src/components/ui/PageTitle/PageTitle';
 
 const Home: NextPage = () => {
-  const [selectedUser, setSelectedUser] = useState<UserGeolocation | null>(null)
+  const [selectedUser, setSelectedUser] = useState<UserGeolocation | null>(
+    null
+  );
 
-  const router = useRouter()
-  const { t } = useTranslation()
-  const { user, loading } = useAuth()
-  const { isLocationAllowed } = useGeolocationProvider()
-  const usersGeolocation = useUsersGeolocation()
+  const router = useRouter();
+  const { t } = useTranslation();
+  const { user, loading } = useAuth();
+  const { isLocationAllowed } = useGeolocationProvider();
+  const usersGeolocation = useUsersGeolocation();
 
-  const markers = useUsersMarkers(usersGeolocation)
+  const markers = useUsersMarkers(usersGeolocation);
 
   useEffect(() => {
     if (!loading && !user) {
-      router.push('/login')
+      router.push('/login');
     }
-  }, [user, loading, router])
+  }, [user, loading, router]);
 
   if (!usersGeolocation) {
-    return <Loader />
+    return <Loader />;
   }
 
-  const handleUserClick = (user: UserGeolocation) => setSelectedUser(user)
+  const handleUserClick = (user: UserGeolocation) => setSelectedUser(user);
 
   return (
     <Wrapper>
@@ -68,7 +70,7 @@ const Home: NextPage = () => {
         )}
       </main>
     </Wrapper>
-  )
-}
+  );
+};
 
-export default Home
+export default Home;

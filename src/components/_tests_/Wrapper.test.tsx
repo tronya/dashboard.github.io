@@ -1,9 +1,9 @@
-import Wrapper from "../ui/Wrapper/wrapper";
+import Wrapper from '../ui/Wrapper/wrapper';
 
 describe(Wrapper.name, () => {
-  it("Mega stupid test", () => {
-    expect(true).toEqual(true)
-  })
+  it('Mega stupid test', () => {
+    expect(true).toEqual(true);
+  });
   // it("returns return class from the first child of the document", () => {
   //   const { container } = render(<Wrapper />);
 

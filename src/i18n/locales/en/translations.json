@@ -2,9 +2,10 @@
   "mainMenu": {
     "groups": "Groups"
   },
-  "titles": {
+  "group": {
     "groups": "Groups",
-    "groupsСreate": "Create Group"
+    "groupsCreate": "Create Group",
+    "groupDetails": "Group Detail"
   },
   "forms": {
     "createGroupForm": {

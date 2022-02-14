@@ -28,7 +28,7 @@ const onGroupCreate = ({ fields, user }: GroupFormProps) => {
   return setGroup(fields, user)
     .then(() => {
       toast.success(`${fields.name} is successfully creeated!`);
-      router.push('/groups/main');
+      router.push('/groups');
     })
     .catch((error) => {
       toast.error('error', error);
@@ -59,8 +59,16 @@ const GroupsCreationPage: FC = () => {
 
   return (
     <Wrapper>
-      <Breadcrumbs breadcrumbText={t('titles.groups')} />
-      <PageTitle title={t('titles.groupsСreate')} />
+      <Breadcrumbs
+        breadcrumbText={t('group.groups')}
+        otherBreadcrumbs={[
+          <Typography key="group-create" color="text.primary">
+            {t('group.groupsCreate')}
+          </Typography>,
+        ]}
+        breadcrumbTextHref="/groups"
+      />
+      <PageTitle title={t('group.groupsCreate')} />
       <Grid container justifyContent="center" sx={{ mt: 2 }}>
         <Grid item xs={12} sm={6}>
           <form onSubmit={formik.handleSubmit}>

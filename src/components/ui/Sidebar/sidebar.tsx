@@ -14,7 +14,6 @@ import AssignmentIcon from '@mui/icons-material/Assignment';
 import { HeaderDrawer } from '../HeaderDrawer/headerDrawer';
 import { useTranslation } from 'react-i18next';
 import Link from 'next/link';
-import { useRouter } from 'next/router';
 
 interface SidebarProps {
   toggleDrawer: () => void;
@@ -23,10 +22,10 @@ interface SidebarProps {
 
 const MenuItems: FC = () => {
   const { t } = useTranslation();
-  const router = useRouter();
+
   return (
     <Box>
-      <Link href={'/groups/main'} passHref>
+      <Link href="/groups" passHref>
         <ListItem button>
           <ListItemIcon>
             <AssignmentIcon sx={{ color: 'white' }} />

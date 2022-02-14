@@ -6,15 +6,15 @@ import {
   TableContainer,
   TableHead,
   TableRow,
-} from '@mui/material'
-import { FC } from 'react'
-import { GroupProps } from '../../../models/groups.model'
-import { User } from '../../../models/user.model'
-import { StyledTableCell } from './GroupsList.styles'
+} from '@mui/material';
+import { FC } from 'react';
+import { GroupProps } from '../../../models/groups.model';
+import { User } from '../../../models/user.model';
+import { StyledTableCell } from './GroupsList.styles';
 
 interface GroupList {
-  groups: GroupProps[]
-  currentUser: User | null
+  groups: GroupProps[];
+  currentUser: User | null;
 }
 
 export const GroupsList: FC<GroupList> = ({ groups, currentUser }) => {
@@ -48,5 +48,5 @@ export const GroupsList: FC<GroupList> = ({ groups, currentUser }) => {
         </Table>
       </TableContainer>
     </Box>
-  )
-}
+  );
+};

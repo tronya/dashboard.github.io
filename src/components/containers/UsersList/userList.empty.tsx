@@ -5,15 +5,15 @@ import {
   ListItemText,
   Skeleton,
   Typography,
-} from "@mui/material";
-import { FC } from "react";
+} from '@mui/material';
+import { FC } from 'react';
 
 interface UserListEmptyProps {
   count: number;
 }
 
 export const UserListEmpty: FC<UserListEmptyProps> = ({ count }) => {
-  const template:number[] = [];
+  const template: number[] = [];
 
   for (let i = 0; i < count; i++) {
     template.push(i);

@@ -1,6 +1,6 @@
-import { FC } from "react";
-import UserProfile from "../../src/components/containers/User/userProfile";
-import Wrapper from "../../src/components/ui/Wrapper/wrapper";
+import { FC } from 'react';
+import UserProfile from '../../src/components/containers/User/userProfile';
+import Wrapper from '../../src/components/ui/Wrapper/wrapper';
 
 const UserProfilePage: FC = () => {
   return (

@@ -1,9 +1,9 @@
-import { Button, Box } from "@mui/material";
-import { FC } from "react";
-import GoogleLogo from "../Icons/GoogleLogo";
+import { Button, Box } from '@mui/material';
+import { FC } from 'react';
+import GoogleLogo from '../Icons/GoogleLogo';
 
 interface GoogleLogInButtonProps {
-  onSignIn: (provider: "google") => void;
+  onSignIn: (provider: 'google') => void;
   fullWidth: boolean;
 }
 
@@ -13,7 +13,7 @@ const GoogleLogInButton: FC<GoogleLogInButtonProps> = ({
 }) => (
   <Button
     variant="outlined"
-    onClick={() => onSignIn("google")}
+    onClick={() => onSignIn('google')}
     fullWidth={fullWidth}
   >
     <GoogleLogo />

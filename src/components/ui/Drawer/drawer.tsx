@@ -1,10 +1,10 @@
-import { Box, Button, Drawer as DrawerComponent } from "@mui/material";
-import { toast } from "react-toastify";
-import { getAuth, signOut } from "firebase/auth";
-import { FC, KeyboardEvent, MouseEvent } from "react";
-import DrawerList from "./drawerList";
-import { useRouter } from "next/router";
-import { useTranslation } from "react-i18next";
+import { Box, Button, Drawer as DrawerComponent } from '@mui/material';
+import { toast } from 'react-toastify';
+import { getAuth, signOut } from 'firebase/auth';
+import { FC, KeyboardEvent, MouseEvent } from 'react';
+import DrawerList from './drawerList';
+import { useRouter } from 'next/router';
+import { useTranslation } from 'react-i18next';
 
 interface DrawerProps {
   open: boolean;
@@ -21,8 +21,8 @@ const Drawer: FC<DrawerProps> = ({ open, toggleUserDrawer }) => {
   const handleSignOut = () =>
     signOut(auth)
       .then(() => {
-        toast.success(t("toastSuccess.logOut"));
-        router.push("/login");
+        toast.success(t('toastSuccess.logOut'));
+        router.push('/login');
       })
       .catch((error) => toast.error(`Error: ${error}`));
 
@@ -45,7 +45,7 @@ const Drawer: FC<DrawerProps> = ({ open, toggleUserDrawer }) => {
         <DrawerList />
         <Box p={2} display="flex" justifyContent="center">
           <Button onClick={handleSignOut} variant="contained" size="large">
-            {t("drawer.signOutButtonText")}
+            {t('drawer.signOutButtonText')}
           </Button>
         </Box>
       </Box>

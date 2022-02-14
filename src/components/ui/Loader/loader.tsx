@@ -1,6 +1,6 @@
-import CircularProgress from "@mui/material/CircularProgress";
-import Box from "@mui/material/Box";
-import theme from "../../theme";
+import CircularProgress from '@mui/material/CircularProgress';
+import Box from '@mui/material/Box';
+import theme from '../../theme';
 
 const Loader = () => (
   <Box

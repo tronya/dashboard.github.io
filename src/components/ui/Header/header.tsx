@@ -5,16 +5,16 @@ import {
   Toolbar,
   Tooltip,
   Typography,
-} from "@mui/material";
-import { FC, useState, KeyboardEvent, MouseEvent } from "react";
-import MenuIcon from "@mui/icons-material/Menu";
-import { AppBar } from "../AppBar/appBar";
-import Localization from "../Localization/localization";
-import { useTranslation } from "react-i18next";
-import Drawer from "../Drawer/drawer";
-import { useAuth } from "../../../hooks/useAuth";
-import { useRouter } from "next/router";
-import { stringAvatar } from "../../../utils/user";
+} from '@mui/material';
+import { FC, useState, KeyboardEvent, MouseEvent } from 'react';
+import MenuIcon from '@mui/icons-material/Menu';
+import { AppBar } from '../AppBar/appBar';
+import Localization from '../Localization/localization';
+import { useTranslation } from 'react-i18next';
+import Drawer from '../Drawer/drawer';
+import { useAuth } from '../../../hooks/useAuth';
+import { useRouter } from 'next/router';
+import { stringAvatar } from '../../../utils/user';
 
 interface HeaderProps {
   toggleDrawer: () => void;
@@ -31,9 +31,9 @@ const Header: FC<HeaderProps> = ({ toggleDrawer, open }) => {
   const toggleUserDrawer =
     (open: boolean) => (event: KeyboardEvent | MouseEvent) => {
       if (
-        event.type === "keydown" &&
-        ((event as KeyboardEvent).key === "Tab" ||
-          (event as KeyboardEvent).key === "Shift")
+        event.type === 'keydown' &&
+        ((event as KeyboardEvent).key === 'Tab' ||
+          (event as KeyboardEvent).key === 'Shift')
       ) {
         return null;
       }
@@ -43,7 +43,7 @@ const Header: FC<HeaderProps> = ({ toggleDrawer, open }) => {
 
   const handleClick = (event: MouseEvent<HTMLHeadingElement>) => {
     event.preventDefault();
-    router.push("/");
+    router.push('/');
   };
 
   return (
@@ -51,7 +51,7 @@ const Header: FC<HeaderProps> = ({ toggleDrawer, open }) => {
       <AppBar position="absolute" open={open}>
         <Toolbar
           sx={{
-            pr: "24px", // keep right padding when drawer closed
+            pr: '24px', // keep right padding when drawer closed
           }}
         >
           <IconButton
@@ -60,8 +60,8 @@ const Header: FC<HeaderProps> = ({ toggleDrawer, open }) => {
             aria-label="open drawer"
             onClick={toggleDrawer}
             sx={{
-              marginRight: "36px",
-              ...(open && { display: "none" }),
+              marginRight: '36px',
+              ...(open && { display: 'none' }),
             }}
           >
             <MenuIcon />
@@ -71,10 +71,10 @@ const Header: FC<HeaderProps> = ({ toggleDrawer, open }) => {
             variant="h6"
             color="inherit"
             noWrap
-            sx={{ flexGrow: 1, cursor: "pointer" }}
+            sx={{ flexGrow: 1, cursor: 'pointer' }}
             onClick={handleClick}
           >
-            {t("dashboard.title")}
+            {t('dashboard.title')}
           </Typography>
 
           <Box pr={1}>

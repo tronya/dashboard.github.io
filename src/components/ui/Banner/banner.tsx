@@ -1,6 +1,6 @@
-import { Box, Button, Grid, Paper, Typography } from "@mui/material";
-import { useRouter } from "next/router";
-import { FC, MouseEvent } from "react";
+import { Box, Button, Grid, Paper, Typography } from '@mui/material';
+import { useRouter } from 'next/router';
+import { FC, MouseEvent } from 'react';
 
 interface BannerProps {
   title: string;
@@ -20,7 +20,7 @@ const Banner: FC<BannerProps> = ({ buttonText, buttonHref, title }) => {
     <Paper sx={{ p: 4 }}>
       <Grid container>
         <Grid item xs={10} sm={10} lg={10}>
-          <Typography variant="h6" sx={{ color: "common.white" }}>
+          <Typography variant="h6" sx={{ color: 'common.white' }}>
             {title}
           </Typography>
         </Grid>
@@ -30,9 +30,9 @@ const Banner: FC<BannerProps> = ({ buttonText, buttonHref, title }) => {
               <Button
                 variant="contained"
                 sx={{
-                  backgroundColor: "white !important",
-                  color: "primary.main",
-                  textAlign: "center",
+                  backgroundColor: 'white !important',
+                  color: 'primary.main',
+                  textAlign: 'center',
                 }}
                 onClick={handleClick}
                 href={buttonHref}

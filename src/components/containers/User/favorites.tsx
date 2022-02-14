@@ -1,13 +1,13 @@
-import { Box, Typography, Paper } from "@mui/material";
-import { FC } from "react";
-import { useTranslation } from "react-i18next";
-import Breadcrumbs from "../../ui/Breadcrumbs/breadcrumbs";
-import { UsersList } from "../UsersList/usersList.component";
-import StarBorderIcon from "@mui/icons-material/StarBorder";
-import StarIcon from "@mui/icons-material/Star";
-import { orange } from "@mui/material/colors";
-import { User } from "../../../models/user.model";
-import { UserGeolocation } from "../../../models/usersGeolocation";
+import { Box, Typography, Paper } from '@mui/material';
+import { FC } from 'react';
+import { useTranslation } from 'react-i18next';
+import Breadcrumbs from '../../ui/Breadcrumbs/breadcrumbs';
+import { UsersList } from '../UsersList/usersList.component';
+import StarBorderIcon from '@mui/icons-material/StarBorder';
+import StarIcon from '@mui/icons-material/Star';
+import { orange } from '@mui/material/colors';
+import { User } from '../../../models/user.model';
+import { UserGeolocation } from '../../../models/usersGeolocation';
 
 interface FavoritesProps {
   users: UserGeolocation[];
@@ -22,14 +22,14 @@ const Favorites: FC<FavoritesProps> = ({ users, onUserClick, favorites }) => {
     favorites?.find((el) => el === id) ? (
       <StarIcon sx={{ color: orange[500] }} />
     ) : (
-      <StarBorderIcon sx={{ color: "white" }} />
+      <StarBorderIcon sx={{ color: 'white' }} />
     );
 
   return (
     <>
-      <Breadcrumbs breadcrumbText={t("favorites.title")} />
+      <Breadcrumbs breadcrumbText={t('favorites.title')} />
       <Box py={2}>
-        <Typography variant="h4">{t("favorites.title")}</Typography>
+        <Typography variant="h4">{t('favorites.title')}</Typography>
       </Box>
       <Paper>
         <UsersList

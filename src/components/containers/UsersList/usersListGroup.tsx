@@ -1,11 +1,11 @@
-import { Avatar, Tooltip } from "@mui/material";
-import { FC } from "react";
-import { ScreenType } from "../../../constants";
-import useWindowDimensions from "../../../hooks/useWindowDimensions";
-import { UserGeolocation } from "../../../models/usersGeolocation";
-import { getUserStatus } from "../../../utils/user";
-import { UserListEmpty } from "./userList.empty";
-import { StyledAvatarGroup, StyledBadge } from "./userList.styled";
+import { Avatar, Tooltip } from '@mui/material';
+import { FC } from 'react';
+import { ScreenType } from '../../../constants';
+import useWindowDimensions from '../../../hooks/useWindowDimensions';
+import { UserGeolocation } from '../../../models/usersGeolocation';
+import { getUserStatus } from '../../../utils/user';
+import { StyledAvatarGroup, StyledBadge } from './userList.styled';
+import { UserListGroupEmpty } from './usersListGroup.empty';
 
 interface UsersListGroupProps {
   users: UserGeolocation[];
@@ -16,7 +16,7 @@ const UsersListGroup: FC<UsersListGroupProps> = ({ users, onUserClick }) => {
   const { screenType } = useWindowDimensions();
 
   if (!users.length) {
-    return <UserListEmpty count={6} />;
+    return <UserListGroupEmpty count={5} />;
   }
 
   const maxCountOfAvatars =
@@ -31,13 +31,13 @@ const UsersListGroup: FC<UsersListGroupProps> = ({ users, onUserClick }) => {
       {users.map((user) => (
         <StyledBadge
           overlap="circular"
-          anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
+          anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
           variant="dot"
           onClick={() => onUserClick(user)}
-          sx={{ cursor: "pointer" }}
+          sx={{ cursor: 'pointer' }}
           key={user.uid}
           color={
-            getUserStatus(user.timestamp) === "Online" ? "success" : "error"
+            getUserStatus(user.timestamp) === 'Online' ? 'success' : 'error'
           }
         >
           <Tooltip title={user.displayName!!} placement="bottom" arrow>

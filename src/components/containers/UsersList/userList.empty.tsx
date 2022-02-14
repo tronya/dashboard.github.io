@@ -20,8 +20,8 @@ export const UserListEmpty: FC<UserListEmptyProps> = ({ count }) => {
   }
   return (
     <List sx={{ width: 240 }}>
-      {template.map((_, i) => (
-        <ListItem alignItems="flex-start" key={i}>
+      {template.map((el) => (
+        <ListItem alignItems="flex-start" key={el}>
           <ListItemAvatar>
             <Skeleton variant="circular" width={40} height={40} />
           </ListItemAvatar>

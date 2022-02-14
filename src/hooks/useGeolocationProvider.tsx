@@ -7,7 +7,7 @@ import {
 } from 'react';
 import { useRouter } from 'next/router';
 
-type GeolocationStatusesTypes = 'denied' | 'granted' | 'prompt';
+export type GeolocationStatusesTypes = 'denied' | 'granted' | 'prompt';
 
 interface GeolocationProviderContext {
   status: null | GeolocationStatusesTypes;
@@ -38,21 +38,23 @@ export const useNavigatorGeolocation = (): NavigatorState => {
   const router = useRouter();
 
   useEffect(() => {
-    window.navigator.permissions
-      .query({ name: 'geolocation' })
-      .then((status: PermissionStatus) => {
-        status.onchange = () => router.reload();
-        setContext({
-          status: status.state,
-          isLocationAllowed: status.state === 'granted',
+    if (window && window.navigator && window.navigator.permissions) {
+      window.navigator.permissions
+        .query({ name: 'geolocation' })
+        .then((status: PermissionStatus) => {
+          status.onchange = () => router.reload();
+          setContext({
+            status: status.state,
+            isLocationAllowed: status.state === 'granted',
+          });
+        })
+        .catch((e) => {
+          setContext({
+            status: null,
+            isLocationAllowed: false,
+          });
         });
-      })
-      .catch((e) => {
-        setContext({
-          status: null,
-          isLocationAllowed: false,
-        });
-      });
+    }
   }, []);
 
   return context;

@@ -1,6 +1,6 @@
 import { addDoc, collection, getDocs, query, where } from 'firebase/firestore';
 import { DB } from '../../src/firebase';
-import { AuthUserContextProps } from '../../src/models/auth.model';
+import { AuthUser } from '../../src/models/auth.model';
 import { Group } from '../../src/models/groups.model';
 import { GroupFormFields } from '../groups/create';
 import { DataBaseModel } from './api.model';
@@ -31,7 +31,7 @@ export const getGroups = async (uid: string | undefined) => {
 
 export const setGroup = async (
   groupFields: GroupFormFields,
-  auth: AuthUserContextProps
+  auth: AuthUser
 ) => {
   if (!auth.user?.uid) {
     return null;

@@ -8,7 +8,7 @@ import SelectableUsers from '../../src/components/ui/SelectableUsers/SelectableU
 import { red } from '@mui/material/colors';
 import { useAuth } from '../../src/hooks/useAuth';
 import { setGroup } from '../api/group';
-import { AuthUserContextProps } from '../../src/models/auth.model';
+import { AuthUser } from '../../src/models/auth.model';
 import { toast } from 'react-toastify';
 import Breadcrumbs from '../../src/components/ui/Breadcrumbs/breadcrumbs';
 import router from 'next/router';
@@ -21,7 +21,7 @@ export interface GroupFormFields {
 
 interface GroupFormProps {
   fields: GroupFormFields;
-  user: AuthUserContextProps;
+  user: AuthUser;
 }
 
 const onGroupCreate = ({ fields, user }: GroupFormProps) => {
@@ -38,6 +38,7 @@ const onGroupCreate = ({ fields, user }: GroupFormProps) => {
 const GroupsCreationPage: FC = () => {
   const { t } = useTranslation();
   const user = useAuth();
+  const currentUserId = user?.user?.uid || null;
   const validationSchema = yup.object({
     name: yup
       .string()
@@ -51,7 +52,7 @@ const GroupsCreationPage: FC = () => {
   const formik = useFormik({
     initialValues: {
       name: '',
-      users: [],
+      users: currentUserId ? [currentUserId] : [],
     },
     validationSchema,
     onSubmit: (fields) => onGroupCreate({ fields, user }),

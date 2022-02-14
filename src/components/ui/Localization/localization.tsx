@@ -9,11 +9,11 @@ const Localization: FC = () => {
     i18n.changeLanguage(event.currentTarget.value);
 
   return (
-    <ButtonGroup variant="contained">
-      <Button onClick={changeLanguage} value="en">
+    <ButtonGroup variant="outlined">
+      <Button onClick={changeLanguage} value="en" sx={{ color: 'white' }}>
         EN
       </Button>
-      <Button onClick={changeLanguage} value="ua">
+      <Button onClick={changeLanguage} value="ua" sx={{ color: 'white' }}>
         UA
       </Button>
     </ButtonGroup>

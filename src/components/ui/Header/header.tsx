@@ -130,7 +130,12 @@ const Header: FC = () => {
         anchor={AnchorType.RIGHT}
         signOutButton={
           <Box p={2} display="flex" justifyContent="center">
-            <Button onClick={handleSignOut} variant="contained" size="large">
+            <Button
+              onClick={handleSignOut}
+              variant="outlined"
+              size="large"
+              sx={{ color: 'white' }}
+            >
               {t('drawer.signOutButtonText')}
             </Button>
           </Box>

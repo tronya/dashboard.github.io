@@ -37,7 +37,9 @@ const GroupsPage: FC = () => {
             }}
           >
             <Link href="/groups/create" passHref>
-              <Button variant="contained">{t('titles.groupsСreate')}</Button>
+              <Button variant="outlined" sx={{ color: 'white' }}>
+                {t('titles.groupsСreate')}
+              </Button>
             </Link>
           </Box>
           <GroupsList groups={groups} currentUser={user} />

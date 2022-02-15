@@ -1,36 +1,48 @@
-import { Box, Button, Drawer as DrawerComponent } from '@mui/material';
-import { toast } from 'react-toastify';
-import { getAuth, signOut } from 'firebase/auth';
-import { FC, KeyboardEvent, MouseEvent } from 'react';
-import DrawerList from './drawerList';
+import {
+  Box,
+  Divider,
+  Drawer as DrawerComponent,
+  ListItem,
+  ListItemIcon,
+  ListItemText,
+} from '@mui/material';
 import { useRouter } from 'next/router';
+import { FC, KeyboardEvent, MouseEvent, ReactNode } from 'react';
 import { useTranslation } from 'react-i18next';
+import { AnchorType } from '../../../constants';
+import { DrawerListItem } from './drawerList';
 
 interface DrawerProps {
   open: boolean;
-  toggleUserDrawer: (
-    open: boolean
+  toggleDrawer: (
+    open: boolean,
+    anchor: AnchorType
   ) => (event: KeyboardEvent | MouseEvent) => null | undefined;
+  anchor: AnchorType;
+  signOutButton?: ReactNode;
+  drawerList: DrawerListItem[];
 }
 
-const Drawer: FC<DrawerProps> = ({ open, toggleUserDrawer }) => {
-  const auth = getAuth();
+const Drawer: FC<DrawerProps> = ({
+  open,
+  toggleDrawer,
+  anchor,
+  signOutButton,
+  drawerList,
+}) => {
   const router = useRouter();
   const { t } = useTranslation();
 
-  const handleSignOut = () =>
-    signOut(auth)
-      .then(() => {
-        toast.success(t('toastSuccess.logOut'));
-        router.push('/login');
-      })
-      .catch((error) => toast.error(`Error: ${error}`));
+  const handleClick = (event: MouseEvent<HTMLAnchorElement>, href: string) => {
+    event.preventDefault();
+    router.push(href);
+  };
 
   return (
     <DrawerComponent
-      anchor="right"
+      anchor={anchor}
       open={open}
-      onClose={toggleUserDrawer(false)}
+      onClose={toggleDrawer(false, anchor)}
     >
       <Box
         width={250}
@@ -39,15 +51,27 @@ const Drawer: FC<DrawerProps> = ({ open, toggleUserDrawer }) => {
         display="flex"
         justifyContent="space-between"
         flexDirection="column"
-        onClick={toggleUserDrawer(false)}
-        onKeyDown={toggleUserDrawer(false)}
+        onClick={toggleDrawer(false, anchor)}
+        onKeyDown={toggleDrawer(false, anchor)}
       >
-        <DrawerList />
-        <Box p={2} display="flex" justifyContent="center">
-          <Button onClick={handleSignOut} variant="contained" size="large">
-            {t('drawer.signOutButtonText')}
-          </Button>
+        <Box pt={8}>
+          {drawerList.map((element) => (
+            <ListItem
+              button
+              href={element.href}
+              onClick={(event) => handleClick(event, element.href)}
+              key={element.text}
+            >
+              <ListItemIcon>{element.icon}</ListItemIcon>
+              <ListItemText
+                primary={t(element.text)}
+                sx={{ color: 'common.white' }}
+              />
+            </ListItem>
+          ))}
+          <Divider />
         </Box>
+        {signOutButton}
       </Box>
     </DrawerComponent>
   );

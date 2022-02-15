@@ -1,6 +1,6 @@
 import { collection, doc, getDocs, setDoc } from 'firebase/firestore';
 import { DB } from '../../src/firebase';
-import { AuthUserContextProps } from '../../src/models/auth.model';
+import { AuthUser } from '../../src/models/auth.model';
 import { User } from '../../src/models/user.model';
 import { DataBaseModel } from './api.model';
 
@@ -23,7 +23,7 @@ export const getUsers = async () =>
   });
 
 export const setUserToCollection = async (
-  auth: AuthUserContextProps,
+  auth: AuthUser,
   isLocationAllowed: boolean
 ) => {
   if (!auth.user?.uid) {

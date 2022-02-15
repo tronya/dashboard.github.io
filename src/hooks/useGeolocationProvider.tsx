@@ -6,6 +6,7 @@ import {
   useState,
 } from 'react';
 import { useRouter } from 'next/router';
+import useDetectDeviceAndOS from './useDetectDeviceAndOS';
 
 export type GeolocationStatusesTypes = 'denied' | 'granted' | 'prompt';
 
@@ -35,7 +36,9 @@ const initialState: NavigatorState = {
 
 export const useNavigatorGeolocation = (): NavigatorState => {
   const [context, setContext] = useState<NavigatorState>(initialState);
+
   const router = useRouter();
+  const { browser, OS } = useDetectDeviceAndOS();
 
   useEffect(() => {
     if (window && window.navigator && window.navigator.permissions) {
@@ -48,12 +51,17 @@ export const useNavigatorGeolocation = (): NavigatorState => {
             isLocationAllowed: status.state === 'granted',
           });
         })
-        .catch((e) => {
+        .catch(() => {
           setContext({
             status: null,
             isLocationAllowed: false,
           });
         });
+    } else if (browser && OS) {
+      setContext({
+        status: 'granted',
+        isLocationAllowed: true,
+      });
     }
   }, []);
 

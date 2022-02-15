@@ -68,7 +68,8 @@ const MapBoxContainer: FC<MapBoxContainerProps> = (props) => {
     return () => {
       navigator.geolocation.clearWatch(geolocationUpdater);
     };
-  }, []);
+  }, [authUser.user]);
+
   useEffect(() => {
     if (markers?.length && mapboxMap) {
       for (const marker of markers) {

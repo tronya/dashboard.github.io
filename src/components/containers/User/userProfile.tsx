@@ -17,12 +17,15 @@ const UserProfile: FC = () => {
   const { t } = useTranslation();
   const { user, loading } = useAuth();
   const { isLocationAllowed } = useGeolocationProvider();
+
   if (!user) {
     return null;
   }
+
   if (loading) {
     return <Loader />;
   }
+
   const setAcceptLocation = () => {
     navigator.geolocation.getCurrentPosition(
       (success) => {

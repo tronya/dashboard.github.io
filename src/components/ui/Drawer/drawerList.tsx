@@ -23,7 +23,7 @@ export const drawerListRight: DrawerListItem[] = [
 
 export const drawerListLeft: DrawerListItem[] = [
   {
-    href: '/groups/main',
+    href: '/groups',
     text: 'mainMenu.groups',
     icon: <GroupIcon sx={{ color: 'common.white' }} />,
   },

@@ -1,6 +1,5 @@
 import { Box, Button, Grid } from '@mui/material';
 import Link from 'next/link';
-import { useRouter } from 'next/router';
 import { FC, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { toast } from 'react-toastify';
@@ -16,7 +15,6 @@ const GroupsPage: FC = () => {
   const [groups, setGroup] = useState<Group[]>([]);
 
   const { user } = useAuth();
-  const router = useRouter();
   const { t } = useTranslation();
 
   useEffect(() => {
@@ -24,8 +22,6 @@ const GroupsPage: FC = () => {
       .then((groups) => setGroup(groups))
       .catch((error) => toast.error('Something wrong happened', error));
   }, []);
-
-  const handleGroupClick = (id: string) => router.push(`/groups/${id}`);
 
   const sortedGroups = groups.sort((a, b) =>
     b.userCreate === user?.uid ? 1 : a.userCreate === user?.uid ? -1 : 0
@@ -47,15 +43,11 @@ const GroupsPage: FC = () => {
           >
             <Link href="/groups/create" passHref>
               <Button variant="outlined" sx={{ color: 'white' }}>
-                {t('titles.groupsCreate')}
+                {t('group.groupsCreate')}
               </Button>
             </Link>
           </Box>
-          <GroupsList
-            groups={sortedGroups}
-            currentUser={user}
-            onGroupClick={handleGroupClick}
-          />
+          <GroupsList groups={sortedGroups} currentUser={user} />
         </Grid>
       </Grid>
     </Wrapper>

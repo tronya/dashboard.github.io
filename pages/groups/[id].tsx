@@ -16,6 +16,10 @@ import { UserGeolocation } from '../../src/models/usersGeolocation';
 import { isNotNullable } from '../../src/utils/common';
 import { getGroups } from '../api/group';
 import { useAuth } from '../../src/hooks/useAuth';
+import {
+  MapHolder,
+  MapHolderFooter,
+} from '../../src/components/containers/Map/mapBox.styled';
 
 const GroupDetailsPage: FC = () => {
   const [groups, setGroup] = useState<Group[]>([]);
@@ -74,10 +78,12 @@ const GroupDetailsPage: FC = () => {
         breadcrumbTextHref="/groups"
       />
       <PageTitle title={`${t('group.groupDetails')}: ${currentGroup.name}`} />
-      <Box display="flex" p={1}>
-        <UsersListGroup users={groupUsers} onUserClick={handleUserClick} />
-      </Box>
-      <MapBoxContainer markers={markers} selectedUser={selectedUser} />
+      <MapHolder>
+        <MapBoxContainer markers={markers} selectedUser={selectedUser} />
+        <MapHolderFooter>
+          <UsersListGroup users={groupUsers} onUserClick={handleUserClick} />
+        </MapHolderFooter>
+      </MapHolder>
     </Wrapper>
   );
 };

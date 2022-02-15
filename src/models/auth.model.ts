@@ -5,7 +5,7 @@ export interface AuthUserProviderProps {
   children: ReactNode;
 }
 
-export interface AuthUserContextProps {
+export interface AuthUser {
   user: User | null;
   loading: boolean;
 }

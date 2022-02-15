@@ -5,17 +5,19 @@ import {
 } from '@mui/material';
 import { useRouter } from 'next/router';
 import ChevronRightIcon from '@mui/icons-material/ChevronRight';
-import { FC } from 'react';
+import { FC, ReactElement } from 'react';
 import { useTranslation } from 'react-i18next';
 
 interface BreadcrumbsProps {
-  otherBreadcrumbs?: Element[];
+  otherBreadcrumbs?: ReactElement[];
   breadcrumbText: string;
+  breadcrumbTextHref?: string;
 }
 
 const Breadcrumbs: FC<BreadcrumbsProps> = ({
   otherBreadcrumbs,
   breadcrumbText,
+  breadcrumbTextHref,
 }) => {
   const router = useRouter();
   const { t } = useTranslation();
@@ -30,10 +32,21 @@ const Breadcrumbs: FC<BreadcrumbsProps> = ({
     >
       {t('dashboard.title')}
     </Link>,
-    ...(otherBreadcrumbs ?? []),
-    <Typography key={breadcrumbText} color="text.primary">
+    <Typography
+      key={breadcrumbText}
+      color="text.primary"
+      sx={{
+        '&:hover': { cursor: otherBreadcrumbs?.length ? 'pointer' : 'default' },
+      }}
+      onClick={() =>
+        otherBreadcrumbs?.length &&
+        breadcrumbTextHref &&
+        router.push(breadcrumbTextHref)
+      }
+    >
       {breadcrumbText}
     </Typography>,
+    ...(otherBreadcrumbs ?? []),
   ];
 
   return (

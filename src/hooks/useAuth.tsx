@@ -1,12 +1,9 @@
 import { createContext, useContext } from 'react';
-import {
-  AuthUserContextProps,
-  AuthUserProviderProps,
-} from '../models/auth.model';
+import { AuthUser, AuthUserProviderProps } from '../models/auth.model';
 import useFirebaseAuth from './useFirebaseAuth';
 import Loader from '../components/ui/Loader/loader';
 
-const AuthUserContext = createContext<AuthUserContextProps>({
+const AuthUserContext = createContext<AuthUser>({
   user: null,
   loading: true,
 });

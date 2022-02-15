@@ -46,7 +46,9 @@ const GroupsPage: FC = () => {
             }}
           >
             <Link href="/groups/create" passHref>
-              <Button variant="contained">{t('group.groupsCreate')}</Button>
+              <Button variant="outlined" sx={{ color: 'white' }}>
+                {t('titles.groupsCreate')}
+              </Button>
             </Link>
           </Box>
           <GroupsList

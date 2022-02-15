@@ -7,6 +7,7 @@ import {
   TableHead,
   TableRow,
 } from '@mui/material';
+import { useRouter } from 'next/router';
 import { FC } from 'react';
 import { Group } from '../../../models/groups.model';
 import { User } from '../../../models/user.model';
@@ -15,14 +16,11 @@ import { StyledTableCell } from './GroupsList.styles';
 interface GroupList {
   groups: Group[];
   currentUser: User | null;
-  onGroupClick: (id: string) => void;
 }
 
-export const GroupsList: FC<GroupList> = ({
-  groups,
-  currentUser,
-  onGroupClick,
-}) => {
+export const GroupsList: FC<GroupList> = ({ groups, currentUser }) => {
+  const router = useRouter();
+
   return (
     <Box>
       <TableContainer>
@@ -42,7 +40,7 @@ export const GroupsList: FC<GroupList> = ({
                   cursor: 'pointer',
                   '&:last-child td, &:last-child th': { border: 0 },
                 }}
-                onClick={() => onGroupClick(group.id)}
+                onClick={() => router.push(`/groups/${group.id}`)}
               >
                 <TableCell component="th" scope="row">
                   {group.name}

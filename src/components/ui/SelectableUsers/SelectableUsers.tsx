@@ -10,6 +10,7 @@ import {
 import { FC, useState } from 'react';
 import { stringAvatar } from '../../../utils/user';
 import useUsersGeolocation from '../../../hooks/useUsersGeolocation';
+import { useAuth } from '../../../hooks/useAuth';
 
 interface SelectableUsersProps {
   selectedUsers: (users: string[]) => void;
@@ -18,6 +19,7 @@ interface SelectableUsersProps {
 const SelectableUsers: FC<SelectableUsersProps> = ({ selectedUsers }) => {
   const [checked, setChecked] = useState<string[]>([]);
   const users = useUsersGeolocation();
+  const authUser = useAuth();
 
   const handleToggle = (id: string | undefined) => () => {
     if (!id) return;
@@ -35,6 +37,7 @@ const SelectableUsers: FC<SelectableUsersProps> = ({ selectedUsers }) => {
     <List dense sx={{ width: '100%', maxWidth: 360 }}>
       {users.map((user) => {
         const labelId = `checkbox-list-secondary-label-${user.uid}`;
+        const currentUser = user.uid === authUser?.user?.uid;
         return (
           <ListItem
             key={user.uid}
@@ -42,7 +45,8 @@ const SelectableUsers: FC<SelectableUsersProps> = ({ selectedUsers }) => {
               <Checkbox
                 edge="end"
                 onChange={handleToggle(user.uid)}
-                checked={checked.includes(user.uid ?? '')} // TODO: take a loo to this
+                disabled={currentUser}
+                checked={checked.includes(user.uid ?? '') || currentUser} // TODO: take a loo to this
                 inputProps={{ 'aria-labelledby': labelId }}
               />
             }

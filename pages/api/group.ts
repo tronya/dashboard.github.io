@@ -1,31 +1,37 @@
-import { getDocs, collection, addDoc } from 'firebase/firestore';
+import { addDoc, collection, getDocs, query, where } from 'firebase/firestore';
 import { DB } from '../../src/firebase';
-import { AuthUserContextProps } from '../../src/models/auth.model';
-import { GroupProps } from '../../src/models/groups.model';
+import { AuthUser } from '../../src/models/auth.model';
+import { Group } from '../../src/models/groups.model';
 import { GroupFormFields } from '../groups/create';
 import { DataBaseModel } from './api.model';
 
-export const getGroupsCollection = async () =>
-  await getDocs(collection(DB, DataBaseModel.GROUPS));
+export const getGroupsCollection = async (uid: string | undefined) => {
+  const coll = collection(DB, DataBaseModel.GROUPS);
+  if (uid) {
+    return await getDocs(query(coll, where('users', 'array-contains', uid)));
+  } else {
+    return await getDocs(query(coll));
+  }
+};
 
-export const getGroups = async () =>
-  await getGroupsCollection().then((groups) => {
-    const result: GroupProps[] = [];
+export const getGroups = async (uid: string | undefined) => {
+  const groups = await getGroupsCollection(uid);
+  const result: Group[] = [];
 
-    groups.forEach((group) => {
-      const newGroup: GroupProps = {
-        id: group.id,
-        ...group.data(),
-      } as GroupProps;
-      result.push(newGroup);
-    });
-
-    return result;
+  groups.forEach((group) => {
+    const newGroup: Group = {
+      id: group.id,
+      ...group.data(),
+    } as Group;
+    result.push(newGroup);
   });
+
+  return result;
+};
 
 export const setGroup = async (
   groupFields: GroupFormFields,
-  auth: AuthUserContextProps
+  auth: AuthUser
 ) => {
   if (!auth.user?.uid) {
     return null;
@@ -33,6 +39,7 @@ export const setGroup = async (
 
   return await addDoc(collection(DB, DataBaseModel.GROUPS), {
     ...groupFields,
+    users: [...groupFields.users, auth.user.uid],
     userCreate: auth.user.uid,
   });
 };

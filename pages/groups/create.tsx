@@ -8,7 +8,7 @@ import SelectableUsers from '../../src/components/ui/SelectableUsers/SelectableU
 import { red } from '@mui/material/colors';
 import { useAuth } from '../../src/hooks/useAuth';
 import { setGroup } from '../api/group';
-import { AuthUserContextProps } from '../../src/models/auth.model';
+import { AuthUser } from '../../src/models/auth.model';
 import { toast } from 'react-toastify';
 import Breadcrumbs from '../../src/components/ui/Breadcrumbs/breadcrumbs';
 import router from 'next/router';
@@ -21,7 +21,7 @@ export interface GroupFormFields {
 
 interface GroupFormProps {
   fields: GroupFormFields;
-  user: AuthUserContextProps;
+  user: AuthUser;
 }
 
 const onGroupCreate = ({ fields, user }: GroupFormProps) => {

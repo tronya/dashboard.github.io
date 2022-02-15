@@ -13,7 +13,6 @@ interface UseDetectDeviceAndOS {
 const OS = [
   { name: 'iPhone', value: 'iPhone', version: 'OS' },
   { name: 'iPad', value: 'iPad', version: 'OS' },
-  { name: 'PlayBook', value: 'PlayBook', version: 'OS' },
   { name: 'Macintosh', value: 'Mac', version: 'OS X' },
 ];
 

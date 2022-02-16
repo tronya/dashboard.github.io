@@ -18,6 +18,7 @@ import {
   MapHolder,
   MapHolderFooter,
 } from '../src/components/containers/Map/mapBox.styled';
+import Widget from '../src/components/ui/Widget/widget';
 
 const Home: NextPage = () => {
   const [selectedUser, setSelectedUser] = useState<UserGeolocation | null>(
@@ -61,6 +62,7 @@ const Home: NextPage = () => {
           />
         ) : (
           <>
+            <Widget />
             <PageTitle title={t('dashboard.users')} />
             <MapHolder>
               <MapBoxContainer markers={markers} selectedUser={selectedUser} />

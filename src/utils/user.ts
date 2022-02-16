@@ -1,6 +1,6 @@
 import moment from 'moment';
 
-enum UserStatus {
+export enum UserStatus {
   OFFLINE = 'Offline',
   ONLINE = 'Online',
 }

@@ -8,10 +8,8 @@ export const MapHolder = styled(Box)({
 
 export const MapHolderFooter = styled(Box)({
   position: 'absolute',
-  bottom: 0,
-  width: '100%',
-  backdropFilter: 'blur(5px)',
-  padding: '10px',
-  justifyContent: 'flex-end',
+  top: 0,
+  padding: '16px 24px',
+  display: 'flex',
   zIndex: 9,
 });

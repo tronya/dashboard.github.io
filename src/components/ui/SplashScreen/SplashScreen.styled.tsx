@@ -6,11 +6,14 @@ export const SplashScreenText = styled('span')(({ theme }) => ({
   lineHeight: '.8',
   flexDirection: 'column',
   textAlign: 'center',
-  [theme.breakpoints.up('md')]: {
-    fontSize: '10rem',
-  },
   color: theme.palette.primary.contrastText,
   display: 'block',
+  [theme.breakpoints.up('md')]: {
+    fontSize: '6rem',
+  },
+  [theme.breakpoints.up('xl')]: {
+    fontSize: '8rem',
+  },
 }));
 
 export const SplashScreenWrapper = styled(Box)(({ theme }) => ({
@@ -23,6 +26,7 @@ export const SplashScreenWrapper = styled(Box)(({ theme }) => ({
   textAlign: 'center',
   alignItems: 'end',
   justifyContent: 'flex-end',
+  paddingRight: '2rem',
 }));
 
 export const MirroredFadeInBlock = styled(SplashScreenText)(({ theme }) => ({

@@ -9,47 +9,43 @@ import {
   ResponsiveContainer,
   Cell,
 } from 'recharts';
-import { UserStatus } from '../../../utils/user';
 
-const Chart: FC = () => {
-  const data = [
-    {
-      name: UserStatus.ONLINE,
-      total: 2,
-      fill: '#66bb6a',
-    },
-    {
-      name: UserStatus.OFFLINE,
-      total: 5,
-      fill: '#f44336',
-    },
-  ];
+interface BarType {
+  name: string;
+  total: number;
+  fill: string;
+}
 
+interface ChartProps {
+  data: BarType[];
+}
+
+const Chart: FC<ChartProps> = ({ data }) => {
   return (
-    // <ResponsiveContainer width="100%" height="100%">
-    <BarChart
-      width={250}
-      height={200}
-      data={data}
-      margin={{
-        top: 5,
-        right: 30,
-        left: 20,
-        bottom: 5,
-      }}
-      barSize={20}
-    >
-      <XAxis dataKey="name" scale="point" padding={{ left: 10, right: 10 }} />
-      <YAxis />
-      <Tooltip />
-      <CartesianGrid strokeDasharray="3 3" />
-      <Bar dataKey="total" name="Total">
-        {data.map((entry) => (
-          <Cell key={`cell-${entry.name}`} fill={entry.fill} />
-        ))}
-      </Bar>
-    </BarChart>
-    // </ResponsiveContainer>
+    <ResponsiveContainer width="95%" height="95%">
+      <BarChart
+        width={250}
+        height={200}
+        data={data}
+        margin={{
+          top: 10,
+          right: 0,
+          left: 0,
+          bottom: 10,
+        }}
+        barSize={25}
+      >
+        <XAxis dataKey="name" scale="point" padding={{ left: 10, right: 10 }} />
+        <YAxis />
+        <Tooltip />
+        <CartesianGrid strokeDasharray="3 3" />
+        <Bar dataKey="total" name="Total">
+          {data.map((entry) => (
+            <Cell key={`cell-${entry.name}`} fill={entry.fill} />
+          ))}
+        </Bar>
+      </BarChart>
+    </ResponsiveContainer>
   );
 };
 

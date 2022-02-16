@@ -2,7 +2,6 @@ import type { NextPage } from 'next';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
-import Loader from '../src/components/ui/Loader/loader';
 import Wrapper from '../src/components/ui/Wrapper/wrapper';
 import { useAuth } from '../src/hooks/useAuth';
 import MapBoxContainer from '../src/components/containers/Map/mapBox.container';
@@ -18,6 +17,9 @@ import {
   MapHolder,
   MapHolderFooter,
 } from '../src/components/containers/Map/mapBox.styled';
+import Loader from '../src/components/ui/Loader/loader';
+import { getSplashScreen } from '../src/components/ui/SplashScreen/SplashScreen.model';
+import { SplashScreen } from '../src/components/ui/SplashScreen/SplashScreen';
 
 const Home: NextPage = () => {
   const [selectedUser, setSelectedUser] = useState<UserGeolocation | null>(
@@ -37,6 +39,10 @@ const Home: NextPage = () => {
       router.push('/login');
     }
   }, [user, loading, router]);
+
+  if (!getSplashScreen()) {
+    return <SplashScreen />;
+  }
 
   if (!usersGeolocation) {
     return <Loader />;

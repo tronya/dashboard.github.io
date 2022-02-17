@@ -19,6 +19,7 @@ import {
   MapHolderFooter,
 } from '../src/components/containers/Map/mapBox.styled';
 import Widget from '../src/components/ui/Widget/widget';
+import useChartData from '../src/hooks/useChartData';
 import { Grid } from '@mui/material';
 
 const Home: NextPage = () => {
@@ -31,7 +32,7 @@ const Home: NextPage = () => {
   const { user, loading } = useAuth();
   const { isLocationAllowed } = useGeolocationProvider();
   const usersGeolocation = useUsersGeolocation();
-
+  const { statusesData, citiesData } = useChartData(usersGeolocation);
   const markers = useUsersMarkers(usersGeolocation);
 
   useEffect(() => {
@@ -63,14 +64,6 @@ const Home: NextPage = () => {
           />
         ) : (
           <>
-            <Grid container spacing={2}>
-              <Grid item lg={6} md={6}>
-                <Widget data={usersGeolocation} />
-              </Grid>
-              <Grid item lg={6} md={6}>
-                <Widget data={usersGeolocation} />
-              </Grid>
-            </Grid>
             <PageTitle title={t('dashboard.users')} />
             <MapHolder>
               <MapBoxContainer markers={markers} selectedUser={selectedUser} />
@@ -81,6 +74,14 @@ const Home: NextPage = () => {
                 />
               </MapHolderFooter>
             </MapHolder>
+            <Grid container spacing={2} sx={{ pt: 2 }}>
+              <Grid item lg={6} md={6} sm={12} xs={12}>
+                <Widget data={statusesData} title="Statuses" />
+              </Grid>
+              <Grid item lg={6} md={6} sm={12} xs={12}>
+                <Widget data={citiesData} title="Cities" />
+              </Grid>
+            </Grid>
           </>
         )}
       </main>

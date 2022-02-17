@@ -3,6 +3,7 @@ import { RTDB } from '../../src/firebase';
 import { UserGeolocation } from '../../src/models/usersGeolocation';
 import { DataBaseModel } from './api.model';
 import { User } from '../../src/models/user.model';
+import { MAPBOX_GEOLOCATION_URL } from '../../src/constants';
 
 export const prepareUserData = (
   data: GeolocationPosition,
@@ -29,3 +30,8 @@ export const setUserGeolocationData = (
   id: string | undefined,
   data: UserGeolocation
 ) => set(ref(RTDB, `${DataBaseModel.USERS_GEOLOCATION}/${id}`), data);
+
+export const fetchUsersRegions = (longitude: number, latitude: number) =>
+  fetch(
+    `${MAPBOX_GEOLOCATION_URL}${longitude},${latitude}.json?limit=1&types=region&access_token=${process.env.NEXT_PUBLIC_MAPBOX_TOKEN}`
+  ).then((response) => response.json());

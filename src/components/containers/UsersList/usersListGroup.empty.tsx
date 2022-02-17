@@ -1,12 +1,4 @@
-import {
-  AvatarGroup,
-  List,
-  ListItem,
-  ListItemAvatar,
-  ListItemText,
-  Skeleton,
-  Typography,
-} from '@mui/material';
+import { AvatarGroup, Skeleton } from '@mui/material';
 import { FC } from 'react';
 import { StyledBadge } from './userList.styled';
 

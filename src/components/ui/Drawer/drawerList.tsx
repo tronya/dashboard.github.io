@@ -1,6 +1,7 @@
 import PersonIcon from '@mui/icons-material/Person';
 import GroupIcon from '@mui/icons-material/Group';
 import StarIcon from '@mui/icons-material/Star';
+import ChatIcon from '@mui/icons-material/Chat';
 
 export interface DrawerListItem {
   href: string;
@@ -26,5 +27,10 @@ export const drawerListLeft: DrawerListItem[] = [
     href: '/groups',
     text: 'mainMenu.groups',
     icon: <GroupIcon sx={{ color: 'common.white' }} />,
+  },
+  {
+    href: '/chats',
+    text: 'Chats',
+    icon: <ChatIcon sx={{ color: 'common.white' }} />,
   },
 ];

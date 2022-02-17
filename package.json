@@ -23,6 +23,7 @@
     "@testing-library/react-hooks": "^7.0.2",
     "@types/mapbox__mapbox-gl-geocoder": "^4.7.2",
     "@types/mapbox-gl": "^2.6.0",
+    "@types/recharts": "^1.8.23",
     "firebase": "^9.6.4",
     "formik": "^2.2.9",
     "i18next": "^21.6.10",

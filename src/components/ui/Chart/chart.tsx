@@ -1,3 +1,4 @@
+import { Box, Typography } from '@mui/material';
 import { FC } from 'react';
 import {
   BarChart,
@@ -8,12 +9,43 @@ import {
   Tooltip,
   ResponsiveContainer,
   Cell,
+  TooltipProps,
 } from 'recharts';
+import {
+  NameType,
+  ValueType,
+} from 'recharts/types/component/DefaultTooltipContent';
 import { BarType } from '../../../models/widget';
 
 interface ChartProps {
   data: BarType[];
 }
+
+const CustomTooltip = ({
+  active,
+  payload,
+  label,
+}: TooltipProps<ValueType, NameType>) => {
+  if (active) {
+    return (
+      <Box bgcolor="white" p={2}>
+        <Typography
+          variant="body1"
+          sx={{ color: payload?.[0].payload.fill }}
+          fontWeight="bold"
+        >
+          {label}
+        </Typography>
+        <Typography
+          variant="body1"
+          color="black"
+        >{`Total: ${payload?.[0].value}`}</Typography>
+      </Box>
+    );
+  }
+
+  return null;
+};
 
 const Chart: FC<ChartProps> = ({ data }) => (
   <ResponsiveContainer width="95%" height="95%">
@@ -31,7 +63,7 @@ const Chart: FC<ChartProps> = ({ data }) => (
     >
       <XAxis dataKey="name" scale="point" padding={{ left: 10, right: 10 }} />
       <YAxis />
-      <Tooltip />
+      <Tooltip content={<CustomTooltip />} />
       <CartesianGrid strokeDasharray="3 3" />
       <Bar dataKey="total" name="Total">
         {data.map((entry) => (

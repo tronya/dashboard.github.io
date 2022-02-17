@@ -62,7 +62,7 @@ const Chart: FC<ChartProps> = ({ data }) => (
       barSize={25}
     >
       <XAxis dataKey="name" scale="point" padding={{ left: 10, right: 10 }} />
-      <YAxis />
+      <YAxis allowDecimals={false} />
       <Tooltip content={<CustomTooltip />} />
       <CartesianGrid strokeDasharray="3 3" />
       <Bar dataKey="total" name="Total">

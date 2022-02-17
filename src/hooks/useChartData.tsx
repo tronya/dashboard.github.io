@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { fetchUsersRegions } from '../../pages/api/usersGeolocation';
+import { COLORS } from '../constants';
 import {
   UserGeolocation,
   UserGeolocationNew,
@@ -17,17 +18,29 @@ interface UseChartDataProps {
   citiesData: BarType[];
 }
 
-const getData = (data: Record<string, number>, type: DataType) =>
-  Object.entries(data).map(([key, value]) => ({
-    name: key,
-    total: value,
-    fill:
-      type === 'cities'
-        ? `#${Math.floor(Math.random() * 16777215).toString(16)}`
-        : key === UserStatus.ONLINE
-        ? '#66bb6a'
-        : '#f44336',
-  }));
+const getData = (data: Record<string, number>, type: DataType) => {
+  let colorIndex = 0;
+
+  return Object.entries(data).map(([key, value]) => {
+    const cityColor = COLORS[colorIndex];
+    ++colorIndex;
+
+    if (colorIndex > COLORS.length - 1) {
+      colorIndex = 0;
+    }
+
+    return {
+      name: key,
+      total: value,
+      fill:
+        type === 'cities'
+          ? cityColor
+          : key === UserStatus.ONLINE
+          ? '#66bb6a'
+          : '#f44336',
+    };
+  });
+};
 
 const useChartData = (
   usersGeolocation: UserGeolocation[]
@@ -41,8 +54,8 @@ const useChartData = (
       fetchUsersRegions(user.coords.longitude, user.coords.latitude).then(
         (data) => {
           const region = data.features[0].text;
-          setNewUsersGeolocation([
-            ...newUsersGeolocation,
+          setNewUsersGeolocation((prevState) => [
+            ...prevState,
             {
               ...user,
               region,
@@ -54,7 +67,11 @@ const useChartData = (
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [usersGeolocation]);
 
-  const countUsersByLocations = newUsersGeolocation.reduce((acc, val) => {
+  const uniqueObjArrayByLocations = [
+    ...new Map(newUsersGeolocation.map((item) => [item['uid'], item])).values(),
+  ];
+
+  const countUsersByLocations = uniqueObjArrayByLocations.reduce((acc, val) => {
     if (acc[val.region]) {
       acc[val.region] += 1;
     } else {

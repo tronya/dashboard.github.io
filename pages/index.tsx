@@ -23,6 +23,7 @@ import { Grid } from '@mui/material';
 import Loader from '../src/components/ui/Loader/loader';
 import { getSplashScreen } from '../src/components/ui/SplashScreen/SplashScreen.model';
 import { SplashScreen } from '../src/components/ui/SplashScreen/SplashScreen';
+import ScrollToTop from '../src/components/ui/ScrollToTop/scrollToTop';
 
 const Home: NextPage = () => {
   const [selectedUser, setSelectedUser] = useState<UserGeolocation | null>(
@@ -91,6 +92,7 @@ const Home: NextPage = () => {
           </>
         )}
       </main>
+      <ScrollToTop />
     </Wrapper>
   );
 };

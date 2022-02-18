@@ -11,6 +11,7 @@ import moment from 'moment';
 import Loader from '../../ui/Loader/loader';
 import { useFormik } from 'formik';
 import { validationSchema } from './validationSchema';
+import EmptyChat from './chat.empty';
 
 interface ChatProps {
   selectedUserId: string;
@@ -43,7 +44,11 @@ const Chat: FC<ChatProps> = ({ selectedUserId }) => {
   };
 
   if (loadingChats) {
-    <Loader />;
+    return <Loader />;
+  }
+
+  if (!chats.length) {
+    return <EmptyChat title="There have been no messages yet..." />;
   }
 
   return (
@@ -54,7 +59,7 @@ const Chat: FC<ChatProps> = ({ selectedUserId }) => {
       height="100%"
     >
       <MessageWrapper position="relative" height={550} mb={1}>
-        <Box position="absolute" width="95%">
+        <Box position="absolute" width="98%">
           {chats.map((item) => {
             const isCurrentUser = item.uid === user?.uid;
 

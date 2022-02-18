@@ -1,30 +1,43 @@
 import { Box, TextField } from '@mui/material';
-import { ChangeEvent, FC } from 'react';
+import { ChangeEvent, FC, useState } from 'react';
 import ChatMessage from './chatMessage';
 import SendIcon from '@mui/icons-material/Send';
 import { MessageWrapper } from './chat.styled';
+import useChats from '../../../hooks/useChats';
+import { useAuth } from '../../../hooks/useAuth';
+import { toast } from 'react-toastify';
+import { setChats } from '../../../../pages/api/chats';
+import moment from 'moment';
+import Loader from '../../ui/Loader/loader';
 
 const Chat: FC = () => {
-  const messages = [
-    { message: 'hi', user: 'you' },
-    { message: 'hi 1', user: 'not you' },
-    { message: 'hello', user: 'you' },
-    { message: 'hello 1', user: 'not you' },
-    { message: 'world', user: 'you' },
-    { message: 'world 1', user: 'not you' },
-    { message: 'world 2', user: 'not you' },
-    { message: 'world 3', user: 'not you' },
-    { message: 'world 4', user: 'not you' },
-    { message: 'world 5', user: 'not you' },
-    { message: 'world 6', user: 'not you' },
-    { message: 'world 7', user: 'not you' },
-    { message: 'world 8', user: 'not you' },
-  ];
+  const [content, setContent] = useState('');
+  const [error, setError] = useState<string | null>(null);
+
+  const { chats, loadingChats } = useChats();
+  const { user } = useAuth();
 
   const handleChange = (event: ChangeEvent<HTMLInputElement>) =>
-    console.log(event.target.value);
+    setContent(event.target.value);
 
-  const handleSendMsg = () => console.log('SEND');
+  const handleSendMsg = () => {
+    if (content.trim().length !== 0) {
+      setError(null);
+      setContent('');
+
+      setChats({
+        content,
+        timestamp: moment().unix(),
+        uid: user?.uid,
+      }).catch((error) => toast.error(error));
+    } else {
+      setError('Message is empty');
+    }
+  };
+
+  if (loadingChats) {
+    <Loader />;
+  }
 
   return (
     <Box
@@ -35,17 +48,21 @@ const Chat: FC = () => {
     >
       <MessageWrapper position="relative" height={550}>
         <Box position="absolute" width="95%">
-          {messages.map((item) => (
-            <Box
-              key={item.message}
-              display="flex"
-              flexDirection="column"
-              justifyContent={item.user === 'you' ? 'start' : 'end'}
-              alignItems={item.user === 'you' ? '' : 'end'}
-            >
-              <ChatMessage item={item} />
-            </Box>
-          ))}
+          {chats.map((item) => {
+            const isCurrentUser = item.uid === user?.uid;
+
+            return (
+              <Box
+                key={item.timestamp}
+                display="flex"
+                flexDirection="column"
+                justifyContent={!isCurrentUser ? 'start' : 'end'}
+                alignItems={!isCurrentUser ? '' : 'end'}
+              >
+                <ChatMessage item={item} isCurrentUser={isCurrentUser} />
+              </Box>
+            );
+          })}
         </Box>
       </MessageWrapper>
       <Box display="flex" alignItems="center">
@@ -53,10 +70,11 @@ const Chat: FC = () => {
           placeholder="Click here to type something..."
           onChange={handleChange}
           fullWidth
+          value={content}
           onKeyPress={(event) => {
             if (event.key === 'Enter') {
               event.preventDefault();
-              console.log('PRESSED');
+              handleSendMsg();
             }
           }}
         />
@@ -71,6 +89,7 @@ const Chat: FC = () => {
           onClick={handleSendMsg}
         />
       </Box>
+      {error}
     </Box>
   );
 };

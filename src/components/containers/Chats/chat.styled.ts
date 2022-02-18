@@ -19,13 +19,13 @@ export const MessageBox = styled(Box)<{
     content: '';
     position: absolute;
     bottom: 20px;
-    left: ${({ isCurrentUser }) => (isCurrentUser ? '-12px' : '')};
-    right: ${({ isCurrentUser }) => (!isCurrentUser ? '-12px' : '')};
+    left: ${({ isCurrentUser }) => (!isCurrentUser ? '-12px' : '')};
+    right: ${({ isCurrentUser }) => (isCurrentUser ? '-12px' : '')};
     z-index: 1;
     border: solid 6px transparent;
     border-left-color: ${({ isCurrentUser }) =>
-      !isCurrentUser ? 'lightgreen' : ''};
+      isCurrentUser ? 'lightgreen' : ''};
     border-right-color: ${({ isCurrentUser }) =>
-      isCurrentUser ? 'lightgray' : ''};
+      !isCurrentUser ? 'lightgray' : ''};
   }
 `;

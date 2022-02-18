@@ -10,14 +10,7 @@ import { setChats } from '../../../../pages/api/chats';
 import moment from 'moment';
 import Loader from '../../ui/Loader/loader';
 import { useFormik } from 'formik';
-import * as yup from 'yup';
-
-const validationSchema = yup.object({
-  content: yup
-    .string()
-    .min(1, 'Content should be of minimum 1 characters length')
-    .required('Content is required'),
-});
+import { validationSchema } from './validationSchema';
 
 const Chat: FC = () => {
   const { chats, loadingChats } = useChats();

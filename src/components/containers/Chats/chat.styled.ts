@@ -2,7 +2,7 @@ import { Box } from '@mui/material';
 import styled from 'styled-components';
 
 export const MessageWrapper = styled(Box)`
-  overflow-y: scroll;
+  overflow-y: auto;
 
   &::-webkit-scrollbar {
     display: none;

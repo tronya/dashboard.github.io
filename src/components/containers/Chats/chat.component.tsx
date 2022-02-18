@@ -1,5 +1,5 @@
 import { Avatar, Box, Button, TextField } from '@mui/material';
-import { FC } from 'react';
+import { FC, useEffect, useRef } from 'react';
 import ChatMessage from './chatMessage';
 import SendIcon from '@mui/icons-material/Send';
 import { MessageWrapper } from './chat.styled';
@@ -20,8 +20,14 @@ interface ChatProps {
 }
 
 const Chat: FC<ChatProps> = ({ selectedUser }) => {
+  const elementRef = useRef<null | HTMLDivElement>(null);
+
   const { user } = useAuth();
   const { chats, loadingChats, id } = useChats(selectedUser.uid, user?.uid);
+
+  useEffect(() => {
+    elementRef.current?.scrollIntoView();
+  }, [chats]);
 
   const formik = useFormik({
     initialValues: {
@@ -61,7 +67,7 @@ const Chat: FC<ChatProps> = ({ selectedUser }) => {
       height="100%"
     >
       <MessageWrapper position="relative" height={550} mb={1}>
-        <Box position="absolute" width="98%">
+        <Box position="absolute" width="99%">
           {chats.map((item) => {
             const isCurrentUser = item.uid === user?.uid;
             const displayName = (
@@ -94,6 +100,7 @@ const Chat: FC<ChatProps> = ({ selectedUser }) => {
               </Box>
             );
           })}
+          <div ref={elementRef} />
         </Box>
       </MessageWrapper>
       <form onSubmit={formik.handleSubmit}>

@@ -4,7 +4,7 @@ import { RTDB } from '../../src/firebase';
 import { DataBaseModel } from './api.model';
 
 export const setChats = (
-  selectedUserId: string,
+  selectedUserId: string | undefined,
   userId: string | undefined,
   data: Chat,
   id: string | null

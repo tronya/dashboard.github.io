@@ -1,4 +1,4 @@
-import { Box, Button, TextField } from '@mui/material';
+import { Avatar, Box, Button, TextField } from '@mui/material';
 import { FC } from 'react';
 import ChatMessage from './chatMessage';
 import SendIcon from '@mui/icons-material/Send';
@@ -12,14 +12,16 @@ import Loader from '../../ui/Loader/loader';
 import { useFormik } from 'formik';
 import { validationSchema } from './validationSchema';
 import EmptyChat from './chat.empty';
+import { stringAvatar } from '../../../utils/user';
+import { UserGeolocation } from '../../../models/usersGeolocation';
 
 interface ChatProps {
-  selectedUserId: string;
+  selectedUser: UserGeolocation;
 }
 
-const Chat: FC<ChatProps> = ({ selectedUserId }) => {
+const Chat: FC<ChatProps> = ({ selectedUser }) => {
   const { user } = useAuth();
-  const { chats, loadingChats, id } = useChats(selectedUserId, user?.uid);
+  const { chats, loadingChats, id } = useChats(selectedUser.uid, user?.uid);
 
   const formik = useFormik({
     initialValues: {
@@ -32,7 +34,7 @@ const Chat: FC<ChatProps> = ({ selectedUserId }) => {
   const onSendMsg = (content: string) => {
     formik.resetForm();
     setChats(
-      selectedUserId,
+      selectedUser.uid,
       user?.uid,
       {
         content,
@@ -62,6 +64,9 @@ const Chat: FC<ChatProps> = ({ selectedUserId }) => {
         <Box position="absolute" width="98%">
           {chats.map((item) => {
             const isCurrentUser = item.uid === user?.uid;
+            const displayName = (
+              isCurrentUser ? user?.displayName : selectedUser.displayName
+            )!!;
 
             return (
               <Box
@@ -71,7 +76,21 @@ const Chat: FC<ChatProps> = ({ selectedUserId }) => {
                 justifyContent={!isCurrentUser ? 'start' : 'end'}
                 alignItems={!isCurrentUser ? '' : 'end'}
               >
-                <ChatMessage item={item} isCurrentUser={isCurrentUser} />
+                <ChatMessage
+                  item={item}
+                  isCurrentUser={isCurrentUser}
+                  avatar={
+                    <Avatar
+                      src={
+                        (isCurrentUser
+                          ? user?.photoURL
+                          : selectedUser.photoURL)!!
+                      }
+                      alt={displayName}
+                      {...stringAvatar(displayName)}
+                    />
+                  }
+                />
               </Box>
             );
           })}
@@ -84,6 +103,8 @@ const Chat: FC<ChatProps> = ({ selectedUserId }) => {
             onChange={formik.handleChange}
             fullWidth
             name="content"
+            multiline
+            maxRows={5}
             value={formik.values.content}
             error={formik.touched.content && Boolean(formik.errors.content)}
             helperText={formik.touched.content && formik.errors.content}

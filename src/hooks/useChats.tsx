@@ -10,7 +10,7 @@ interface UseChats {
 }
 
 const useChats = (
-  selectedUserId: string,
+  selectedUserId: string | undefined,
   userId: string | undefined
 ): UseChats => {
   const [chatsState, setChatsState] = useState<UseChats>({
@@ -26,7 +26,7 @@ const useChats = (
       const chatsDataBySelectedUserId = snapshot.val()[selectedUserId!!];
 
       if (chatsDataByUserId) {
-        const chatByUserId = chatsDataByUserId[selectedUserId];
+        const chatByUserId = chatsDataByUserId[selectedUserId!!];
 
         if (!chatByUserId) {
           setChatsState({ loadingChats: false, chats: [], id: null });
@@ -48,7 +48,7 @@ const useChats = (
           setChatsState({
             loadingChats: false,
             chats: result,
-            id: selectedUserId,
+            id: selectedUserId!!,
           });
         }
       }

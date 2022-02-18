@@ -12,7 +12,7 @@ import Chat from '../src/components/containers/Chats/chat.component';
 import EmptyChat from '../src/components/containers/Chats/chat.empty';
 
 const ChatsPage: FC = () => {
-  const [selectedUserId, setSelectedUserId] = useState<string>();
+  const [selectedUser, setSelectedUser] = useState<UserGeolocation>();
 
   const { user: authUser } = useAuth();
   const usersGeolocation = useUsersGeolocation();
@@ -31,8 +31,7 @@ const ChatsPage: FC = () => {
         : 0
     );
 
-  const handleUserClick = (user: UserGeolocation) =>
-    setSelectedUserId(user.uid);
+  const handleUserClick = (user: UserGeolocation) => setSelectedUser(user);
 
   return (
     <Wrapper>
@@ -45,8 +44,8 @@ const ChatsPage: FC = () => {
           </Paper>
         </Grid>
         <Grid item xs={8} sm={9}>
-          {selectedUserId ? (
-            <Chat selectedUserId={selectedUserId} />
+          {selectedUser ? (
+            <Chat selectedUser={selectedUser} />
           ) : (
             <EmptyChat title="No selected chat..." />
           )}

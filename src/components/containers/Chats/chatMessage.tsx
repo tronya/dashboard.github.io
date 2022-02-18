@@ -16,11 +16,12 @@ const ChatMessage: FC<ChatMessageProps> = ({ item, isCurrentUser }) => {
     <MessageBox
       display="flex"
       flexDirection="column"
+      alignItems={isCurrentUser ? 'end' : ''}
       bgcolor={!isCurrentUser ? 'lightgray' : 'lightgreen'}
       p={1}
       mb={0.5}
       sx={{ borderRadius: 2 }}
-      width="100px"
+      width="fit-content"
       isCurrentUser={isCurrentUser}
     >
       <Typography color="black">{item.content}</Typography>

@@ -1,5 +1,5 @@
-import { Box, TextField } from '@mui/material';
-import { ChangeEvent, FC, useState } from 'react';
+import { Box, Button, TextField } from '@mui/material';
+import { FC } from 'react';
 import ChatMessage from './chatMessage';
 import SendIcon from '@mui/icons-material/Send';
 import { MessageWrapper } from './chat.styled';
@@ -9,30 +9,36 @@ import { toast } from 'react-toastify';
 import { setChats } from '../../../../pages/api/chats';
 import moment from 'moment';
 import Loader from '../../ui/Loader/loader';
+import { useFormik } from 'formik';
+import * as yup from 'yup';
+
+const validationSchema = yup.object({
+  content: yup
+    .string()
+    .min(1, 'Content should be of minimum 1 characters length')
+    .required('Content is required'),
+});
 
 const Chat: FC = () => {
-  const [content, setContent] = useState('');
-  const [error, setError] = useState<string | null>(null);
-
   const { chats, loadingChats } = useChats();
   const { user } = useAuth();
 
-  const handleChange = (event: ChangeEvent<HTMLInputElement>) =>
-    setContent(event.target.value);
+  const formik = useFormik({
+    initialValues: {
+      content: '',
+    },
+    validationSchema,
+    onSubmit: ({ content }) => onSendMsg(content),
+  });
 
-  const handleSendMsg = () => {
-    if (content.trim().length !== 0) {
-      setError(null);
-      setContent('');
+  const onSendMsg = (content: string) => {
+    formik.resetForm();
 
-      setChats({
-        content,
-        timestamp: moment().unix(),
-        uid: user?.uid,
-      }).catch((error) => toast.error(error));
-    } else {
-      setError('Message is empty');
-    }
+    setChats({
+      content,
+      timestamp: moment().unix(),
+      uid: user?.uid,
+    }).catch((error) => toast.error(error));
   };
 
   if (loadingChats) {
@@ -65,31 +71,33 @@ const Chat: FC = () => {
           })}
         </Box>
       </MessageWrapper>
-      <Box display="flex" alignItems="center">
-        <TextField
-          placeholder="Click here to type something..."
-          onChange={handleChange}
-          fullWidth
-          value={content}
-          onKeyPress={(event) => {
-            if (event.key === 'Enter') {
-              event.preventDefault();
-              handleSendMsg();
-            }
-          }}
-        />
-        <SendIcon
-          sx={{
-            color: 'white',
-            ml: 1,
-            height: 30,
-            width: 30,
-            cursor: 'pointer',
-          }}
-          onClick={handleSendMsg}
-        />
-      </Box>
-      {error}
+      <form onSubmit={formik.handleSubmit}>
+        <Box display="flex">
+          <TextField
+            placeholder="Click here to type something..."
+            onChange={formik.handleChange}
+            fullWidth
+            name="content"
+            value={formik.values.content}
+            error={formik.touched.content && Boolean(formik.errors.content)}
+            helperText={formik.touched.content && formik.errors.content}
+            onKeyPress={(event) => {
+              if (event.key === 'Enter') {
+                event.preventDefault();
+                formik.handleSubmit();
+              }
+            }}
+          />
+          <Button
+            type="submit"
+            disabled={!(formik.isValid && formik.dirty)}
+            variant="outlined"
+            sx={{ ml: 1, height: '56px' }}
+          >
+            <SendIcon />
+          </Button>
+        </Box>
+      </form>
     </Box>
   );
 };

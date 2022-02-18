@@ -2,23 +2,23 @@ import { Box, TextField } from '@mui/material';
 import { ChangeEvent, FC } from 'react';
 import ChatMessage from './chatMessage';
 import SendIcon from '@mui/icons-material/Send';
-import { StyledBox } from './chats.styled';
+import { MessageWrapper } from './chat.styled';
 
 const Chat: FC = () => {
   const messages = [
     { message: 'hi', user: 'you' },
-    { message: 'hi', user: 'not you' },
+    { message: 'hi 1', user: 'not you' },
     { message: 'hello', user: 'you' },
-    { message: 'hello', user: 'not you' },
+    { message: 'hello 1', user: 'not you' },
     { message: 'world', user: 'you' },
     { message: 'world 1', user: 'not you' },
     { message: 'world 2', user: 'not you' },
-    { message: 'world 2', user: 'not you' },
-    { message: 'world 2', user: 'not you' },
-    { message: 'world 2', user: 'not you' },
-    { message: 'world 2', user: 'not you' },
-    { message: 'world 2', user: 'not you' },
-    { message: 'world 2', user: 'not you' },
+    { message: 'world 3', user: 'not you' },
+    { message: 'world 4', user: 'not you' },
+    { message: 'world 5', user: 'not you' },
+    { message: 'world 6', user: 'not you' },
+    { message: 'world 7', user: 'not you' },
+    { message: 'world 8', user: 'not you' },
   ];
 
   const handleChange = (event: ChangeEvent<HTMLInputElement>) =>
@@ -33,19 +33,21 @@ const Chat: FC = () => {
       justifyContent="space-between"
       height="100%"
     >
-      <StyledBox height={550} sx={{ overflowY: 'scroll' }}>
-        {messages.map((item) => (
-          <Box
-            key={item.message}
-            display="flex"
-            flexDirection="column"
-            justifyContent={item.user === 'you' ? 'start' : 'end'}
-            alignItems={item.user === 'you' ? '' : 'end'}
-          >
-            <ChatMessage item={item} />
-          </Box>
-        ))}
-      </StyledBox>
+      <MessageWrapper position="relative" height={550}>
+        <Box position="absolute" width="95%">
+          {messages.map((item) => (
+            <Box
+              key={item.message}
+              display="flex"
+              flexDirection="column"
+              justifyContent={item.user === 'you' ? 'start' : 'end'}
+              alignItems={item.user === 'you' ? '' : 'end'}
+            >
+              <ChatMessage item={item} />
+            </Box>
+          ))}
+        </Box>
+      </MessageWrapper>
       <Box display="flex" alignItems="center">
         <TextField
           placeholder="Click here to type something..."

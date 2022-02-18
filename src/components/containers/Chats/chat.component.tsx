@@ -12,9 +12,13 @@ import Loader from '../../ui/Loader/loader';
 import { useFormik } from 'formik';
 import { validationSchema } from './validationSchema';
 
-const Chat: FC = () => {
-  const { chats, loadingChats } = useChats();
+interface ChatProps {
+  selectedUserId: string;
+}
+
+const Chat: FC<ChatProps> = ({ selectedUserId }) => {
   const { user } = useAuth();
+  const { chats, loadingChats, id } = useChats(selectedUserId, user?.uid);
 
   const formik = useFormik({
     initialValues: {
@@ -26,12 +30,16 @@ const Chat: FC = () => {
 
   const onSendMsg = (content: string) => {
     formik.resetForm();
-
-    setChats({
-      content,
-      timestamp: moment().unix(),
-      uid: user?.uid,
-    }).catch((error) => toast.error(error));
+    setChats(
+      selectedUserId,
+      user?.uid,
+      {
+        content,
+        timestamp: moment().unix(),
+        uid: user?.uid,
+      },
+      id
+    ).catch((error) => toast.error(error));
   };
 
   if (loadingChats) {
@@ -45,7 +53,7 @@ const Chat: FC = () => {
       justifyContent="space-between"
       height="100%"
     >
-      <MessageWrapper position="relative" height={550}>
+      <MessageWrapper position="relative" height={550} mb={1}>
         <Box position="absolute" width="95%">
           {chats.map((item) => {
             const isCurrentUser = item.uid === user?.uid;

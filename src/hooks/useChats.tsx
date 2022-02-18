@@ -22,8 +22,8 @@ const useChats = (
   useEffect(() => {
     setChatsState((prevState) => ({ ...prevState, loadingChats: true }));
     onValue(ref(RTDB, 'chats'), (snapshot) => {
-      const chatsDataByUserId = snapshot.val()[userId!!];
-      const chatsDataBySelectedUserId = snapshot.val()[selectedUserId!!];
+      const chatsDataByUserId = snapshot.val()?.[userId!!];
+      const chatsDataBySelectedUserId = snapshot.val()?.[selectedUserId!!];
 
       if (chatsDataByUserId) {
         const chatByUserId = chatsDataByUserId[selectedUserId!!];
@@ -31,7 +31,8 @@ const useChats = (
         if (!chatByUserId) {
           setChatsState({ loadingChats: false, chats: [], id: null });
         } else {
-          const result = Object.entries(chatByUserId)?.map(([_, value]) => ({
+          const result = Object.entries(chatByUserId)?.map(([key, value]) => ({
+            messageId: key,
             ...(value as Chat),
           }));
           setChatsState({ loadingChats: false, chats: result, id: userId!! });
@@ -42,7 +43,8 @@ const useChats = (
         if (!chatByUserId) {
           setChatsState({ loadingChats: false, chats: [], id: null });
         } else {
-          const result = Object.entries(chatByUserId)?.map(([_, value]) => ({
+          const result = Object.entries(chatByUserId)?.map(([key, value]) => ({
+            messageId: key,
             ...(value as Chat),
           }));
           setChatsState({
@@ -53,6 +55,7 @@ const useChats = (
         }
       }
     });
+    setChatsState((prevState) => ({ ...prevState, loadingChats: false }));
   }, [selectedUserId, userId]);
 
   return chatsState;

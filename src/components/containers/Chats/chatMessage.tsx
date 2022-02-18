@@ -1,22 +1,35 @@
 import { Box, Typography } from '@mui/material';
 import moment from 'moment';
-import { FC, ReactNode } from 'react';
+import { FC, ReactNode, MouseEvent } from 'react';
 import { Chat } from '../../../models/chat.model';
 import { MessageBox } from './chat.styled';
+import Menu from '../../ui/Menu/menu';
 
 interface ChatMessageProps {
   item: Chat;
   isCurrentUser: boolean;
   avatar: ReactNode;
+  onClickMenu: (event: MouseEvent<SVGSVGElement>) => void;
+  anchorEl: SVGSVGElement | null;
+  onCloseMenu: () => void;
+  onRemoveMessage: (key: string | undefined) => void;
 }
 
-const ChatMessage: FC<ChatMessageProps> = ({ item, isCurrentUser, avatar }) => {
+const ChatMessage: FC<ChatMessageProps> = ({
+  item,
+  isCurrentUser,
+  avatar,
+  onClickMenu,
+  anchorEl,
+  onCloseMenu,
+  onRemoveMessage,
+}) => {
   const messageTime = moment.unix(item.timestamp).format('kk:mm');
 
   return (
     <MessageBox
       display="flex"
-      alignItems={isCurrentUser ? 'end' : ''}
+      alignItems="center"
       bgcolor={!isCurrentUser ? 'lightgray' : 'lightgreen'}
       p={1}
       mb={0.5}
@@ -36,7 +49,18 @@ const ChatMessage: FC<ChatMessageProps> = ({ item, isCurrentUser, avatar }) => {
           {messageTime}
         </Typography>
       </Box>
-      {isCurrentUser && avatar}
+      {isCurrentUser && (
+        <>
+          {avatar}
+          <Menu
+            anchorEl={anchorEl}
+            onCloseMenu={onCloseMenu}
+            onRemoveItem={onRemoveMessage}
+            id={item.messageId}
+            onClickMenu={onClickMenu}
+          />
+        </>
+      )}
     </MessageBox>
   );
 };

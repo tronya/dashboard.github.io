@@ -11,7 +11,7 @@ interface ChatMessageProps {
 }
 
 const ChatMessage: FC<ChatMessageProps> = ({ item, isCurrentUser, avatar }) => {
-  const messageTime = moment.unix(item.timestamp).format('hh:mm');
+  const messageTime = moment.unix(item.timestamp).format('kk:mm');
 
   return (
     <MessageBox

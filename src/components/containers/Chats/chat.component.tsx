@@ -1,19 +1,16 @@
-import { Avatar, Box, Button, TextField } from '@mui/material';
-import { FC, useEffect, useRef, MouseEvent, useState } from 'react';
+import { Avatar, Box } from '@mui/material';
+import { FC, useEffect, useRef, useState } from 'react';
 import ChatMessage from './chatMessage';
-import SendIcon from '@mui/icons-material/Send';
 import { MessageWrapper } from './chat.styled';
 import useChats from '../../../hooks/useChats';
 import { useAuth } from '../../../hooks/useAuth';
 import { toast } from 'react-toastify';
-import { removeMessageByKey, setChats } from '../../../../pages/api/chats';
-import moment from 'moment';
+import { removeMessageByKey } from '../../../../pages/api/chats';
 import Loader from '../../ui/Loader/loader';
-import { useFormik } from 'formik';
-import { validationSchema } from './validationSchema';
 import EmptyChat from './chat.empty';
 import { stringAvatar } from '../../../utils/user';
 import { UserGeolocation } from '../../../models/usersGeolocation';
+import ChatForm from './chatForm';
 
 interface ChatProps {
   selectedUser: UserGeolocation;
@@ -30,28 +27,6 @@ const Chat: FC<ChatProps> = ({ selectedUser }) => {
     elementRef.current?.scrollIntoView();
   }, [chats]);
 
-  const formik = useFormik({
-    initialValues: {
-      content: '',
-    },
-    validationSchema,
-    onSubmit: ({ content }) => onSendMsg(content),
-  });
-
-  const onSendMsg = (content: string) => {
-    formik.resetForm();
-    setChats(
-      selectedUser.uid,
-      user?.uid,
-      {
-        content,
-        timestamp: moment().unix(),
-        uid: user?.uid,
-      },
-      id
-    ).catch((error) => toast.error(error));
-  };
-
   const handleRemoveMessage = (key: string | undefined) => {
     if (chats[0].messageId !== key) {
       removeMessageByKey(selectedUser.uid, user?.uid, id, key).catch((error) =>
@@ -61,11 +36,6 @@ const Chat: FC<ChatProps> = ({ selectedUser }) => {
       toast.error(`You can't remove the last message.`);
     }
   };
-
-  const handleClickMenu = (event: MouseEvent<SVGSVGElement>) =>
-    setAnchorEl(event.currentTarget);
-
-  const handleCloseMenu = () => setAnchorEl(null);
 
   if (loadingChats) {
     return <Loader />;
@@ -111,9 +81,9 @@ const Chat: FC<ChatProps> = ({ selectedUser }) => {
                         {...stringAvatar(displayName)}
                       />
                     }
-                    onClickMenu={handleClickMenu}
+                    onClickMenu={(event) => setAnchorEl(event.currentTarget)}
                     anchorEl={anchorEl}
-                    onCloseMenu={handleCloseMenu}
+                    onCloseMenu={() => setAnchorEl(null)}
                     onRemoveMessage={handleRemoveMessage}
                   />
                 </Box>
@@ -123,35 +93,7 @@ const Chat: FC<ChatProps> = ({ selectedUser }) => {
           </Box>
         </MessageWrapper>
       )}
-      <form onSubmit={formik.handleSubmit}>
-        <Box display="flex">
-          <TextField
-            placeholder="Click here to type something..."
-            onChange={formik.handleChange}
-            fullWidth
-            name="content"
-            multiline
-            maxRows={5}
-            value={formik.values.content}
-            error={formik.touched.content && Boolean(formik.errors.content)}
-            helperText={formik.touched.content && formik.errors.content}
-            onKeyPress={(event) => {
-              if (event.key === 'Enter') {
-                event.preventDefault();
-                formik.handleSubmit();
-              }
-            }}
-          />
-          <Button
-            type="submit"
-            disabled={!(formik.isValid && formik.dirty)}
-            variant="outlined"
-            sx={{ ml: 1, height: '56px' }}
-          >
-            <SendIcon />
-          </Button>
-        </Box>
-      </form>
+      <ChatForm id={id} selectedUserId={selectedUser.uid} userId={user?.uid} />
     </Box>
   );
 };

@@ -13,7 +13,7 @@ import { UserGeolocation } from '../../../models/usersGeolocation';
 import ChatForm from './chatForm';
 
 interface ChatProps {
-  selectedUser: UserGeolocation;
+  selectedUser: UserGeolocation | undefined;
 }
 
 const Chat: FC<ChatProps> = ({ selectedUser }) => {
@@ -21,7 +21,7 @@ const Chat: FC<ChatProps> = ({ selectedUser }) => {
   const elementRef = useRef<null | HTMLDivElement>(null);
 
   const { user } = useAuth();
-  const { chats, loadingChats, id } = useChats(selectedUser.uid, user?.uid);
+  const { chats, loadingChats, id } = useChats(selectedUser?.uid, user?.uid);
 
   useEffect(() => {
     elementRef.current?.scrollIntoView();
@@ -29,7 +29,7 @@ const Chat: FC<ChatProps> = ({ selectedUser }) => {
 
   const handleRemoveMessage = (key: string | undefined) => {
     if (chats[0].messageId !== key) {
-      removeMessageByKey(selectedUser.uid, user?.uid, id, key).catch((error) =>
+      removeMessageByKey(selectedUser?.uid, user?.uid, id, key).catch((error) =>
         toast.error(error)
       );
     } else {
@@ -56,7 +56,7 @@ const Chat: FC<ChatProps> = ({ selectedUser }) => {
             {chats.map((item) => {
               const isCurrentUser = item.uid === user?.uid;
               const displayName = (
-                isCurrentUser ? user?.displayName : selectedUser.displayName
+                isCurrentUser ? user?.displayName : selectedUser?.displayName
               )!!;
 
               return (
@@ -75,7 +75,7 @@ const Chat: FC<ChatProps> = ({ selectedUser }) => {
                         src={
                           (isCurrentUser
                             ? user?.photoURL
-                            : selectedUser.photoURL)!!
+                            : selectedUser?.photoURL)!!
                         }
                         alt={displayName}
                         {...stringAvatar(displayName)}
@@ -93,7 +93,7 @@ const Chat: FC<ChatProps> = ({ selectedUser }) => {
           </Box>
         </MessageWrapper>
       )}
-      <ChatForm id={id} selectedUserId={selectedUser.uid} userId={user?.uid} />
+      <ChatForm id={id} selectedUserId={selectedUser?.uid} userId={user?.uid} />
     </Box>
   );
 };

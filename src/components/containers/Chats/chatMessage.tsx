@@ -25,7 +25,7 @@ const ChatMessage: FC<ChatMessageProps> = ({
   onCloseMenu,
   onRemoveMessage,
 }) => {
-  const allowableStorageUrl = 'https://firebasestorage.googleapis.com';
+  const allowableStorageUrl = 'firebasestorage.googleapis.com';
   const messageTime = moment.unix(item.timestamp).format('kk:mm');
 
   return (

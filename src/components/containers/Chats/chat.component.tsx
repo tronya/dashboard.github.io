@@ -61,7 +61,7 @@ const Chat: FC<ChatProps> = ({ selectedUser }) => {
 
               return (
                 <Box
-                  key={item.uid}
+                  key={item.timestamp}
                   display="flex"
                   flexDirection="column"
                   justifyContent={!isCurrentUser ? 'start' : 'end'}

@@ -1,6 +1,7 @@
 import { getFirestore } from 'firebase/firestore';
 import { FirebaseApp, getApp, getApps, initializeApp } from 'firebase/app';
 import { getDatabase } from 'firebase/database';
+import { getStorage } from 'firebase/storage';
 
 export const fireBaseConfig = {
   apiKey: process.env.NEXT_PUBLIC_FIREBASE_API_KEY,
@@ -10,6 +11,7 @@ export const fireBaseConfig = {
   messagingSenderId: process.env.NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID,
   appId: process.env.NEXT_PUBLIC_FIREBASE_APP_ID,
   measurementId: process.env.NEXT_PUBLIC_FIREBASE_MEASUREMENT_ID,
+  storageBucket: process.env.NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET,
 };
 
 const app: FirebaseApp = initializeApp(fireBaseConfig);
@@ -18,5 +20,6 @@ getApps().length === 0 ? initializeApp(fireBaseConfig) : getApp();
 
 export const DB = getFirestore(app);
 export const RTDB = getDatabase(app);
+export const STORAGE = getStorage(app);
 
 export default fireBaseConfig;

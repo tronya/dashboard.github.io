@@ -26,9 +26,11 @@ export const createMarkersOnMap = (marker: Marker, map: mapboxgl.Map) => {
     marker.popup.style.cursor = 'pointer';
 
     if (marker.marker.properties.description) {
+      const popupText = `<p style="color:black;">${marker.marker.properties.description}</p>`;
+
       popup
         .setLngLat(marker.marker.geometry.coordinates)
-        .setHTML(marker.marker.properties.description)
+        .setHTML(popupText)
         .addTo(map);
     }
   });

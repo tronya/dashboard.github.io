@@ -13,3 +13,5 @@ export interface UserGeolocation {
   photoURL: string | undefined | null;
   uid: string | undefined;
 }
+
+export type UserGeolocationNew = UserGeolocation & { region: string };

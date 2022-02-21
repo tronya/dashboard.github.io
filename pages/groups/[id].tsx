@@ -1,4 +1,4 @@
-import { Box, Typography } from '@mui/material';
+import { Typography } from '@mui/material';
 import { useRouter } from 'next/router';
 import { FC, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
@@ -10,7 +10,6 @@ import Loader from '../../src/components/ui/Loader/loader';
 import PageTitle from '../../src/components/ui/PageTitle/PageTitle';
 import Wrapper from '../../src/components/ui/Wrapper/wrapper';
 import useUsersGeolocation from '../../src/hooks/useUsersGeolocation';
-import useUsersMarkers from '../../src/hooks/useUsersMarkers';
 import { Group } from '../../src/models/groups.model';
 import { UserGeolocation } from '../../src/models/usersGeolocation';
 import { isNotNullable } from '../../src/utils/common';
@@ -20,6 +19,8 @@ import {
   MapHolder,
   MapHolderFooter,
 } from '../../src/components/containers/Map/mapBox.styled';
+import { Feature } from 'geojson';
+import { createFeatures } from '../../src/utils/map';
 
 const GroupDetailsPage: FC = () => {
   const [groups, setGroup] = useState<Group[]>([]);
@@ -35,7 +36,7 @@ const GroupDetailsPage: FC = () => {
   const { id } = router.query;
   const usersGeolocation = useUsersGeolocation();
 
-  const markers = useUsersMarkers(groupUsers);
+  const features: Feature[] = createFeatures(usersGeolocation);
 
   useEffect(() => {
     getGroups(user?.uid)
@@ -79,7 +80,7 @@ const GroupDetailsPage: FC = () => {
       />
       <PageTitle title={`${t('group.groupDetails')}: ${currentGroup.name}`} />
       <MapHolder>
-        <MapBoxContainer markers={markers} selectedUser={selectedUser} />
+        <MapBoxContainer features={features} selectedUser={selectedUser} />
         <MapHolderFooter>
           <UsersListGroup users={groupUsers} onUserClick={handleUserClick} />
         </MapHolderFooter>

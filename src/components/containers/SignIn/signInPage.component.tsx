@@ -1,35 +1,16 @@
-import {
-  Grid,
-  Box,
-  Typography,
-  TextField,
-  Button,
-  Link,
-  Divider,
-} from '@mui/material';
+import { Grid, Box, Typography, TextField, Button, Link } from '@mui/material';
 import { useFormik } from 'formik';
 import { useRouter } from 'next/router';
 import { FC, ReactNode } from 'react';
 import theme from '../../theme';
-import { validationSchema } from '../SignIn/validationSchema';
+import { validationSchema } from './validationSchema';
 
-interface LogInPageProps {
-  onSignIn: (
-    provider: 'google' | 'email',
-    data?: {
-      email: string;
-      password: string;
-    }
-  ) => void;
+interface SignInPageProps {
+  onSignUp: (email: string, password: string) => void;
   copyright?: ReactNode;
-  googleLogInButton?: ReactNode;
 }
 
-const LogInPage: FC<LogInPageProps> = ({
-  copyright,
-  onSignIn,
-  googleLogInButton,
-}) => {
+const SignInPage: FC<SignInPageProps> = ({ copyright, onSignUp }) => {
   const router = useRouter();
 
   const formik = useFormik({
@@ -38,7 +19,7 @@ const LogInPage: FC<LogInPageProps> = ({
       password: '',
     },
     validationSchema,
-    onSubmit: ({ email, password }) => onSignIn('email', { email, password }),
+    onSubmit: ({ email, password }) => onSignUp(email, password),
   });
 
   return (
@@ -78,30 +59,30 @@ const LogInPage: FC<LogInPageProps> = ({
             width={1}
             alignItems="center"
             component="form"
-            noValidate
             onSubmit={formik.handleSubmit}
             sx={{ mt: 1 }}
           >
             <Typography component="h1" variant="h5">
-              Sign In
+              Sign Up
             </Typography>
             <TextField
               margin="normal"
               required
               fullWidth
+              value={formik.values.email}
+              onChange={formik.handleChange}
               label="Email Address"
               name="email"
+              id="email"
               autoComplete="email"
               error={Boolean(formik.errors.email)}
               helperText={formik.errors.email}
-              value={formik.values.email}
-              onChange={formik.handleChange}
             />
             <TextField
               margin="normal"
-              required
               fullWidth
               name="password"
+              id="password"
               label="Password"
               type="password"
               value={formik.values.password}
@@ -117,31 +98,20 @@ const LogInPage: FC<LogInPageProps> = ({
               variant="outlined"
               sx={{ mt: 3, mb: 2 }}
             >
-              Log In
+              Sign Up
             </Button>
-            <Grid container>
-              <Grid item xs>
-                <Link component="button" href="#" variant="body2" disabled>
-                  Forgot password?
-                </Link>
-              </Grid>
+            <Grid container justifyContent="flex-end">
               <Grid item>
                 <Link
                   component="button"
-                  href="/sign-up"
+                  href="/login"
                   variant="body2"
-                  onClick={() => router.push('/sign-up')}
+                  onClick={() => router.push('/login')}
                 >
-                  Don&apos;t have an account? Sign Up
+                  Already have an account? Sign In
                 </Link>
               </Grid>
             </Grid>
-            <Box width={1} m={5}>
-              <Divider>
-                <Typography>OR</Typography>
-              </Divider>
-            </Box>
-            {googleLogInButton}
           </Box>
           {copyright}
         </Box>
@@ -150,4 +120,4 @@ const LogInPage: FC<LogInPageProps> = ({
   );
 };
 
-export default LogInPage;
+export default SignInPage;

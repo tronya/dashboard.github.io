@@ -1,4 +1,4 @@
-import { createElement, FC, FormEvent } from 'react';
+import { createElement, FC } from 'react';
 import Copyright from '../../ui/Copyright/copyright';
 import GoogleLogInButton from '../../ui/GoogleLogInButton/googleLogInButton';
 import LogInPage from './logInPage.component';
@@ -6,7 +6,10 @@ import LogInPage from './logInPage.component';
 interface LogInPageContainerProps {
   onSignIn: (
     provider: 'google' | 'email',
-    event?: FormEvent<HTMLFormElement>
+    data?: {
+      email: string;
+      password: string;
+    }
   ) => void;
 }
 

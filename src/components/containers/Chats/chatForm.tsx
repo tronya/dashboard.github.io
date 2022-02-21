@@ -1,6 +1,6 @@
 /* eslint-disable @next/next/no-img-element */
 import { Box, TextField, Button } from '@mui/material';
-import { FC, useRef, useState } from 'react';
+import { FC, useRef } from 'react';
 import EmojiPicker from '../../ui/EmojiPicker/emojiPicker';
 import EmojiEmotionsIcon from '@mui/icons-material/EmojiEmotions';
 import SendIcon from '@mui/icons-material/Send';
@@ -56,6 +56,7 @@ const ChatForm: FC<ChatFormProps> = ({ id, userId, selectedUserId }) => {
       () => {
         getDownloadURL(uploadFile.snapshot.ref).then((url) => {
           formik.setFieldValue('imageUrl', url);
+          formik.setFieldValue('content', url);
           return url;
         });
       }
@@ -101,7 +102,10 @@ const ChatForm: FC<ChatFormProps> = ({ id, userId, selectedUserId }) => {
             <Box display="flex" position="relative">
               <img alt={formik.values.imageUrl} src={formik.values.imageUrl} />
               <HighlightOffIcon
-                onClick={() => formik.setFieldValue('imageUrl', null)}
+                onClick={() => {
+                  formik.setFieldValue('imageUrl', null);
+                  formik.setFieldValue('content', '');
+                }}
                 color="error"
                 sx={{
                   position: 'absolute',
@@ -129,16 +133,18 @@ const ChatForm: FC<ChatFormProps> = ({ id, userId, selectedUserId }) => {
                 formik.handleSubmit();
               }
             }}
+            InputProps={{
+              endAdornment: (
+                <EmojiEmotionsIcon
+                  sx={{ color: 'white', cursor: 'pointer' }}
+                  onClick={() =>
+                    formik.setFieldValue('showEmoji', !formik.values.showEmoji)
+                  }
+                />
+              ),
+            }}
           />
         )}
-        <Button
-          onClick={() =>
-            formik.setFieldValue('showEmoji', !formik.values.showEmoji)
-          }
-          sx={{ ml: 1, height: '56px' }}
-        >
-          <EmojiEmotionsIcon sx={{ color: 'white' }} />
-        </Button>
         {formik.values.showEmoji && (
           <EmojiPicker onSelect={handleEmojiSelect} />
         )}

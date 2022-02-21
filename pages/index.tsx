@@ -5,7 +5,6 @@ import { useEffect, useState } from 'react';
 import Wrapper from '../src/components/ui/Wrapper/wrapper';
 import { useAuth } from '../src/hooks/useAuth';
 import MapBoxContainer from '../src/components/containers/Map/mapBox.container';
-import useUsersMarkers from '../src/hooks/useUsersMarkers';
 import Banner from '../src/components/ui/Banner/banner';
 import { useTranslation } from 'react-i18next';
 import useUsersGeolocation from '../src/hooks/useUsersGeolocation';
@@ -17,9 +16,11 @@ import {
   MapHolder,
   MapHolderFooter,
 } from '../src/components/containers/Map/mapBox.styled';
+import { createFeatures } from '../src/utils/map';
 import Loader from '../src/components/ui/Loader/loader';
 import { getSplashScreen } from '../src/components/ui/SplashScreen/SplashScreen.model';
 import { SplashScreen } from '../src/components/ui/SplashScreen/SplashScreen';
+import { Feature } from 'geojson';
 
 const Home: NextPage = () => {
   const [selectedUser, setSelectedUser] = useState<UserGeolocation | null>(
@@ -32,7 +33,7 @@ const Home: NextPage = () => {
   const { isLocationAllowed } = useGeolocationProvider();
   const usersGeolocation = useUsersGeolocation();
 
-  const markers = useUsersMarkers(usersGeolocation);
+  const features: Feature[] = createFeatures(usersGeolocation);
 
   useEffect(() => {
     if (!loading && !user) {
@@ -69,7 +70,10 @@ const Home: NextPage = () => {
           <>
             <PageTitle title={t('dashboard.users')} />
             <MapHolder>
-              <MapBoxContainer markers={markers} selectedUser={selectedUser} />
+              <MapBoxContainer
+                selectedUser={selectedUser}
+                features={features}
+              />
               <MapHolderFooter>
                 <UsersListGroup
                   users={usersGeolocation}

@@ -2,12 +2,12 @@ import mapboxgl, { LngLatLike } from 'mapbox-gl';
 import { RefObject, useEffect, useRef, useState } from 'react';
 
 interface UseMap {
-  mapboxMap: mapboxgl.Map | undefined;
+  mapboxMap: mapboxgl.Map | null;
   mapNode: RefObject<HTMLDivElement>;
 }
 
 const useMap = (): UseMap => {
-  const [mapboxMap, setMapboxMap] = useState<mapboxgl.Map>();
+  const [mapboxMap, setMapboxMap] = useState<mapboxgl.Map | null>(null);
   const mapNode = useRef<HTMLDivElement>(null);
   const center: LngLatLike = [24.065285, 49.8138699];
 
@@ -25,8 +25,9 @@ const useMap = (): UseMap => {
       center,
       zoom: 11,
     });
-
-    setMapboxMap(mapboxMap);
+    mapboxMap.on('load', async () => {
+      setMapboxMap(mapboxMap);
+    });
   }, []);
 
   return { mapboxMap, mapNode };

@@ -1,9 +1,13 @@
 import { LngLatLike } from 'mapbox-gl';
 
 export interface GeoJSONObject {
+  type: 'Feature';
+  id: string;
   properties: {
+    uid: string;
     description: string | undefined | null;
-    iconSize: number[];
+    iconWidth: number;
+    iconHeight: number;
     backgroundImage: string | undefined | null;
     displayName: string | undefined | null;
   };

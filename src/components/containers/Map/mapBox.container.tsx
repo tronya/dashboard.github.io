@@ -1,9 +1,7 @@
-import mapboxgl, { LngLatLike } from 'mapbox-gl';
+import mapboxgl, { GeoJSONSource, LngLatLike } from 'mapbox-gl';
 import 'mapbox-gl/dist/mapbox-gl.css';
 import { createElement, FC, useEffect } from 'react';
-import { Marker } from '../../../models/map.model';
 import MapBox from './mapBox.component';
-import { createMarkersOnMap } from '../../../utils/map';
 import useMap from '../../../hooks/useMap';
 import { UserGeolocation } from '../../../models/usersGeolocation';
 import {
@@ -11,33 +9,60 @@ import {
   setUserGeolocationData,
 } from '../../../../pages/api/usersGeolocation';
 import { useAuth } from '../../../hooks/useAuth';
+import { createFeatureCollection } from './mapBox.model';
+import { Feature } from 'geojson';
 
 interface MapBoxContainerProps {
-  markers?: Marker[];
   selectedUser: UserGeolocation | null;
+  features: Feature[];
 }
 
-const MapBoxContainer: FC<MapBoxContainerProps> = (props) => {
-  const { markers, selectedUser } = props;
+const MapBoxContainer: FC<MapBoxContainerProps> = ({
+  selectedUser,
+  features,
+}) => {
   const { mapboxMap, mapNode } = useMap();
   const authUser = useAuth();
 
   useEffect(() => {
     if (mapboxMap) {
-      mapboxMap.addControl(
-        new mapboxgl.GeolocateControl({
-          positionOptions: {
-            enableHighAccuracy: true,
-          },
-          trackUserLocation: true,
-          showUserHeading: true,
-        })
-      );
+      mapboxMap.addSource('users', {
+        type: 'geojson',
+        data: createFeatureCollection(features),
+      });
 
-      return () => {
-        mapboxMap.remove();
-      };
+      mapboxMap.addLayer({
+        id: 'markers',
+        type: 'circle',
+        source: 'users',
+        paint: {
+          'circle-radius': 8,
+          'circle-stroke-width': 2,
+          'circle-color': 'red',
+          'circle-stroke-color': 'white',
+        },
+      });
+      // setFeatureStyles(mapboxMap);
     }
+  }, [mapboxMap]);
+
+  useEffect(() => {
+    if (mapboxMap) {
+      const geoSource = mapboxMap.getSource('users') as GeoJSONSource;
+      geoSource.setData(createFeatureCollection(features));
+    }
+  }, [features]);
+
+  useEffect(() => {
+    mapboxMap?.addControl(
+      new mapboxgl.GeolocateControl({
+        positionOptions: {
+          enableHighAccuracy: true,
+        },
+        trackUserLocation: true,
+        showUserHeading: true,
+      })
+    );
   }, [mapboxMap]);
 
   useEffect(() => {
@@ -69,14 +94,6 @@ const MapBoxContainer: FC<MapBoxContainerProps> = (props) => {
       navigator.geolocation.clearWatch(geolocationUpdater);
     };
   }, [authUser.user]);
-
-  useEffect(() => {
-    if (markers?.length && mapboxMap) {
-      for (const marker of markers) {
-        createMarkersOnMap(marker, mapboxMap);
-      }
-    }
-  }, [mapboxMap, markers]);
 
   return createElement(MapBox, {
     mapNode,

@@ -1,17 +1,13 @@
-import { Marker } from '../models/map.model';
-import { UserGeolocation } from '../models/usersGeolocation';
-import { returnGeoJSONArray } from '../utils/map';
 import { getFirstUppercaseLetters } from '../utils/user';
+import { Feature } from 'geojson';
+import { GeoJSONObject } from '../models/map.model';
+import mapboxgl from 'mapbox-gl';
 
-const useUsersMarkers = (users: UserGeolocation[]): Marker[] => {
-  const markers: Marker[] = [];
-
-  const geoJSONArray = returnGeoJSONArray(users);
-
-  geoJSONArray.forEach((marker) => {
+const createMarkersFromFeatures = (features: Feature[], map: mapboxgl.Map) => {
+  for (const marker of features as GeoJSONObject[]) {
     const el = document.createElement('div');
-    const width = marker.properties.iconSize[0];
-    const height = marker.properties.iconSize[1];
+    const width = marker.properties.iconWidth;
+    const height = marker.properties.iconHeight;
     el.style.borderRadius = '50%';
     el.style.backgroundRepeat = 'no-repeat';
     el.style.backgroundImage = !marker.properties.backgroundImage
@@ -23,10 +19,8 @@ const useUsersMarkers = (users: UserGeolocation[]): Marker[] => {
     el.style.height = `${height}px`;
     el.style.backgroundSize = '100%';
 
-    markers.push({ popup: el, marker });
-  });
-
-  return markers;
+    new mapboxgl.Marker(el).setLngLat(marker.geometry.coordinates).addTo(map);
+  }
 };
 
-export default useUsersMarkers;
+export default createMarkersFromFeatures;

@@ -25,7 +25,7 @@ const ChatMessage: FC<ChatMessageProps> = ({
   onCloseMenu,
   onRemoveMessage,
 }) => {
-  const allowableStorageUrl = ['https://firebasestorage.googleapis.com'];
+  const allowableStorageUrl = 'https://firebasestorage.googleapis.com';
   const messageTime = moment.unix(item.timestamp).format('kk:mm');
 
   return (
@@ -46,7 +46,7 @@ const ChatMessage: FC<ChatMessageProps> = ({
         alignItems={isCurrentUser ? 'end' : ''}
         sx={{ ml: !isCurrentUser ? 1 : 0, mr: isCurrentUser ? 1 : 0 }}
       >
-        {allowableStorageUrl.includes(item.content) ? (
+        {item.content.includes(allowableStorageUrl) ? (
           <Box display="flex" height="100px" width={1}>
             <img alt={item.content} src={item.content} />
           </Box>

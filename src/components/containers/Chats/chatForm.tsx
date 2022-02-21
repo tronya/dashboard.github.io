@@ -96,7 +96,7 @@ const ChatForm: FC<ChatFormProps> = ({ id, userId, selectedUserId }) => {
 
   return (
     <form onSubmit={formik.handleSubmit}>
-      <Box display="flex">
+      <Box display="flex" alignItems="center">
         {formik.values.imageUrl ? (
           <Box mx={1} display="flex" height="100px" width={1}>
             <Box display="flex" position="relative">

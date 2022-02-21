@@ -11,6 +11,8 @@ import EmptyChat from './chat.empty';
 import { stringAvatar } from '../../../utils/user';
 import { UserGeolocation } from '../../../models/usersGeolocation';
 import ChatForm from './chatForm';
+import useWindowDimensions from '../../../hooks/useWindowDimensions';
+import { ScreenType } from '../../../constants';
 
 interface ChatProps {
   selectedUser: UserGeolocation | undefined;
@@ -20,6 +22,7 @@ const Chat: FC<ChatProps> = ({ selectedUser }) => {
   const [anchorEl, setAnchorEl] = useState<null | SVGSVGElement>(null);
   const elementRef = useRef<null | HTMLDivElement>(null);
 
+  const { screenType } = useWindowDimensions();
   const { user } = useAuth();
   const { chats, loadingChats, id } = useChats(selectedUser?.uid, user?.uid);
 
@@ -51,7 +54,11 @@ const Chat: FC<ChatProps> = ({ selectedUser }) => {
       {!chats.length ? (
         <EmptyChat title="There have been no messages yet..." />
       ) : (
-        <MessageWrapper position="relative" height={550} mb={1}>
+        <MessageWrapper
+          position="relative"
+          height={screenType !== ScreenType.MOBILE ? 550 : 300}
+          mb={1}
+        >
           <Box position="absolute" width="99%">
             {chats.map((item) => {
               const isCurrentUser = item.uid === user?.uid;

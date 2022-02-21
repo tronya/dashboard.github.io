@@ -11,6 +11,9 @@ import { UserGeolocation } from '../../src/models/usersGeolocation';
 import EmptyChat from '../../src/components/containers/Chats/chat.empty';
 import { useRouter } from 'next/router';
 import SearchInput from '../../src/components/ui/SearchInput/searchInput';
+import UsersListGroup from '../../src/components/containers/UsersList/usersListGroup';
+import useWindowDimensions from '../../src/hooks/useWindowDimensions';
+import { ScreenType } from '../../src/constants';
 
 interface ChatPageProps {
   children?: ReactNode;
@@ -22,6 +25,7 @@ const ChatsPage: FC<ChatPageProps> = ({ children }) => {
   const { user: authUser } = useAuth();
   const usersGeolocation = useUsersGeolocation();
   const router = useRouter();
+  const { screenType } = useWindowDimensions();
 
   if (!usersGeolocation || !authUser) {
     return <Loader />;
@@ -48,16 +52,26 @@ const ChatsPage: FC<ChatPageProps> = ({ children }) => {
       <Breadcrumbs breadcrumbText="Chats" />
       <PageTitle title="Chats" />
       <Grid container sx={{ mt: 2, height: '75vh' }} spacing={2}>
-        <Grid item xs={4} sm={3}>
+        <Grid item xs={12} sm={4} md={3}>
           <SearchInput
             searchTerm={searchTerm}
             onChangeSearchTerm={(searchStr) => setSearchTerm(searchStr)}
           />
-          <Paper sx={{ pt: 2, pl: 2, height: 1 }}>
-            <UsersList users={users} onUserClick={handleUserClick} />
+          <Paper
+            sx={{
+              py: 2,
+              pl: 2,
+              height: screenType === ScreenType.DESKTOP ? 1 : 'unset',
+            }}
+          >
+            {screenType === ScreenType.DESKTOP ? (
+              <UsersList users={users} onUserClick={handleUserClick} />
+            ) : (
+              <UsersListGroup users={users} onUserClick={handleUserClick} />
+            )}
           </Paper>
         </Grid>
-        <Grid item xs={8} sm={9}>
+        <Grid item xs={12} sm={8} md={9}>
           {children ?? <EmptyChat title="No selected chat..." />}
         </Grid>
       </Grid>

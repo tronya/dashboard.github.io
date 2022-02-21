@@ -3,7 +3,7 @@ import { FC } from 'react';
 import { ScreenType } from '../../../constants';
 import useWindowDimensions from '../../../hooks/useWindowDimensions';
 import { UserGeolocation } from '../../../models/usersGeolocation';
-import { getUserStatus } from '../../../utils/user';
+import { getUserStatus, UserStatus } from '../../../utils/user';
 import { StyledBadge } from './userList.styled';
 import { UserListGroupEmpty } from './usersListGroup.empty';
 
@@ -26,9 +26,17 @@ const UsersListGroup: FC<UsersListGroupProps> = ({ users, onUserClick }) => {
       ? 7
       : 4;
 
+  const sortedUsers = users.sort((a, b) =>
+    getUserStatus(b.timestamp) === UserStatus.ONLINE
+      ? 1
+      : getUserStatus(a.timestamp) === UserStatus.ONLINE
+      ? -1
+      : 0
+  );
+
   return (
     <AvatarGroup max={maxCountOfAvatars} total={users.length}>
-      {users.map((user) => (
+      {sortedUsers.map((user) => (
         <StyledBadge
           overlap="circular"
           anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
@@ -37,7 +45,9 @@ const UsersListGroup: FC<UsersListGroupProps> = ({ users, onUserClick }) => {
           sx={{ cursor: 'pointer' }}
           key={user.uid}
           color={
-            getUserStatus(user.timestamp) === 'Online' ? 'success' : 'error'
+            getUserStatus(user.timestamp) === UserStatus.ONLINE
+              ? 'success'
+              : 'error'
           }
         >
           <Tooltip title={user.displayName!!} placement="bottom" arrow>

@@ -1,25 +1,48 @@
-import { Grid, Box, Typography, TextField, Button, Link } from '@mui/material';
+import {
+  Grid,
+  Box,
+  Typography,
+  TextField,
+  Button,
+  Divider,
+  Link,
+} from '@mui/material';
 import { useFormik } from 'formik';
-import { useRouter } from 'next/router';
-import { FC, ReactNode } from 'react';
+import router from 'next/router';
+import { FC } from 'react';
 import theme from '../../theme';
+import Copyright from '../Copyright/copyright';
+import GoogleLogInButton from '../GoogleLogInButton/googleLogInButton';
 import { validationSchema } from './validationSchema';
 
-interface SignInPageProps {
-  onSignUp: (email: string, password: string) => void;
-  copyright?: ReactNode;
+interface AuthFormProps {
+  onAuthUser: (
+    provider: 'google' | 'email',
+    data?: {
+      email: string;
+      password: string;
+    }
+  ) => void;
+  title: string;
+  switchPagesTitle: string;
+  switchPagesHref: string;
+  isSignInPage?: boolean;
 }
 
-const SignInPage: FC<SignInPageProps> = ({ copyright, onSignUp }) => {
-  const router = useRouter();
-
+const AuthForm: FC<AuthFormProps> = ({
+  onAuthUser,
+  title,
+  switchPagesTitle,
+  switchPagesHref,
+  isSignInPage,
+}) => {
   const formik = useFormik({
     initialValues: {
       email: '',
       password: '',
     },
     validationSchema,
-    onSubmit: ({ email, password }) => onSignUp(email, password),
+    onSubmit: ({ email, password }) => onAuthUser('email', { email, password }),
   });
 
   return (
@@ -59,30 +82,30 @@ const SignInPage: FC<SignInPageProps> = ({ copyright, onSignUp }) => {
             width={1}
             alignItems="center"
             component="form"
+            noValidate
             onSubmit={formik.handleSubmit}
             sx={{ mt: 1 }}
           >
             <Typography component="h1" variant="h5">
-              Sign Up
+              {title}
             </Typography>
             <TextField
               margin="normal"
               required
               fullWidth
-              value={formik.values.email}
-              onChange={formik.handleChange}
               label="Email Address"
               name="email"
-              id="email"
               autoComplete="email"
               error={Boolean(formik.errors.email)}
               helperText={formik.errors.email}
+              value={formik.values.email}
+              onChange={formik.handleChange}
             />
             <TextField
               margin="normal"
+              required
               fullWidth
               name="password"
-              id="password"
               label="Password"
               type="password"
               value={formik.values.password}
@@ -98,26 +121,46 @@ const SignInPage: FC<SignInPageProps> = ({ copyright, onSignUp }) => {
               variant="outlined"
               sx={{ mt: 3, mb: 2 }}
             >
-              Sign Up
+              {title}
             </Button>
-            <Grid container justifyContent="flex-end">
+            <Grid container>
+              <Grid item xs>
+                {isSignInPage && (
+                  <Link component="button" href="#" variant="body2" disabled>
+                    Forgot password?
+                  </Link>
+                )}
+              </Grid>
               <Grid item>
                 <Link
                   component="button"
-                  href="/login"
+                  href="/sign-up"
                   variant="body2"
-                  onClick={() => router.push('/login')}
+                  onClick={() => router.push(switchPagesHref)}
                 >
-                  Already have an account? Sign In
+                  {switchPagesTitle}
                 </Link>
               </Grid>
             </Grid>
+            {isSignInPage && (
+              <>
+                <Box width={1} m={5}>
+                  <Divider>
+                    <Typography>OR</Typography>
+                  </Divider>
+                </Box>
+                <GoogleLogInButton
+                  onSignIn={() => onAuthUser('google')}
+                  fullWidth
+                />
+              </>
+            )}
           </Box>
-          {copyright}
+          <Copyright />
         </Box>
       </Grid>
     </Grid>
   );
 };
 
-export default SignInPage;
+export default AuthForm;

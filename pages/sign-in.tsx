@@ -6,11 +6,11 @@ import {
   signInWithPopup,
 } from 'firebase/auth';
 import { useRouter } from 'next/router';
-import LogInPageContainer from '../src/components/containers/LogIn/logInPage.container';
-import { FormEvent } from 'react';
+import SignInPage from '../src/components/containers/SignIn/signIn';
 import { useTranslation } from 'react-i18next';
+import { FC } from 'react';
 
-const Login = () => {
+const SignIn: FC = () => {
   const auth = getAuth();
   const googleProvider = new GoogleAuthProvider();
   const router = useRouter();
@@ -47,7 +47,7 @@ const Login = () => {
     }
   };
 
-  return <LogInPageContainer onSignIn={handleSignIn} />;
+  return <SignInPage onSignIn={handleSignIn} />;
 };
 
-export default Login;
+export default SignIn;

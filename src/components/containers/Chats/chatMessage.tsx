@@ -45,7 +45,7 @@ const ChatMessage: FC<ChatMessageProps> = ({
         alignItems={isCurrentUser ? 'end' : ''}
         sx={{ ml: !isCurrentUser ? 1 : 0, mr: isCurrentUser ? 1 : 0 }}
       >
-        {item.content.startsWith('https://firebasestorage.googleapis.com') ? (
+        {['https://firebasestorage.googleapis.com'].includes(item.content) ? (
           <Box display="flex" height="100px" width={1}>
             <img alt={item.content} src={item.content} />
           </Box>

@@ -3,8 +3,33 @@ import { Feature } from 'geojson';
 import { GeoJSONObject } from '../models/map.model';
 import mapboxgl from 'mapbox-gl';
 
-const createMarkersFromFeatures = (features: Feature[], map: mapboxgl.Map) => {
-  for (const marker of features as GeoJSONObject[]) {
+const changeMarkerCenter = (feature: Feature) => {
+  console.log(feature);
+};
+
+const createMarkersFromFeatures = (
+  featuresOnMap: Feature[],
+  featuresFromDB: Feature[],
+  map: mapboxgl.Map
+) => {
+  console.log(featuresOnMap, featuresFromDB);
+
+  featuresFromDB.forEach((feature) => {
+    const featureAlreadyOnMap = featuresOnMap.find((mapFeature) => {
+      if (mapFeature.properties) {
+        console.log(mapFeature, feature);
+        return mapFeature.properties.uid === feature.id;
+      }
+      return false;
+    });
+    if (featureAlreadyOnMap) {
+      changeMarkerCenter(featureAlreadyOnMap);
+    } else {
+      console.log('we cant find feature with tis uid');
+    }
+  });
+
+  for (const marker of featuresOnMap as GeoJSONObject[]) {
     const el = document.createElement('div');
     const width = marker.properties.iconWidth;
     const height = marker.properties.iconHeight;

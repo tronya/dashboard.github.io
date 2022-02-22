@@ -1,4 +1,4 @@
-import mapboxgl, { GeoJSONSource, LngLatLike } from 'mapbox-gl';
+import { GeoJSONSource, LngLatLike } from 'mapbox-gl';
 import 'mapbox-gl/dist/mapbox-gl.css';
 import { createElement, FC, useEffect } from 'react';
 import MapBox from './mapBox.component';
@@ -9,8 +9,8 @@ import {
   setUserGeolocationData,
 } from '../../../../pages/api/usersGeolocation';
 import { useAuth } from '../../../hooks/useAuth';
-import { createFeatureCollection } from './mapBox.model';
 import { Feature } from 'geojson';
+import { createFeatureCollection } from './mapBox.model';
 
 interface MapBoxContainerProps {
   selectedUser: UserGeolocation | null;
@@ -26,44 +26,11 @@ const MapBoxContainer: FC<MapBoxContainerProps> = ({
 
   useEffect(() => {
     if (mapboxMap) {
-      mapboxMap.addSource('users', {
-        type: 'geojson',
-        data: createFeatureCollection(features),
-      });
-
-      mapboxMap.addLayer({
-        id: 'markers',
-        type: 'circle',
-        source: 'users',
-        paint: {
-          'circle-radius': 8,
-          'circle-stroke-width': 2,
-          'circle-color': 'red',
-          'circle-stroke-color': 'white',
-        },
-      });
-      // setFeatureStyles(mapboxMap);
-    }
-  }, [mapboxMap]);
-
-  useEffect(() => {
-    if (mapboxMap) {
+      console.count('update');
       const geoSource = mapboxMap.getSource('users') as GeoJSONSource;
       geoSource.setData(createFeatureCollection(features));
     }
   }, [features]);
-
-  useEffect(() => {
-    mapboxMap?.addControl(
-      new mapboxgl.GeolocateControl({
-        positionOptions: {
-          enableHighAccuracy: true,
-        },
-        trackUserLocation: true,
-        showUserHeading: true,
-      })
-    );
-  }, [mapboxMap]);
 
   useEffect(() => {
     if (selectedUser && mapboxMap) {

@@ -1,5 +1,6 @@
 import mapboxgl, { LngLatLike } from 'mapbox-gl';
 import { RefObject, useEffect, useRef, useState } from 'react';
+import { createFeatureCollection } from '../components/containers/Map/mapBox.model';
 
 interface UseMap {
   mapboxMap: mapboxgl.Map | null;
@@ -26,8 +27,41 @@ const useMap = (): UseMap => {
       zoom: 11,
     });
     mapboxMap.on('load', async () => {
+      mapboxMap.addSource('users', {
+        type: 'geojson',
+        data: createFeatureCollection([]),
+      });
+
+      mapboxMap.addLayer({
+        id: 'markers',
+        type: 'circle',
+        source: 'users',
+        paint: {
+          'circle-radius': 8,
+          'circle-stroke-width': 2,
+          'circle-color': 'red',
+          'circle-stroke-color': 'white',
+        },
+      });
+
+      mapboxMap.addControl(
+        new mapboxgl.GeolocateControl({
+          positionOptions: {
+            enableHighAccuracy: true,
+          },
+          trackUserLocation: true,
+          showUserHeading: true,
+        })
+      );
+
       setMapboxMap(mapboxMap);
     });
+
+    return () => {
+      mapboxMap.remove();
+      console.log('remove');
+      setMapboxMap(null);
+    };
   }, []);
 
   return { mapboxMap, mapNode };

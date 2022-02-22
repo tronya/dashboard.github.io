@@ -40,7 +40,11 @@ const UsersListGroup: FC<UsersListGroupProps> = ({ users, onUserClick }) => {
             getUserStatus(user.timestamp) === 'Online' ? 'success' : 'error'
           }
         >
-          <Tooltip title={user.displayName!!} placement="bottom" arrow>
+          <Tooltip
+            title={user.displayName || 'No Name'}
+            placement="bottom"
+            arrow
+          >
             <Avatar
               alt={user.displayName!!}
               src={user.photoURL!!}

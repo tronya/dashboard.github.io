@@ -71,14 +71,17 @@ const useChartData = (
     ...new Map(newUsersGeolocation.map((item) => [item['uid'], item])).values(),
   ];
 
-  const countUsersByLocations = uniqueObjArrayByLocations.reduce((acc, val) => {
-    if (acc[val.region]) {
-      acc[val.region] += 1;
-    } else {
-      acc[val.region] = 1;
-    }
-    return acc;
-  }, {});
+  const countUsersByLocations = uniqueObjArrayByLocations.reduce(
+    (acc: Record<string, number>, val) => {
+      if (acc[val.region]) {
+        acc[val.region] += 1;
+      } else {
+        acc[val.region] = 1;
+      }
+      return acc;
+    },
+    {}
+  );
 
   const countUsersByStatuses = usersGeolocation.reduce(
     (acc, val) => {

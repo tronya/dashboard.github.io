@@ -50,7 +50,7 @@ const UsersListGroup: FC<UsersListGroupProps> = ({ users, onUserClick }) => {
               : 'error'
           }
         >
-          <Tooltip title={user.displayName!!} placement="bottom" arrow>
+          <Tooltip title={user.displayName ?? ''} placement="bottom" arrow>
             <Avatar
               alt={user.displayName!!}
               src={user.photoURL!!}

@@ -26,7 +26,6 @@ const SearchInput: FC<SearchInputProps> = ({
       value={searchTerm}
       onChange={(event) => onChangeSearchTerm(event.target.value)}
       autoComplete="off"
-      autoFocus={true}
       InputProps={{
         endAdornment: (
           <InputAdornment position="end">

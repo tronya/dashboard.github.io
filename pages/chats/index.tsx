@@ -41,7 +41,9 @@ const ChatsPage: FC<ChatPageProps> = ({ children }) => {
         : 0
     )
     .filter((person) =>
-      person.displayName!!.toLowerCase().includes(searchTerm.toLowerCase())
+      person.displayName
+        ? person.displayName.toLowerCase().includes(searchTerm.toLowerCase())
+        : false
     );
 
   const handleUserClick = (user: UserGeolocation) =>

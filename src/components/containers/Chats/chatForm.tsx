@@ -1,6 +1,6 @@
 /* eslint-disable @next/next/no-img-element */
 import { Box, TextField, Button } from '@mui/material';
-import { FC, useRef } from 'react';
+import { FC, useEffect, useRef } from 'react';
 import EmojiPicker from '../../ui/EmojiPicker/emojiPicker';
 import EmojiEmotionsIcon from '@mui/icons-material/EmojiEmotions';
 import SendIcon from '@mui/icons-material/Send';
@@ -24,16 +24,32 @@ interface ChatFormProps {
 
 const ChatForm: FC<ChatFormProps> = ({ id, userId, selectedUserId }) => {
   const hiddenFileInput = useRef<HTMLInputElement | null>(null);
+  const emojiModalRef = useRef<HTMLDivElement | null>(null);
 
   const formik = useFormik({
     initialValues: {
       content: '',
-      showEmoji: false,
+      showEmojiModal: false,
       imageUrl: null,
       uploadingProgress: 0,
     },
     validationSchema,
     onSubmit: ({ content }) => onSendMsg(content),
+  });
+
+  useEffect(() => {
+    const handleClick = (event: Event) => {
+      if (
+        event.target instanceof HTMLElement &&
+        !emojiModalRef.current?.contains(event.target)
+      ) {
+        formik.setFieldValue('showEmojiModal', false);
+      }
+    };
+
+    document.addEventListener('mousedown', handleClick);
+
+    return () => document.removeEventListener('mousedown', handleClick);
   });
 
   const uploadFile = (file: File | undefined) => {
@@ -138,15 +154,20 @@ const ChatForm: FC<ChatFormProps> = ({ id, userId, selectedUserId }) => {
                 <EmojiEmotionsIcon
                   sx={{ color: 'white', cursor: 'pointer' }}
                   onClick={() =>
-                    formik.setFieldValue('showEmoji', !formik.values.showEmoji)
+                    formik.setFieldValue(
+                      'showEmojiModal',
+                      !formik.values.showEmojiModal
+                    )
                   }
                 />
               ),
             }}
           />
         )}
-        {formik.values.showEmoji && (
-          <EmojiPicker onSelect={handleEmojiSelect} />
+        {formik.values.showEmojiModal && (
+          <Box ref={emojiModalRef}>
+            <EmojiPicker onSelect={handleEmojiSelect} />
+          </Box>
         )}
         {formik.values.uploadingProgress === 100 ||
         formik.values.uploadingProgress === 0 ? (

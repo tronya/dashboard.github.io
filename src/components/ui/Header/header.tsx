@@ -58,7 +58,7 @@ const Header: FC = () => {
     signOut(auth)
       .then(() => {
         toast.success(t('toastSuccess.logOut'));
-        router.push('/login');
+        router.push('/sign-in');
       })
       .catch((error) => toast.error(`Error: ${error}`));
 

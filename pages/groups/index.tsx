@@ -21,7 +21,7 @@ const GroupsPage: FC = () => {
     getGroups(user?.uid)
       .then((groups) => setGroup(groups))
       .catch((error) => toast.error('Something wrong happened', error));
-  }, []);
+  }, [user?.uid]);
 
   const sortedGroups = groups.sort((a, b) =>
     b.userCreate === user?.uid ? 1 : a.userCreate === user?.uid ? -1 : 0

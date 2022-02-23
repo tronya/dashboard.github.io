@@ -64,7 +64,7 @@ const Header: FC = () => {
 
   return (
     <>
-      <AppBar position="absolute" open={false}>
+      <AppBar position="fixed" open={false}>
         <Toolbar>
           <IconButton
             edge="start"

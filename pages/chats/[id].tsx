@@ -2,6 +2,7 @@ import { useRouter } from 'next/router';
 import { FC, useEffect, useState } from 'react';
 import ChatsPage from '.';
 import Chat from '../../src/components/containers/Chats/chat.component';
+import ChatContainer from '../../src/components/containers/Chats/chat.container';
 import Loader from '../../src/components/ui/Loader/loader';
 import useUsersGeolocation from '../../src/hooks/useUsersGeolocation';
 import { UserGeolocation } from '../../src/models/usersGeolocation';
@@ -24,7 +25,7 @@ const ChatByUserId: FC = () => {
 
   return (
     <ChatsPage>
-      <Chat selectedUser={selectedUser} />
+      <ChatContainer selectedUser={selectedUser} />
     </ChatsPage>
   );
 };

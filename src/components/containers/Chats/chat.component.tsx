@@ -1,12 +1,9 @@
 import { Avatar, Box } from '@mui/material';
-import { FC, useEffect, useRef, useState } from 'react';
+import { Dispatch, FC, MutableRefObject, SetStateAction } from 'react';
 import ChatMessage from './chatMessage';
 import { MessageWrapper } from './chat.styled';
-import useChats from '../../../hooks/useChats';
 import { useAuth } from '../../../hooks/useAuth';
-import { toast } from 'react-toastify';
-import { removeMessageByKey } from '../../../../pages/api/chats';
-import Loader from '../../ui/Loader/loader';
+import { Chat as ChatType } from '../../../models/chat.model';
 import EmptyChat from './chat.empty';
 import { stringAvatar } from '../../../utils/user';
 import { UserGeolocation } from '../../../models/usersGeolocation';
@@ -15,35 +12,37 @@ import useWindowDimensions from '../../../hooks/useWindowDimensions';
 import { ScreenType } from '../../../constants';
 
 interface ChatProps {
-  selectedUser: UserGeolocation | undefined;
+  onRemoveMessage: (key: string | undefined) => void;
+  selectedUser?: UserGeolocation;
+  anchorEl: SVGSVGElement | null;
+  chats: ChatType[];
+  elementRef: MutableRefObject<HTMLDivElement | null>;
+  onAnchorEl: Dispatch<SetStateAction<SVGSVGElement | null>>;
+  id?: string | null;
+  onSendMsg: (
+    data: {
+      content: string;
+      timestamp: number;
+      uid: string | undefined;
+    },
+    selectedUserId?: string | undefined,
+    userId?: string | undefined,
+    id?: string | undefined | null
+  ) => void;
 }
 
-const Chat: FC<ChatProps> = ({ selectedUser }) => {
-  const [anchorEl, setAnchorEl] = useState<null | SVGSVGElement>(null);
-  const elementRef = useRef<null | HTMLDivElement>(null);
-
+const Chat: FC<ChatProps> = ({
+  selectedUser,
+  onRemoveMessage,
+  anchorEl,
+  chats,
+  elementRef,
+  onAnchorEl,
+  id,
+  onSendMsg,
+}) => {
   const { screenType } = useWindowDimensions();
   const { user } = useAuth();
-  const { chats, loadingChats, id } = useChats(selectedUser?.uid, user?.uid);
-
-  useEffect(() => {
-    elementRef.current?.scrollIntoView();
-  }, [chats]);
-
-  const handleRemoveMessage = (key: string | undefined) => {
-    if (chats[0].messageId !== key) {
-      removeMessageByKey(selectedUser?.uid, user?.uid, id, key).catch((error) =>
-        toast.error(error)
-      );
-    } else {
-      toast.error(`You can't remove the last message.`);
-    }
-    setAnchorEl(null);
-  };
-
-  if (loadingChats) {
-    return <Loader />;
-  }
 
   return (
     <Box
@@ -89,10 +88,10 @@ const Chat: FC<ChatProps> = ({ selectedUser }) => {
                         {...stringAvatar(displayName)}
                       />
                     }
-                    onClickMenu={(event) => setAnchorEl(event.currentTarget)}
+                    onClickMenu={(event) => onAnchorEl(event.currentTarget)}
                     anchorEl={anchorEl}
-                    onCloseMenu={() => setAnchorEl(null)}
-                    onRemoveMessage={handleRemoveMessage}
+                    onCloseMenu={() => onAnchorEl(null)}
+                    onRemoveMessage={onRemoveMessage}
                   />
                 </Box>
               );
@@ -101,7 +100,12 @@ const Chat: FC<ChatProps> = ({ selectedUser }) => {
           </Box>
         </MessageWrapper>
       )}
-      <ChatForm id={id} selectedUserId={selectedUser?.uid} userId={user?.uid} />
+      <ChatForm
+        id={id}
+        selectedUserId={selectedUser?.uid}
+        userId={user?.uid}
+        onSendMsg={onSendMsg}
+      />
     </Box>
   );
 };

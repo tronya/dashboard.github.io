@@ -5,7 +5,7 @@
   "group": {
     "groups": "Groups",
     "groupsCreate": "Create Group",
-    "groupDetails": "Group Detail"
+    "groupDetails": "Group Details"
   },
   "forms": {
     "createGroupForm": {

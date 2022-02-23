@@ -38,6 +38,7 @@ const Chat: FC<ChatProps> = ({ selectedUser }) => {
     } else {
       toast.error(`You can't remove the last message.`);
     }
+    setAnchorEl(null);
   };
 
   if (loadingChats) {

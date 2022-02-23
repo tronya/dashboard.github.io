@@ -41,7 +41,7 @@ const GroupDetailsPage: FC = () => {
     getGroups(user?.uid)
       .then((groups) => setGroup(groups))
       .catch((error) => toast.error('Something wrong happened', error));
-  }, []);
+  }, [user?.uid]);
 
   useEffect(() => {
     const foundGroup = groups.find((group) => group.id === id);

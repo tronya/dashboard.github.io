@@ -1,4 +1,4 @@
-import { Typography } from '@mui/material';
+import { Box, Typography } from '@mui/material';
 import { useRouter } from 'next/router';
 import { FC, useEffect, useRef, useState } from 'react';
 import { toast } from 'react-toastify';
@@ -57,14 +57,16 @@ const GroupChat: FC = () => {
         </Typography>,
       ]}
     >
-      <Chat
-        onRemoveMessage={() => {}}
-        anchorEl={anchorEl}
-        chats={chats}
-        elementRef={elementRef}
-        onAnchorEl={setAnchorEl}
-        onSendMsg={handleSendMsg}
-      />
+      <Box py={2} height="75vh">
+        <Chat
+          onRemoveMessage={() => {}}
+          anchorEl={anchorEl}
+          chats={chats}
+          elementRef={elementRef}
+          onAnchorEl={setAnchorEl}
+          onSendMsg={handleSendMsg}
+        />
+      </Box>
     </GroupWrapper>
   );
 };

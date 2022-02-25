@@ -56,6 +56,7 @@ const ChatContainer: FC<ChatContainerProps> = ({ selectedUser }) => {
       onAnchorEl={setAnchorEl}
       id={id}
       onSendMsg={handleSendMsg}
+      selectedUser={selectedUser}
     />
   );
 };

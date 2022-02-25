@@ -10,6 +10,7 @@ import { UserGeolocation } from '../../../models/usersGeolocation';
 import ChatForm from './chatForm';
 import useWindowDimensions from '../../../hooks/useWindowDimensions';
 import { ScreenType } from '../../../constants';
+import useUsersGeolocation from '../../../hooks/useUsersGeolocation';
 
 interface ChatProps {
   onRemoveMessage: (key: string | undefined) => void;
@@ -43,6 +44,7 @@ const Chat: FC<ChatProps> = ({
 }) => {
   const { screenType } = useWindowDimensions();
   const { user } = useAuth();
+  const usersGeolocation = useUsersGeolocation();
 
   return (
     <Box
@@ -61,9 +63,23 @@ const Chat: FC<ChatProps> = ({
         >
           <Box position="absolute" width="99%">
             {chats.map((item) => {
+              const foundGroupUser = usersGeolocation.find(
+                (user) => item.uid === user.uid
+              );
               const isCurrentUser = item.uid === user?.uid;
-              const displayName = (
-                isCurrentUser ? user?.displayName : selectedUser?.displayName
+              const userName = (
+                isCurrentUser
+                  ? user?.displayName
+                  : selectedUser
+                  ? selectedUser?.displayName
+                  : foundGroupUser?.displayName
+              )!!;
+              const userSrc = (
+                isCurrentUser
+                  ? user?.photoURL
+                  : selectedUser
+                  ? selectedUser?.photoURL
+                  : foundGroupUser?.photoURL
               )!!;
 
               return (
@@ -79,13 +95,9 @@ const Chat: FC<ChatProps> = ({
                     isCurrentUser={isCurrentUser}
                     avatar={
                       <Avatar
-                        src={
-                          (isCurrentUser
-                            ? user?.photoURL
-                            : selectedUser?.photoURL)!!
-                        }
-                        alt={displayName}
-                        {...stringAvatar(displayName)}
+                        src={userSrc}
+                        alt={userName!!}
+                        {...stringAvatar(userName)}
                       />
                     }
                     onClickMenu={(event) => onAnchorEl(event.currentTarget)}

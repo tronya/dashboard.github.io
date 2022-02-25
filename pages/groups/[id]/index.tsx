@@ -16,6 +16,7 @@ import {
   MapHolderFooter,
 } from '../../../src/components/containers/Map/mapBox.styled';
 import GroupWrapper from './groupWrapper';
+import { Box, Button } from '@mui/material';
 
 const GroupDetailsPage: FC = () => {
   const [groups, setGroup] = useState<Group[]>([]);
@@ -63,7 +64,15 @@ const GroupDetailsPage: FC = () => {
 
   return (
     <GroupWrapper currentGroup={currentGroup}>
-      <button onClick={() => router.push(`${id}/chat`)}>Chat</button>
+      <Box py={2}>
+        <Button
+          variant="outlined"
+          sx={{ color: 'white' }}
+          onClick={() => router.push(`${id}/chat`)}
+        >
+          Group Chat
+        </Button>
+      </Box>
       <MapHolder>
         <MapBoxContainer markers={markers} selectedUser={selectedUser} />
         <MapHolderFooter>

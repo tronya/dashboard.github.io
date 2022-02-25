@@ -1,25 +1,22 @@
-import { Box, Typography } from '@mui/material';
 import { useRouter } from 'next/router';
 import { FC, useEffect, useState } from 'react';
-import { useTranslation } from 'react-i18next';
 import { toast } from 'react-toastify';
-import MapBoxContainer from '../../src/components/containers/Map/mapBox.container';
-import UsersListGroup from '../../src/components/containers/UsersList/usersListGroup';
-import Breadcrumbs from '../../src/components/ui/Breadcrumbs/breadcrumbs';
-import Loader from '../../src/components/ui/Loader/loader';
-import PageTitle from '../../src/components/ui/PageTitle/PageTitle';
-import Wrapper from '../../src/components/ui/Wrapper/wrapper';
-import useUsersGeolocation from '../../src/hooks/useUsersGeolocation';
-import useUsersMarkers from '../../src/hooks/useUsersMarkers';
-import { Group } from '../../src/models/groups.model';
-import { UserGeolocation } from '../../src/models/usersGeolocation';
-import { isNotNullable } from '../../src/utils/common';
-import { getGroups } from '../api/group';
-import { useAuth } from '../../src/hooks/useAuth';
+import MapBoxContainer from '../../../src/components/containers/Map/mapBox.container';
+import UsersListGroup from '../../../src/components/containers/UsersList/usersListGroup';
+import Loader from '../../../src/components/ui/Loader/loader';
+import useUsersGeolocation from '../../../src/hooks/useUsersGeolocation';
+import useUsersMarkers from '../../../src/hooks/useUsersMarkers';
+import { Group } from '../../../src/models/groups.model';
+import { UserGeolocation } from '../../../src/models/usersGeolocation';
+import { isNotNullable } from '../../../src/utils/common';
+import { getGroups } from '../../api/group';
+import { useAuth } from '../../../src/hooks/useAuth';
 import {
   MapHolder,
   MapHolderFooter,
-} from '../../src/components/containers/Map/mapBox.styled';
+} from '../../../src/components/containers/Map/mapBox.styled';
+import GroupWrapper from './groupWrapper';
+import { Box, Button } from '@mui/material';
 
 const GroupDetailsPage: FC = () => {
   const [groups, setGroup] = useState<Group[]>([]);
@@ -31,7 +28,6 @@ const GroupDetailsPage: FC = () => {
 
   const router = useRouter();
   const { user } = useAuth();
-  const { t } = useTranslation();
   const { id } = router.query;
   const usersGeolocation = useUsersGeolocation();
 
@@ -67,24 +63,23 @@ const GroupDetailsPage: FC = () => {
   const handleUserClick = (user: UserGeolocation) => setSelectedUser(user);
 
   return (
-    <Wrapper>
-      <Breadcrumbs
-        breadcrumbText={t('group.groups')}
-        otherBreadcrumbs={[
-          <Typography key="group-detail" color="text.primary">
-            {t('group.groupDetails')}
-          </Typography>,
-        ]}
-        breadcrumbTextHref="/groups"
-      />
-      <PageTitle title={`${t('group.groupDetails')}: ${currentGroup.name}`} />
+    <GroupWrapper currentGroup={currentGroup}>
+      <Box py={2}>
+        <Button
+          variant="outlined"
+          sx={{ color: 'white' }}
+          onClick={() => router.push(`${id}/chat`)}
+        >
+          Group Chat
+        </Button>
+      </Box>
       <MapHolder>
         <MapBoxContainer markers={markers} selectedUser={selectedUser} />
         <MapHolderFooter>
           <UsersListGroup users={groupUsers} onUserClick={handleUserClick} />
         </MapHolderFooter>
       </MapHolder>
-    </Wrapper>
+    </GroupWrapper>
   );
 };
 

@@ -4,4 +4,5 @@ export enum DataBaseModel {
   USERS = 'users',
   USERS_GEOLOCATION = 'usersGeolocation',
   CHATS = 'chats',
+  GROUP_CHAT = 'groupChat',
 }

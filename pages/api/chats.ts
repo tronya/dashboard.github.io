@@ -7,7 +7,7 @@ export const setChats = (
   selectedUserId: string | undefined,
   userId: string | undefined,
   data: Chat,
-  id: string | null
+  id?: string | null
 ) => {
   if (id === selectedUserId) {
     return push(
@@ -21,6 +21,9 @@ export const setChats = (
     data
   );
 };
+
+export const setGroupChat = (data: Chat, id: string | undefined) =>
+  push(ref(RTDB, `${DataBaseModel.GROUP_CHAT}/${id}`), data);
 
 export const removeMessageByKey = (
   selectedUserId: string | undefined,

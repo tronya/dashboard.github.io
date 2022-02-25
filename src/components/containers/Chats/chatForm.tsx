@@ -19,10 +19,25 @@ import HighlightOffIcon from '@mui/icons-material/HighlightOff';
 interface ChatFormProps {
   selectedUserId: string | undefined;
   userId: string | undefined;
-  id: string | null;
+  id?: string | null;
+  onSendMsg: (
+    data: {
+      content: string;
+      timestamp: number;
+      uid: string | undefined;
+    },
+    selectedUserId?: string,
+    userId?: string,
+    id?: string | null
+  ) => void;
 }
 
-const ChatForm: FC<ChatFormProps> = ({ id, userId, selectedUserId }) => {
+const ChatForm: FC<ChatFormProps> = ({
+  id,
+  userId,
+  selectedUserId,
+  onSendMsg,
+}) => {
   const hiddenFileInput = useRef<HTMLInputElement | null>(null);
   const emojiModalRef = useRef<HTMLDivElement | null>(null);
 
@@ -34,7 +49,7 @@ const ChatForm: FC<ChatFormProps> = ({ id, userId, selectedUserId }) => {
       uploadingProgress: 0,
     },
     validationSchema,
-    onSubmit: ({ content }) => onSendMsg(content),
+    onSubmit: ({ content }) => handleSendMsg(content),
   });
 
   useEffect(() => {
@@ -79,32 +94,19 @@ const ChatForm: FC<ChatFormProps> = ({ id, userId, selectedUserId }) => {
     );
   };
 
-  const onSendMsg = (content: string) => {
+  const handleSendMsg = (content: string) => {
     formik.resetForm();
 
-    if (formik.values.imageUrl) {
-      setChats(
-        selectedUserId,
-        userId,
-        {
-          content: formik.values.imageUrl,
-          timestamp: moment().unix(),
-          uid: userId,
-        },
-        id
-      ).catch((error) => toast.error(error));
-    } else {
-      setChats(
-        selectedUserId,
-        userId,
-        {
-          content,
-          timestamp: moment().unix(),
-          uid: userId,
-        },
-        id
-      ).catch((error) => toast.error(error));
-    }
+    onSendMsg(
+      {
+        content: formik.values.imageUrl ?? content,
+        timestamp: moment().unix(),
+        uid: userId,
+      },
+      selectedUserId,
+      userId,
+      id
+    );
   };
 
   const handleEmojiSelect = (event: BaseEmoji) =>
